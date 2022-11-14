@@ -1,5 +1,11 @@
 spring:
   
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+        
+  
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/place?characterEncoding=UTF-8
@@ -10,3 +16,11 @@ spring:
     view:
       prefix: /WEB-INF/jsp/
       suffix: .jsp
+  mail:
+    host: smtp.naver.com
+    port: 465
+    username : kkh_0121@naver.com
+    password: skdhd289.
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.ssl.enable: true

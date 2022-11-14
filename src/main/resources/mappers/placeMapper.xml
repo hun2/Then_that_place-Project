@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.FirstProject.goodplace.dao.GoodPlaceDAO">
+ 
+ 	<insert id="insertPlace" parameterType="com.FirstProject.goodplace.model.Place">
+ 		INSERT INTO `place`
+ 		(
+			`userId`
+			,`placeWhether`
+			,`placeKategorie`
+			,`placeArea`
+			,`placeFood`
+			,`placeGrade`
+			,`placePrice`
+			,`placeSubject`
+			,`placeContent`
+			,`placeCreatedAt`
+			,`placeUpdatedAt`
+ 		)
+ 		VALUES
+ 		(
+ 			#{userId}
+ 			,#{placeWhether}
+ 			,#{placeKategorie}
+ 			,#{placeArea}
+ 			,#{placeFood}
+ 			,#{placeGrade}
+ 			,#{placePrice}
+ 			,#{placeSubject}
+ 			,#{placeContent}
+ 			, NOW()
+ 			, NOW()
+ 		)
+ 		
+ 		<selectKey resultType="int" keyProperty="id" order="AFTER">
+ 			SELECT LAST_INSERT_ID()
+ 		</selectKey>
+ 	</insert>
+ 	
+ 	<insert id="insertImage" parameterType="com.FirstProject.common.PlaceImage">
+ 		
+ 		
+ 		INSERT INTO `placeimage`
+ 		(
+			`placeId`
+			,`imagePath`
+			,`imageCreatedAt`
+			,`imageUpdatedAt`
+ 		)
+ 		VALUES
+ 		<foreach collection="imagePath" index='index' item="pathList" separator=",">
+ 		(
+ 			#{placeId}
+ 			,#{pathList}
+ 			, NOW()
+ 			, NOW()
+ 		)
+ 		</foreach>
+ 	</insert>
+ 
+ </mapper>

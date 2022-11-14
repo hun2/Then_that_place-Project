@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.FirstProject.login.dao.UserDAO">
+ 	<select id="selectUserByUserId" resultType="int" parameterType="String">
+ 		SELECT
+ 			count(*)
+ 		FROM
+ 			`user`
+ 		WHERE
+ 			`userId` = #{userId}
+ 	</select>
+ 
+ 	<insert id="insertUser" parameterType="com.FirstProject.login.model.User">
+ 		INSERT INTO `user`
+ 		(
+ 			`userId`
+			,`userPwd`
+			,`userNickName`
+			,`userProfilePhoto`
+			,`userEmail`
+			,`createdAt`
+			,`updatedAt`
+ 		)
+ 		VALUES
+ 		(
+ 			#{userId}
+ 			,#{userPwd}
+ 			,#{userNickName}
+ 			,#{userProfilePhoto}
+ 			,#{userEmail}
+ 			, NOW()
+ 			, NOW()
+ 		)
+ 	
+ 	</insert>
+ 	<select id="selectLoginUserByUserIdUserPwd" parameterType="com.FirstProject.login.model.User" resultType="com.FirstProject.login.model.User">
+ 		SELECT
+ 			`userId`
+			,`userPwd`
+			,`userNickName`
+			,`userProfilePhoto`
+			,`userEmail`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`user`
+		WHERE
+			`userId` = #{userId}
+		AND
+			`userPwd` = #{userPwd}
+ 	</select>
+ 	<select id="selectUserIdByUserEmail" parameterType="com.FirstProject.login.model.User" resultType="com.FirstProject.login.model.User">
+ 		SELECT
+ 			`userId`
+			,`userPwd`
+			,`userNickName`
+			,`userProfilePhoto`
+			,`userEmail`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`user`
+		WHERE
+			`userEmail` = #{userEmail}
+ 	</select>
+ 	<select id="selectUserPwdCheckByUserIdUserEmail" parameterType="com.FirstProject.login.model.User" resultType="com.FirstProject.login.model.User">
+ 		SELECT
+ 			`userId`
+			,`userPwd`
+			,`userNickName`
+			,`userProfilePhoto`
+			,`userEmail`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`user`
+		WHERE
+			`userId` = #{userId}
+		AND
+			`userEmail` = #{userEmail}
+ 	</select>
+ 	<select id="selectUserByUserEmail" parameterType="String" resultType="String">
+ 		SELECT
+ 			`userId`
+ 		FROM
+ 			`user`
+ 		WHERE
+ 			`userEmail` = #{userEmail}
+ 	</select>
+ 	<update id="updataUserPassword" parameterType="map">
+ 		UPDATE `user`
+		SET
+			`userPwd` = #{userPwd}
+			,`updatedAt` = NOW()
+		WHERE
+			`userId` = #{userId}
+ 	</update>
+ </mapper>
