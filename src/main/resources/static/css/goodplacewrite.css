@@ -307,6 +307,33 @@ li {
     margin-top: 20px;
 }
 
+.submit2, .submit3 {
+	float: left;
+    position: relative;
+    width: 50%;
+    height: 35px;
+    border-radius: 20px;
+    margin-left :5px;
+    font-size: 14px;
+    line-height: 30px;
+    text-align: center;
+    box-sizing: border-box;
+    margin-top: 20px;
+}
+
+.submit4 {
+	float: left;
+    position: relative;
+    width: 100%;
+    height: 35px;
+    border-radius: 20px;
+    font-size: 14px;
+    line-height: 30px;
+    text-align: center;
+    box-sizing: border-box;
+    margin-top: 5px;
+}
+
 .submit:a {
 	color : #fff;
 }

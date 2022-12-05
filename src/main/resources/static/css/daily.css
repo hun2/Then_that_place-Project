@@ -1,0 +1,505 @@
+@charset "UTF-8";
+
+@import url("/static/css/kakao.css");
+/*시작 */
+a {
+	color: #444;
+}
+
+a:link {
+	text-decoration: none;
+	color: #444;
+}
+
+a:hover {
+	text-decoration: none;
+	color: #6A24FE;
+}
+
+body {
+	font-family: KakaoLight;
+	margin: 0;
+	padding: 0;
+	position: relative;
+}
+
+ul {
+	list-style: none;
+	margin: 0px auto;
+	padding-inline-start: 0px;
+}
+
+li {
+	display: inline-block;
+}
+
+/*상단바*/
+.mainLogo {
+	color: #6A24FE;
+	font-size: 25px;
+	font-weight: bold;
+}
+
+#top_wrap {
+	position: fixed;
+	left: 0;
+	right: 0;
+	z-index: 99999;
+	width: 100%;
+	height: 70px;
+	background-color: #ffffffe6;
+	border-bottom: 1px solid #dfdfdf;
+}
+
+#wrap_logo {
+	position: absolute;
+	width: 115px;
+	height: 70px;
+	left: 45px;
+}
+
+#wrap_logo {
+	height: 46px;
+	margin: 0 auto;
+	padding: 17px 0 0;
+}
+
+#wrap_topCate {
+	display: block;
+	position: relative;
+	width: 750px;
+	height: 46px;
+	margin: 0 auto;
+	padding: 24px 0 0;
+}
+
+#wrap_topCate .inner li {
+	float: left;
+	position: relative;
+	height: 31px;
+	padding: 0 22px 0 21px;
+}
+
+#wrap_topCate .inner li span {
+	font-size: 18px;
+}
+
+.inner {
+	display: flex;
+}
+
+#wrap_util {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+#wrap_util .link_util {
+	float: left;
+	position: relative;
+	width: 70px;
+	height: 34px;
+	border-radius: 20px;
+	font-size: 12px;
+	line-height: 30px;
+	color: #fff;
+	text-align: center;
+	box-sizing: border-box;
+}
+
+#wrap_util .link_fund {
+	margin-top: 18px;
+	margin-left: 13px;
+	border: 1px solid #444;
+	background-color: #444;
+}
+
+#wrap_util .link_login {
+	margin: 18px 2px 0 5px;
+	border: 1px solid #e7e7e7;
+	color: #444;
+}
+
+#wrap_util .btn_search {
+	float: left;
+	position: relative;
+	width: 71px;
+	vertical-align: top;
+}
+
+#wrap_util .ico_search {
+	width: 25px;
+	height: 26px;
+	margin: 2px 0 0 10px;
+	background-position: -492px -511px;
+}
+
+/*프로필 아이콘 */
+.profile-card {
+	margin-top: 15px;
+	display: flex;
+}
+
+.profile-card .profile-pic {
+	flex: 0 0 auto;
+	padding: 0;
+	background: none;
+	width: 40px;
+	height: 40px;
+	margin-right: 10px;
+}
+
+.profile-card:first-child .profile-pic {
+	width: 40px;
+	height: 40px;
+}
+
+.profile-card .profile-pic img {
+	border: none;
+}
+
+.profile-card .username {
+	font-size: 14px;
+	color: #000;
+	font-weight: bold;
+}
+
+.profile-pic {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	overflow: hidden;
+	padding: 3px;
+	background: linear-gradient(45deg, rgb(255, 230, 0), rgb(255, 0, 128)
+		80%);
+}
+
+.profile-pic img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	border-radius: 50%;
+	border: 2px solid #fff;
+	margin-top: -2px;
+}
+
+.profile-name {
+	margin-top: 8px;
+	margin-right: 18px;
+}
+
+/* 중간 바디영역 */
+.bodycontent {
+	padding-top: 90px;
+	display: flex;
+	justify-content: space-between;
+	max-width: 1300px;
+	margin: 0 auto;
+}
+
+.bodycontent span {
+	font-size: 45px;
+	text-align: center;
+	margin-left: 333px;
+}
+
+#write {
+	display: block;
+	margin-top: 20px;
+}
+
+.link_login {
+	margin: 5px 2px 0 5px;
+	border: 1px solid #e7e7e7;
+	color: #444;
+}
+
+.link_util {
+	float: left;
+	position: relative;
+	width: 70px;
+	height: 34px;
+	border-radius: 20px;
+	font-size: 12px;
+	line-height: 30px;
+	color: #fff;
+	text-align: center;
+	box-sizing: border-box;
+}
+
+
+/* 메인바디영역 */
+.bodycontent2 {
+	padding-top: 70px;
+}
+.leftcontent {
+	width: 300px;
+	height : auto;
+	border-right: 1px solid #e7e7e7;
+	
+}
+
+.leftcontent .left1 , .left2 , .left3 , .left4{
+	
+	border-bottom: 1px solid #e7e7e7;
+	height: 100px;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+}
+
+.leftcontent span {
+	margin: 0 auto;
+	
+}
+
+.middlecontent {
+	
+	width: 950px;
+	
+	
+	/* max-height : 1500px; */
+}
+.middlecontent .wrapper {
+	display: grid;
+	grid-gap : 30px;
+	width: 70%;
+	margin: 0 auto;
+	margin-top: 30px;
+}
+.post {
+	width: 100%;
+	height: auto;
+	background: #fff;
+	border : 1px solid #dfdfdf;
+	
+}
+.info {
+	width: 100%;
+	height: 60px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 20px;	
+}
+.info .user {
+	display: flex;
+	align-items: center;
+	
+}
+.info .profile-pic {
+	
+	height: 40px;
+	width: 40px;
+	padding: 0;
+	background: none;
+}
+.info .username {
+	width: auto;
+	font-weight: bold;
+	color: #000;
+	font-size: 14px;
+	margin-left: 10px;
+	margin-top: 14px;
+}
+
+.dropdown2 {
+	display: inline-block;
+	position: relative;
+}
+
+.dropdown-submenu2 {
+	position: absolute;
+	top: -19px; left: 38px;
+	background-color: #fff;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	min-width: 100px;
+	display: none;
+}
+
+.dropdown-submenu2 a {
+	display: block;
+	padding: 10px 3px;
+	text-align: left;
+	text-decoration: none;
+	color: black;
+}
+
+.dropdown2 .option {
+	height: 10px;
+	cursor : pointer;
+	
+}
+
+
+.profile-pic {
+	width: 70px;
+	height: 70px;
+	border-radius: 50%;
+	overflow: hidden;
+	padding: 3px;
+	background: linear-gradient(45deg, rgb(255, 230, 0), rgb(255, 0, 128) 80%);
+}
+.prifile-pic img {
+	width: 100%;
+	height: 100%;
+	object-fit : cover;
+	border-radius: 50%;
+	border : 2px solid #fff;
+}
+.post-image {
+	width: 100%;
+	height: 500px;
+	object-fit : cover;
+}
+
+.post-content{
+    width: 100%;
+    padding-top: 20px;
+    margin-left: 10px;
+    
+}
+
+.reaction-wrapper{
+    width: 100%;
+    height: 30px;
+    display: flex;
+    margin-top: -20px;
+    align-items: center;
+    justify-content: space-between;
+    
+}
+
+.date {
+	margin-right: 20px;
+}
+
+.reaction-wrapper .icon{
+    height: 22px;
+    margin: 0;
+    margin-right: 10px;
+}
+
+.likes{
+    font-weight: bold;
+}
+
+
+.description_add {
+	color : #8E8E8E;
+	
+}
+
+.description_comment {
+	display: none;
+}
+
+.description_comment span {
+	font-weight: bold;
+	
+}
+
+.post-content-comment{
+	height: 30px;
+	display : flex;
+	align-items: center;
+}
+
+.content-commnet{
+	border: none;
+	width: 93%;
+}
+
+
+/* 중간바디 - 오른쪽구역 */
+
+.rightcontent {
+	width: 300px;
+	padding-left: 20px;
+	padding-top: 30px;
+	
+}
+
+.rightcontent .rightcontent-top {
+	width: 100%;
+	height: 100px;
+}
+
+.rightcontent .link_util {
+	float: left;
+    position: relative;
+    width: 250px;
+    height: 34px;
+    border-radius: 20px;
+    font-size: 12px;
+    line-height: 30px;
+    color: #fff;
+    text-align: center;
+    box-sizing: border-box;
+}
+.rightcontent .link_login {
+    margin: 5px 2px 0 5px;
+    border: 1px solid #e7e7e7;
+    color: #444;
+    
+}
+
+
+.rightcontent .profile-pic {
+	flex: 0 0 auto;
+    padding: 0;
+    background: none;
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+     border: none;
+}
+.rightcontent .profile-card {
+	widows: fit-content;
+	display: flex;
+	align-content: center;
+	margin-bottom: 10px;
+	margin-top: 30px;
+}
+.rightcontent .profile-name {
+	margin-top: 23px;
+}
+.rightcontent .username {
+	font-size: 14px;
+    color: #000;
+    font-weight: bold;
+}
+.rightcontent .profile-info {
+	width: 150px;
+}
+.rightcontent p {
+	margin: 0;
+}
+.sub-text{
+    color: rgba(0, 0, 0, 0.5);
+    font-size:11px;
+    font-weight: 500;
+    margin-top: 5px;
+}
+
+.suggestion-text{
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.5);
+    font-weight: 700;
+    margin: 20px 0;
+}
+
+.action-btn{
+    opacity: 1;
+    font-weight: 700;
+    width: 70px;
+    height: 100%;
+    background: none;
+    border: none;
+    outline: none;
+    text-transform: capitalize;
+    font-size: 12px;
+    color: rgb(0, 162, 255);
+    opacity: 0.5;
+}
+

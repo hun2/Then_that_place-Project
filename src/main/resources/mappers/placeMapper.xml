@@ -10,7 +10,6 @@
 			,`placeWhether`
 			,`placeKategorie`
 			,`placeArea`
-			,`placeFood`
 			,`placeGrade`
 			,`placePrice`
 			,`placeSubject`
@@ -24,7 +23,6 @@
  			,#{placeWhether}
  			,#{placeKategorie}
  			,#{placeArea}
- 			,#{placeFood}
  			,#{placeGrade}
  			,#{placePrice}
  			,#{placeSubject}
@@ -58,5 +56,197 @@
  		)
  		</foreach>
  	</insert>
- 
+ 	
+ 	<insert id="insertFood" parameterType="com.FirstProject.goodplace.model.Place">
+ 		INSERT INTO `food`
+ 		(
+			`userId`
+			,`placeId`
+			,`foodName`
+			,`foodPrice`
+			,`foodCreatedAt`
+			,`foodUpdatedAt`
+ 		)
+ 		VALUES
+ 		<foreach collection="foods" index="index" item="food" separator=",">
+ 		(
+ 			#{userId}
+ 			,#{id}
+ 			,#{food.foodName}
+ 			,#{food.foodPrice}
+ 			, NOW()
+ 			, NOW()
+ 		
+ 		)
+ 		</foreach>
+ 	</insert>
+ 	<select id="selectPlaceList" parameterType="com.FirstProject.login.model.User" resultType="com.FirstProject.goodplace.model.Place">
+ 		SELECT
+ 			`id`
+			,`userId`
+			,`placeWhether`
+			,`placeKategorie`
+			,`placeArea`
+			,`placeGrade`
+			,`placePrice`
+			,`placeSubject`
+			,`placeContent`
+			,`placeCreatedAt`
+			,`placeUpdatedAt`
+ 		FROM
+ 			place
+ 		WHERE
+ 			`userId` = #{userId}
+ 	</select>
+ 	
+ 	<select id="selectList" resultType="com.FirstProject.goodplace.model.Place" parameterType="string">
+ 		select 
+ 			* 
+ 		from 
+ 			place
+ 		WHERE
+ 			`placeWhether` = 'g'
+ 		AND `userId` = #{userId}
+ 		ORDER BY placeCreatedAt DESC
+ 	</select>
+ 	
+ 	<select id="selectListLimit3" resultType="com.FirstProject.goodplace.model.Place" parameterType="string">
+ 		select 
+ 			* 
+ 		from 
+ 			place
+ 		WHERE
+ 			`placeWhether` = 'g'
+ 		AND `userId` = #{userId}
+ 		ORDER BY placeCreatedAt DESC
+ 		limit 3
+ 	</select>
+ 	
+ 	<select id="selectPlaceByPlaceIdAndUserId" resultType="com.FirstProject.goodplace.model.Place" parameterType="map">
+ 		SELECT
+ 			`id`
+			,`userId`
+			,`placeWhether`
+			,`placeKategorie`
+			,`placeArea`
+			,`placeGrade`
+			,`placePrice`
+			,`placeSubject`
+			,`placeContent`
+			,`placeCreatedAt`
+			,`placeUpdatedAt`
+ 		FROM
+ 			place
+ 		WHERE
+ 			`id` = #{placeId}
+ 		AND	
+ 			`userId` = #{userId}
+ 	</select>
+ 	<update id="updatePlaceListById" parameterType="com.FirstProject.goodplace.model.Place">
+ 		UPDATE `place`
+ 		SET
+			`placeKategorie` = #{placeKategorie}
+			,`placeArea` = #{placeArea}
+			,`placeGrade` = #{placeGrade}
+			,`placePrice` = #{placePrice}
+			,`placeSubject` = #{placeSubject}
+			,`placeContent` = #{placeContent}
+			,`placeUpdatedAt` = NOW()
+ 		WHERE
+ 			`id` = #{id}
+ 	</update>
+ 	
+ 	<delete id="deleteFoodListById" parameterType="com.FirstProject.goodplace.model.Place">
+ 		DELETE FROM `food`
+ 		WHERE
+ 			`placeId` = #{id}
+ 	</delete>
+ 	<delete id="deletePlaceListById" parameterType="com.FirstProject.goodplace.model.Place">
+ 		DELETE FROM `place`
+ 		WHERE
+ 			`id` = #{id}
+ 	</delete>
+ 	
+ 	<select id="selectPlaceByCategorie" parameterType="map" resultType="com.FirstProject.goodplace.model.Place">
+ 		SELECT
+ 			`id`
+			,`userId`
+			,`placeWhether`
+			,`placeKategorie`
+			,`placeArea`
+			,`placeGrade`
+			,`placePrice`
+			,`placeSubject`
+			,`placeContent`
+			,`placeCreatedAt`
+			,`placeUpdatedAt`
+ 		FROM
+ 			place
+ 		WHERE
+ 			`placeWhether` = 'g'
+ 		<if test="startDay != '' and endDay != '' ">
+ 		AND
+ 		DATE_FORMAT(`placeCreatedAt`, '%Y-%m-%d') BETWEEN #{startDay} AND #{endDay}
+ 		</if>
+ 		<if test="placeArea != '' ">
+ 		AND
+ 		`placeArea` = #{placeArea}
+ 		</if>
+ 		<if test="placeKategorie != '' ">
+ 		AND
+ 		`placeKategorie` = #{placeKategorie}
+ 		</if>
+ 		<if test="minPrice != null and maxPrice != null">
+ 		AND
+ 		`placePrice` BETWEEN #{minPrice} AND #{maxPrice}
+ 		</if>
+ 		<if test="minGrade != null and maxGrade != null">
+ 		AND
+ 		`placeGrade` BETWEEN #{minGrade} AND #{maxGrade}
+ 		</if>
+ 		order by placeCreatedAt desc
+ 	</select>
+ 	
+ 	<select id="selectImageByCategorie" parameterType="List" resultType="com.FirstProject.goodplace.model.PlaceImage">
+ 		SELECT
+ 			`id`
+			,`placeId`
+			,`imagePath`
+			,`imageCreatedAt`
+			,`imageUpdatedAt`
+ 		FROM
+ 			`placeimage`
+ 		 WHERE 1 = 1
+  		 AND (`ID`, `PLACEID`) IN (
+       	SELECT MIN(ID) AS ID, PLACEID
+         FROM `PLACEIMAGE`
+        WHERE PLACEID IN (
+        <foreach collection="list" item="item" separator=",">
+ 			#{item.id}
+ 		</foreach>
+        )
+     	GROUP BY PLACEID
+   		)
+   		order by imageCreatedAt desc
+ 	</select>
+ 	<select id="selectPlaceByPlaceId" parameterType="int" resultType="com.FirstProject.goodplace.model.Place">
+ 		SELECT
+ 			`id`
+			,`userId`
+			,`placeWhether`
+			,`placeKategorie`
+			,`placeArea`
+			,`placeGrade`
+			,`placePrice`
+			,`placeSubject`
+			,`placeContent`
+			,`placeCreatedAt`
+			,`placeUpdatedAt`
+ 		FROM
+ 			place
+ 		WHERE
+ 			`placeWhether` = 'g'
+ 		AND
+ 			`id` = #{placeId}
+ 	</select>
  </mapper>

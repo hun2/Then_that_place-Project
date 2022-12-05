@@ -6,12 +6,13 @@ import java.util.List;
 public class Place {
 	
 	
+	
 	private int id;
 	private String userId;
 	private String placeWhether;
 	private String placeKategorie;
 	private String placeArea;
-	private List<String> placeFood;
+	private List<Food> foods;
 	private int placeGrade;
 	private int placePrice;
 	private String placeSubject;
@@ -84,14 +85,15 @@ public class Place {
 	public void setPlaceUpdatedAt(Date placeUpdatedAt) {
 		this.placeUpdatedAt = placeUpdatedAt;
 	}
-	public List<String> getPlaceFood() {
-		return placeFood;
+	public List<Food> getFoods() {
+		return foods;
 	}
-	public void setPlaceFood(List<String> placeFood) {
-		this.placeFood = placeFood;
+	public void setFoods(List<Food> foods) {
+		this.foods = foods;
 	}
 	
 	
+
 	
 	
 }

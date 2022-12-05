@@ -1,23 +1,44 @@
 package com.FirstProject.main;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.FirstProject.daily.bo.DailyTimeLineBO;
+import com.FirstProject.daily.model.DailyCardView;
+import com.FirstProject.goodplace.bo.TimeLineBO;
+import com.FirstProject.goodplace.model.CardView;
 import com.FirstProject.login.model.User;
 
 @Controller
 public class MainController {
-
+	
+	@Autowired
+	private TimeLineBO timeLineBo;
+	
+	@Autowired
+	private DailyTimeLineBO dailyTimeLineBo;
+	
 	// 메인페이지 접속
 	@RequestMapping("/main")
-	public String main(HttpSession session, Model model) {
+	public String main(HttpSession session, Model model, User user) {
 
-		User user = (User) session.getAttribute("loginUser");
-
+		User users = (User) session.getAttribute("loginUser");
+		String userId = users.getUserId();
+		user.setUserId(userId);
+		List<CardView> goodPlaceList = timeLineBo.mainCardList(userId);
+		List<CardView> badPlaceList = timeLineBo.mainBadCardList(userId);
+		List<DailyCardView> dailyList = dailyTimeLineBo.mainCardList(userId);
+		model.addAttribute("goodPlaceList", goodPlaceList);
+		model.addAttribute("badPlaceList", badPlaceList);
+		model.addAttribute("dailyList", dailyList);
+		
 		return "main";
 	}
 
@@ -31,36 +52,11 @@ public class MainController {
 	}
 
 	
-	// 일상페이지 접속
-	@RequestMapping("/main/daily")
-	public String daily() {
-		
-		return "daily";
-	}
-	
-	
-	// 맛집페이지 접속
-	@RequestMapping("/main/places/good")
-	public String goodPlace() {
-		
-		return "goodplace";
-	}
-	
-	// 노맛집페이지 접속
-	@RequestMapping("/main/places/bad")
-	public String badPlace() {
-		
-		return "badplace";
-	}
 	
 	
 	
-	// 맛집페이지 글쓰기 접속
-	@RequestMapping("/main/places/good-write")
-	public String goodPlaceWrite() {
-		
-		return "goodplacewrite";
-	}
+	
+	
 	
 	
 	
