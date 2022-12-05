@@ -36,9 +36,6 @@ public interface UserDAO {
 			@Param("userId") String userId, @Param("userPwd") String userPwd);
 	
 	
-	//유저 하나 가져오기
-	
-	public User selectUserById(String uid);
 	
 	
 	

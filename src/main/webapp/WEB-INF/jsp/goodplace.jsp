@@ -14,10 +14,14 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
+
 <!--datepicker  -->
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+<!-- 카카오 지도 api -->
+
+
 </head>
 <body>
 	<!--상단 고정바 시작  -->
@@ -48,12 +52,19 @@
 			<ul class="inner">
 				<li class="profile-card">
 					<div class="profile-pic">
-						<img src="${empty sessionScope.loginUser.userProfilePhoto ?  '/static/img/no.png' : sessionScope.loginUser.userProfilePhoto }">
+						<c:if test="${sessionScope.loginUser.userProfilePhoto == null}">
+								<img src="/static/img/no.png">
+						</c:if>
+						<c:if test="${sessionScope.loginUser.userProfilePhoto != null}">
+							<img src="${sessionScope.loginUser.userProfilePhoto}">
+						</c:if>				
 					</div>
 					<div class="profile-name">
 						<p class="username">${sessionScope.loginUser.userNickName} 님 반갑습니다!</p>
 					</div>
 				</li>
+				
+				
 				<li>
 					<a class="link_util link_login" href="/mypage">마이페이지</a>
 				</li>
@@ -87,16 +98,26 @@
 			<div class="sectionbody">
 				<span class="subject">지역</span> <br>
 				<input type="text" id="sample5_address">
-				<input type="button" value="주소 검색" class="add" onclick="resizeMap()"><br>
+				<input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
 			</div>
 			<div class="sectionbody">
-				<span class="subject">카테고리</span><br>
+				<span class="subject">카테고리</span> <br>
 				<div class="onebody">
-					<c:forEach items="한식, 중식, 일식, 양식, 카페" var="item">
-						<div class="one mr-3">
-							<span>${item}</span>
-						</div>
-					</c:forEach>
+					<div class="one mr-3">
+						<span>한식</span>
+					</div>
+					<div class="one mr-3">
+						<span>중식</span>
+					</div>
+					<div class="one mr-3">
+						<span>일식</span>
+					</div>
+					<div class="one mr-3">
+						<span>양식</span>
+					</div>
+					<div class="one mr-3">
+						<span>카페</span>
+					</div>
 				</div>
 			</div>
 			<div class="sectionbody">
@@ -115,141 +136,61 @@
 		<!--중간 바디-2 오른쪽 시작  -->
 		<div class="section2 w-70">
 			<div class="wrapper">
-				<c:forEach items="${cardViewList}" var="cardView">
+				<div class="wrappertilte">
+					<a href="#"><span>최신순</span></a>
+					<a href="#"><span class="ml-2">오래된순</span></a>
+					
+				</div>
+				<c:forEach begin="1" end="3">
 					<div class="post">
 						<div class="info"> 
-							<div class="categorie">
-								<span>${cardView.place.placeKategorie}</span>
-							</div>
-							<div class="star d-flex">
-								<c:forEach begin="1" end="${cardView.place.placeGrade}">
-									<img src="/static/img/star.png" width="30px" height="30px">
-								</c:forEach>
-							</div>
-							 <div class="place">
-							 	${cardView.place.placeArea}
-							 </div>
-							 <!--  날짜 시작 -->
-							<div class="date">
-								<fmt:formatDate value="${cardView.place.placeCreatedAt}" pattern="yyyy-MM-dd" />
-							</div>
-							<!--  날짜 닫기 -->
+							<span>여기는 바디영역 게시글의 상단바</span>
+							<span>2022-11-09</span>
 						</div>
-						<!-- 이미지 if 시작 -->
-						<a href="/main/places/good-detail?placeId=${cardView.place.id}">
-							<img src="${empty cardView.placeImage[0].imagePath ? '/static/img/no.png' : cardView.placeImage[0].imagePath}" class="post-image">
-						</a>
-						<!-- 이미지 if 닫기 -->
-						<!--  제목 -->
-						<div class="info">
-							<span class="placesubject">${cardView.place.placeSubject}</span>
-						</div>
-						<!--  제목닫기 -->
+						<img src="/static/img/food2.png" class="post-image">
 					</div>
-				</c:forEach> 
+				</c:forEach>
 			
 			</div>
 		</div>
 	</div>
 	<!--중간바디-2 영역 끝 -->
 	
-	<!-- 지도모달 영역 시작 -->
-	<div class="modal">
-		<div class="modal_body">
-			<div class="map_wrap">
-			    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
-			    <div id="menu_wrap" class="bg_white">
-			        <div class="option">
-			            <div>
-			                <form onsubmit="searchPlaces(); return false;">
-			                    키워드 : <input type="text" value="이태원 맛집" id="keyword" size="15"> 
-			                    <button type="submit">검색하기</button> 
-			                </form>
-			            </div>
-			        </div>
-			        <hr>
-			        <ul id="placesList"></ul>
-			        <div id="pagination"></div>
-			        
-			    </div>
-			</div>
-			
-		</div>
-	</div>
-	<!-- 지도모달 영역 끝 -->
+	
+	
 	
 </body>
-<!--카카오 js  -->
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=439e0931464541715aa7fea40206563f&libraries=services"></script>
-<script type="text/javascript" src="/static/js/kakao.js"></script>
-
-<!-- js -->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=439e0931464541715aa7fea40206563f&libraries=services"></script>
 <script type="text/javascript">
 	
-	// 1. 펑션 설명
-	// 2. 복잡한 로직일 경우
-	// 3. 조건
-	// 4. 하드코딩 값
-	
-	/*
-	  1. 코드 일관성
-	  2. 네이밍
-	  3. 주석
-	  4. js/jquery 중 하나만 하기(js to jqurey, jquery to js 연습)
-	  5. 복붙 흔적
-	  6. 변수 활용도 높일 것
-	
-	  1, 3 reference: https://github.com/tipjs/javascript-style-guide#%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8objects
-	 
-	 */
 
-	const body = document.querySelector('body');
-	const modal = document.querySelector('.modal');
-	const addPopup = document.querySelector('.add');
-	
-	addPopup.addEventListener('click', () => {
-		modal.classList.toggle('show');
-		resizeMap();
-		relayout();
-		 if (modal.classList.contains('show')) {
-	          body.style.overflow = 'hidden';
-	     }
-    });
-	
-	modal.addEventListener('click', (event) => {
-        if (event.target === modal) {
-          modal.classList.toggle('show');
-        }
-        if (!modal.classList.contains('show')) {
-            body.style.overflow = 'auto';
-         }
-    });
-	
-	$(document).on("click",".placename",function(){
-		
-		
-		var placename = $(this).text();
-		$('#sample5_address').val(placename);
-		const modal = document.querySelector('.modal');
-		const body = document.querySelector('body');
-		modal.classList.toggle('show');
-		 body.style.overflow = 'auto';
-		
-	})
-	
+    function sample5_execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                var addr = data.address; // 최종 주소 변수
+                // 주소 정보를 해당 필드에 넣는다.
+                document.getElementById("sample5_address").value = addr;
+            }
+        }).open();
+    }
+
+
+
+
 	$(document).ready(function() {
 	
 		//datepicker event 
 		$('#startday').on('click', function(){
 			 $("#startday").datepicker({
                  dateFormat: "yy-mm-dd"
-               	 , showMonthAfterYear:true // 월- 년 순서가아닌 년도 - 월 순서
+               	 ,showMonthAfterYear:true // 월- 년 순서가아닌 년도 - 월 순서
                  , dayNamesMin: ['일', '월', '화', '수', '목', '금', '토']
                  , monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월']
-                 , changeYear: true //option값 년 선택 가능
-                 , changeMonth: true //option값  월 선택 가능 
-                 , monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 텍스트
-				 , maxDate : 0
+                 ,changeYear: true //option값 년 선택 가능
+                 ,changeMonth: true //option값  월 선택 가능 
+                 ,monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 텍스트
+				 ,	 maxDate : 0
              	 , onSelect: function (date) {
          			var endDate = $('#endday');
         			var startDate = $(this).datepicker('getDate');
@@ -262,28 +203,30 @@
 			 })
              $('#endday').datepicker({
             	 dateFormat: "yy-mm-dd"
-            	 , showMonthAfterYear:true // 월- 년 순서가아닌 년도 - 월 순서
+            	 ,showMonthAfterYear:true // 월- 년 순서가아닌 년도 - 월 순서
                  , dayNamesMin: ['일', '월', '화', '수', '목', '금', '토']
                  , monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월']
              	 , changeYear: true //option값 년 선택 가능
                  , changeMonth: true //option값  월 선택 가능 
                  , monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 텍스트
              	 , maxDate : 0
-             	 
+             	 ,
              })
 		})
 		
 		
 		//카테고리 클릭 event
 		$('.one').on('click', function(){
-			$('span.change-color').removeClass('change-color');
-			$(this).children('span').addClass('change-color');
+			const get = $(this).get();
+			$(this).children('span').first().css('color', 'red')
+			$('.one').not(get).find('span:nth-child(1)').css('color', 'white')
 		})
 		
 		//평점 글자수 event
 		$('.grade1, .grade2').on('keyup', function() {
 		    if (/\D/.test(this.value)) {
 		        this.value = this.value.replace(/\D/g, '')
+		        alert('숫자만 입력가능합니다.');
 		    }
 		  if (this.value > 5) {
 		      this.value = 5;
@@ -291,103 +234,21 @@
 		  }
 		});
 		
-		//가격 글자수 event
+		//평점 글자수 event
 		$('.price1, .price2').on('keyup', function() {
 		    if (/\D/.test(this.value)) {
 		        this.value = this.value.replace(/\D/g, '')
+		        alert('숫자만 입력가능합니다.');
 		    }
 		});
 		
 		
-		//왼쪽바 조회 버튼 클릭시 ajax 전송 =>
-		$('#submit').on('click', function(){
-			
-			var startDay = $('#startday').val();
-			var endDay = $('#endday').val();
-			var placeArea = $('#sample5_address').val();
-			var placeKategorie = $('.change-color').text().trim();
-			var minPrice = $('.price1').val();
-			var maxPrice = $('.price2').val();
-			var minGrade= $('.grade1').val();
-			var maxGrade= $('.grade2').val();
-			
-			//유효성 검사
-			//최소가격 > 최대가격일시 false
-			if ( +minPrice > +maxPrice) {
-				alert("최소가격이 최대가격보다 큽니다.");
-				$('.pirce1').focus();
-				return false;
-			}
-			//최소별점 > 최대별점일시 false
-			if( +minGrade > +maxGrade) {
-				alert("최소별점이 최대별점보다 큽니다.");
-				$('.grade1').focus();
-				return false;
-			}
-			//ajax 전송
-			$.ajax({
-				type : "GET"
-				, url : "/main/places/good-find"
-				, data : {
-					startDay,
-					endDay,
-					placeArea,
-					placeKategorie,
-					minPrice,
-					maxPrice,
-					minGrade,
-					maxGrade,
-				}
-				, success : function(result) {
-					
-					
-					$('.post').remove();
-					//카테고리에 해당되는 리스트들
-					var categorie = result.CategorieList
-					var image = result.ImageList
-					for( var i =0; i< categorie.length; i ++) {
-						
-						//날짜 자르기
-						var date = categorie[i].placeCreatedAt.substr(0, 10);
-						//별점 div 생성
-						var $divGrade = $('<div class="star d-flex"/>')
-						//별점 div 내부 이미지 추가 
-						for(var j =0; j< categorie[i].placeGrade; j++) {
-							$divGrade.append('<img src="/static/img/star.png" width="30px" height="30px">');
-						}
-						//이미지 생성
-						var $img = $('<img src="' + image[i].imagePath + '" class="post-image"' + '">')
-						//이미지 감싸는 a태그 생성
-						var $href = $('<a href="/main/places/good-detail?placeId=' + image[i].id + '">')
-						//a태그에 이미지 추가
-						var $hrefValue = $href.append($img)
-						//카테고리 span 생성
-						var $spanValue = $('<span />').text(categorie[i].placeKategorie)
-						//카테고리 div 생성 및 span 추가
-						var $divCategory = $('<div class="categorie" />').append($spanValue)
-						//장소 div 생성 및 text 추가
-						var $divPlace = $('<div class="place" />').text(categorie[i].placeArea)
-						//날짜 div 생성 및 text 추가
-						var $divDate = $('<div class="date" />').text(date)
-						//카테고리 포괄 info div 생성 및 내용추가
-						var $divInfo = $('<div class="info" />').append($divCategory).append($divGrade).append($divPlace).append($divDate)
-						
-						//제목 span 생성 및 text 추가
-						var $subject = $('<span class="placesubject" />').text(categorie[i].placeSubject)
-						var $divInfo2 = $('<div class="info" />').append($subject)
-						//post div 생성 및 info추가
-						var $divPost = $('<div class="post" />').append($divInfo).append($hrefValue).append($divInfo2)
-						//최종 wrapper 클래스에 post추가 - 반복문 진행.
-						$('.wrapper').append($divPost)
-					}
-					
-				}
-				,error : function(e) {
-					alert("에러입니다. 관리자에게 문의하세요");
-				}
-			})
-		}) //ajax 닫기
 		
-	})//document ready 닫기
+		
+	})	
+
+
+
+
 </script>
 </html>

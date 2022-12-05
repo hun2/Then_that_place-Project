@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.FirstProject.common.FileManagerServices;
 import com.FirstProject.common.PlaceImage;
 import com.FirstProject.goodplace.dao.GoodPlaceDAO;
-import com.FirstProject.goodplace.model.Food;
 import com.FirstProject.goodplace.model.Place;
 import com.FirstProject.login.model.User;
 
@@ -54,89 +53,11 @@ public class GoodPlaceBO {
 			
 		}
 		int insertedImage = goodPlaceDao.insertImage(placeImage);
-		//5. 음식 및 가격 추가
-		if( place.getFoods() == null) {
-			int result = insertedPlace + insertedImage;
-			return result;
-		} 
-		place.getId();
-		int insertedFood = goodPlaceDao.insertFood(place);
-		int result = insertedPlace + insertedImage + insertedFood;
 		
-		
-		//6. 두가지 메소드 리턴 값 합산
+		//5. 두가지 메소드 리턴 값 합산
+		int result = insertedPlace + insertedImage;
 		
 		//6. 문제없다면 메소드 합산 리턴
 		return result;
-	}
-	
-	
-	//모든 글 가져오기
-	public List<Place> getPlaceList(User user){
-	
-		return goodPlaceDao.selectPlaceList(user);
-	}
-	
-	
-	//모든 글 가져오기 조건없이.
-	
-	public List<Place> getList(String userId) {
-		
-		return goodPlaceDao.selectList(userId);
-	}
-	
-	//모든 글 가져오기 조건없이 ( 글 3개만 가져오기)
-	
-	public List<Place> getListLimit3(String userId) {
-			
-		return goodPlaceDao.selectListLimit3(userId);
-	}
-	
-	
-	//개인 페이지 글 가져오기 placeId와 userId 값을 던저서 해당되는 값
-	public Place getPlaceByPlaceIdAndUserId(int placeId, String userId) {
-		
-		return goodPlaceDao.selectPlaceByPlaceIdAndUserId(placeId, userId);
-	}
-	
-	
-	
-	//게시글 수정
-	public int updatePlaceListById(Place place) {
-		int updatedPlaceList = goodPlaceDao.updatePlaceListById(place);
-		goodPlaceDao.deleteFoodListById(place);
-		int insertedFoodList = goodPlaceDao.insertFood(place);
-		int result = updatedPlaceList + insertedFoodList;
-		return result;
-	}
-	
-	//게시글 삭제
-	public int deletePlaceListById(Place place) {
-		
-		int deletePlaceList = goodPlaceDao.deletePlaceListById(place);
-		goodPlaceDao.deleteFoodListById(place);
-		return deletePlaceList;
-	}
-	
-	
-	
-	//검색 조건으로 검색
-	public List<Place> getPlaceByCategorie(String startDay, String endDay, String placeArea, String placeKategorie, Integer minPrice, Integer maxPrice, Integer minGrade, Integer maxGrade) {
-		
-		return goodPlaceDao.selectPlaceByCategorie(startDay, endDay, placeArea, placeKategorie, minPrice, maxPrice, minGrade, maxGrade);
-	}
-	
-	//검색 조건으로 리턴받은 아이로 이미지 가져오기
-	public List<PlaceImage> getImageByCategorie(List<Place> CategorieList) {
-		
-		return goodPlaceDao.selectImageByCategorie(CategorieList);
-	}
-	
-	
-	//게시글 id로 게시글 가져오기
-	public Place getPlaceByPlaceId(int placeId) {
-		
-		return goodPlaceDao.selectPlaceByPlaceId(placeId);
-		
 	}
 }

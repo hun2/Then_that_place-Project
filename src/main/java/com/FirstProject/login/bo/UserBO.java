@@ -69,11 +69,4 @@ public class UserBO {
 	public void updataUserPassword(String userId, String userPwd) {
 		userDao.updataUserPassword(userId, userPwd);
 	}
-	
-	
-	//아이디 하나 가져오기
-	public User getUserById(String uid) {
-		
-		return userDao.selectUserById(uid);
-	}
 }

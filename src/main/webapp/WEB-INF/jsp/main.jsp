@@ -14,7 +14,6 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
 </head>
 <body>
 	<div id="top_wrap">
@@ -45,14 +44,19 @@
 			<ul class="inner">
 				<li class="profile-card">
 					<div class="profile-pic">
-						<img src="${empty sessionScope.loginUser.userProfilePhoto ?  '/static/img/no.png' : sessionScope.loginUser.userProfilePhoto }">
+						<c:if test="${sessionScope.loginUser.userProfilePhoto == null}">
+								<img src="/static/img/no.png">
+						</c:if>
+						<c:if test="${sessionScope.loginUser.userProfilePhoto != null}">
+							<img src="${sessionScope.loginUser.userProfilePhoto}">
+						</c:if>				
 					</div>
 					<div class="profile-name">
 						<p class="username">${sessionScope.loginUser.userNickName} 님 반갑습니다!</p>
 					</div>
 				</li>
 				<li>
-					<a class="link_util link_login" href="/mypage">마이페이지</a>
+					<a class="link_util link_login" href="/logout">마이페이지</a>
 				</li>
 				<li>
 					<a class="link_util link_login" href="/logout">로그아웃</a>
@@ -64,7 +68,12 @@
 		</nav>
 	</div>
 	<div id="body1">
-		<img src="/static/img/main1.jpg" class="body1img">
+		<img src="/static/img/main.png" width="500px" height="500px">
+		<div class="body1content">
+			<h2> 가슴깊이 </h2> 
+			<h2>끓어오르는 맛</h2>
+			<h2> 그때그곳 </h2>
+		</div>
 	</div>
 	
 	
@@ -72,12 +81,9 @@
 		<div class="body2content">
 			<span>일상</span>
 			<div id="bodycontainer">
-				<c:forEach items="${dailyList}" var="daily">
+				<c:forEach begin="1" end="3">
 					<div class="item">
-						<div class="date">
-							<fmt:formatDate value="${daily.daily.dailyCreatedAt}" pattern="yyyy-MM-dd" />
-						</div>
-							<a href="/main/daily-detail?dailyId=${daily.daily.id}"><img src="${empty daily.dailyImage[0].imagePath ? '/static/img/no.png' : daily.dailyImage[0].imagePath  }" class="bodyimg"> </a>
+						<img src="/static/img/kim.jpg" class="bodyimg">
 					</div>
 				</c:forEach>
 			</div>
@@ -85,12 +91,9 @@
 		<div class="body2content">
 			<span>죽어서도 기억해야 할 맛집</span>
 			<div id="bodycontainer">
-				<c:forEach items="${goodPlaceList}" var="goodPlace">
+				<c:forEach begin="1" end="3">
 					<div class="item">
-						<div class="date">
-								<fmt:formatDate value="${goodPlace.place.placeCreatedAt}" pattern="yyyy-MM-dd" />
-						</div>
-						<a href="/main/places/good-detail?placeId=${goodPlace.place.id}"><img src="${empty goodPlace.placeImage[0].imagePath ? '/static/img/no.png' : goodPlace.placeImage[0].imagePath }" class="bodyimg"> </a>
+						<img src="/static/img/food1.png" class="bodyimg">
 					</div>
 				</c:forEach>
 			</div>
@@ -98,12 +101,9 @@
 		<div class="body2content">
 			<span>죽어서도 기억해야 할 노맛집</span>
 			<div id="bodycontainer">
-				<c:forEach items="${badPlaceList}" var="badPlace">
+				<c:forEach begin="1" end="3">
 					<div class="item">
-						<div class="date">
-							<fmt:formatDate value="${badPlace.place.placeCreatedAt}" pattern="yyyy-MM-dd" />
-						</div>
-						<a href="/main/places/bad-detail?placeId=${badPlace.place.id}"><img src="${badPlace.placeImage[0].imagePath}" class="bodyimg"> </a>
+						<img src="/static/img/food2.png" class="bodyimg">
 					</div>
 				</c:forEach>
 			</div>

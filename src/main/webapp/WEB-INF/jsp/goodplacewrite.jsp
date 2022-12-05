@@ -27,7 +27,7 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
 	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 	crossorigin="anonymous"></script>
-<link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
+
 
 </head>
 <body>
@@ -54,22 +54,24 @@
 			<ul class="inner">
 				<li class="profile-card">
 					<div class="profile-pic">
-						<img src="${empty sessionScope.loginUser.userProfilePhoto ?  '/static/img/no.png' : sessionScope.loginUser.userProfilePhoto }">
+						<c:if test="${sessionScope.loginUser.userProfilePhoto == null}">
+							<img src="/static/img/no.png">
+						</c:if>
+						<c:if test="${sessionScope.loginUser.userProfilePhoto != null}">
+							<img src="${sessionScope.loginUser.userProfilePhoto}">
+						</c:if>
 					</div>
 					<div class="profile-name">
 						<p class="username">${sessionScope.loginUser.userNickName}님
 							반갑습니다!</p>
 					</div>
 				</li>
-				<li>
-					<a class="link_util link_login" href="/mypage">마이페이지</a>
-				</li>
-				<li>
-					<a class="link_util link_login" href="/logout">로그아웃</a>
-				</li>
-				<li>
-					<a class="btn_search" href="/search"> <span class="ico_search"><img src=""></span></a>
-				</li>
+
+
+				<li><a class="link_util link_login" href="/mypage">마이페이지</a></li>
+				<li><a class="link_util link_login" href="/logout">로그아웃</a></li>
+				<li><a class="btn_search" href="/search"> <span
+						class="ico_search"><img src=""></span></a></li>
 			</ul>
 		</nav>
 	</div>
@@ -83,16 +85,7 @@
 	<!-- 중간 글쓰기 영역 시작 -->
 	<div class="bodycontent2">
 		<div class="bodycontent2wrapper">
-			<div class="d-flex justify-content-between">
 			<h2>글쓰기</h2>
-			<select id="category" class="form-control form-select col-3">
-				<option selected>한식</option>
-				<option>중식</option>
-				<option>일식</option>
-				<option>양식</option>
-				<option>카페</option>
-			</select>
-			</div>
 			<div class="title">제목</div>
 			<input type="text" class="bodycontent2input" placeholder="제목을 입력하세요">
 			<div class="title">내용</div>
@@ -106,20 +99,25 @@
 			<div class="title">별점</div>
 			<div class="rating">
 				<!-- 해당 별점을 클릭하면 해당 별과 그 왼쪽의 모든 별의 체크박스에 checked 적용 -->
-				<input type="checkbox" name="rating" id="rating1" value="1" class="rate_radio" title="1점"> <label for="rating1"></label>
-				<input type="checkbox" name="rating" id="rating2" value="2" class="rate_radio" title="2점"> <label for="rating2"></label>
-				<input type="checkbox" name="rating" id="rating3" value="3" class="rate_radio" title="3점"> <label for="rating3"></label>
-				<input type="checkbox" name="rating" id="rating4" value="4" class="rate_radio" title="4점"> <label for="rating4"></label>
-				<input type="checkbox" name="rating" id="rating5" value="5" class="rate_radio" title="5점"> <label for="rating5"></label>
+				<input type="checkbox" name="rating" id="rating1" value="1"
+					class="rate_radio" title="1점"> <label for="rating1"></label>
+				<input type="checkbox" name="rating" id="rating2" value="2"
+					class="rate_radio" title="2점"> <label for="rating2"></label>
+				<input type="checkbox" name="rating" id="rating3" value="3"
+					class="rate_radio" title="3점"> <label for="rating3"></label>
+				<input type="checkbox" name="rating" id="rating4" value="4"
+					class="rate_radio" title="4점"> <label for="rating4"></label>
+				<input type="checkbox" name="rating" id="rating5" value="5"
+					class="rate_radio" title="5점"> <label for="rating5"></label>
 			</div>
 			<div class="pricetitle">
 				<span>지출</span>
 				<div>
-					<span onclick='addRow()'> + </span> 
-					<span onclick='deleteRow()'> - </span>
+					<span onclick='addRow()'> + </span> <span onclick='deleteRow()'>
+						- </span>
 				</div>
 			</div>
-			<table class="table" id="table-foods">
+			<table class="table">
 				<thead>
 					<tr>
 						<th class="tableleft">사용내역</th>
@@ -128,8 +126,24 @@
 				</thead>
 				<tbody id="my-tbody">
 					<tr class="hide">
-						<td class="tableleft"><input type="text" placeholder="메뉴" class="menu" name="menu"></td>
-						<td><input type="number" placeholder="0" class="tablenumber" name="price" onchange="sumRow()"></td>
+						<td class="tableleft"><input type="text" placeholder="메뉴" class="menu"></td>
+						<td><input type="number" placeholder="0" class="tablenumber"></td>
+					</tr>
+					<tr class="hide1">
+						<td class="tableleft"><input type="text" placeholder="메뉴" class="menu1"></td>
+						<td><input type="number" placeholder="0" class="tablenumber1"></td>
+					</tr>
+					<tr class="hide2">
+						<td class="tableleft"><input type="text" placeholder="메뉴" class="menu2"></td>
+						<td><input type="number" placeholder="0" class="tablenumber2"></td>
+					</tr>
+					<tr class="hide3">
+						<td class="tableleft"><input type="text" placeholder="메뉴" class="menu3"></td>
+						<td><input type="number" placeholder="0" class="tablenumber3"></td>
+					</tr>
+					<tr class="hide4">
+						<td class="tableleft"><input type="text" placeholder="메뉴" class="menu4"></td>
+						<td><input type="number" placeholder="0" class="tablenumber4"></td>
 					</tr>
 				</tbody>
 			</table>
@@ -144,6 +158,7 @@
 			<div class="map">
 				<div class="map_wrap">
     				<div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
+
 				    <div id="menu_wrap" class="bg_white">	
 				        <div class="option">
 				            <div>
@@ -159,8 +174,13 @@
 				    </div>
 				</div>			
 			</div>
+			
+			
+			
+			
 			<a class="submit" href="#" style="background-color: #333; border-color: #333; color: #fff;" id="submit">등록</a>
 		</div>
+
 	</div>
 
 
@@ -172,8 +192,8 @@
 
 
 </body>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=439e0931464541715aa7fea40206563f&libraries=services"></script>
-<script type="text/javascript" src="/static/js/kakao.js"></script>
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=439e0931464541715aa7fea40206563f&libraries=services"></script>
 <script type="text/javascript"> 
 
 
@@ -208,58 +228,309 @@
 	
 	
 	
-	//row 추가
+	
+	
+	
+	
+	//지출 추가 event
 	function addRow() {
-		var trCnt = $('#my-tbody tr').length;
-		var MAX_ROW = 5;
-		if ( trCnt <= MAX_ROW) {
-			var innerHtml = "";
-			innerHtml += '<tr class="hide">';
-			innerHtml += '<td class="tableleft"><input type="text" placeholder="메뉴" class="menu" name="menu"></td>';
-			innerHtml += '<td><input type="number" placeholder="0" class="tablenumber" name="price" onchange="sumRow()"></td>';
-			innerHtml += '</tr>';
-			$('#my-tbody:last').append(innerHtml);
-		} else {
-			alert("최대 5개까지 가능합니다");
-			return false;
+		if (!$('.hide1').is(':visible')) {
+			 $('.hide1').show();
+			 return false;
+		}
+		if (!$('.hide2').is(':visible')) {
+			 $('.hide2').show();
+			 return false;
+		}
+		if (!$('.hide3').is(':visible')) {
+			 $('.hide3').show();
+			 return false;
+		}
+		if (!$('.hide4').is(':visible')) {
+			 $('.hide4').show();
+			 return false;
 		}
 	}
 	
-	//row 삭제
-	function deleteRow() {
-		var trCnt = $('#my-tbody tr').length;
-		if (trCnt > 1) {
-			$('#my-tbody > tr:last').remove();
+	//지출 마이너스 event
+	function deleteRow(){
+		if ($('.hide4').is(':visible')) {
+			 $('.hide4').hide();
+			 return false;
+		}
+		if ($('.hide3').is(':visible')) {
+			 $('.hide3').hide();
+			 return false;
+		}
+		if ($('.hide2').is(':visible')) {
+			 $('.hide2').hide();
+			 return false;
+		}
+		if ($('.hide1').is(':visible')) {
+			 $('.hide1').hide();
+			 return false;
 		}
 	}
-	//합산
-	function sumRow(){
-		var sum = 0;
-		$('input[name*="price"]').each(function(){
+	
+	//지출 합산 event
+	$('.tablenumber, .tablenumber1, .tablenumber2, .tablenumber3, .tablenumber4').change(function(){
+		
+		
+		var price = $('.tablenumber').val();
+		var price1 = $('.tablenumber1').val();
+		var price2 = $('.tablenumber2').val();
+		var price3 = $('.tablenumber3').val();
+		var price4 = $('.tablenumber4').val();
+		
+		var result = +price + +price1 + +price2 + +price3 + +price4; 
+		$('.totalprice').text(result);
+		
+	})
+	
+	
+	
+	
+		////////////////////////////////////////////////////////////////////////카카오 map 시작
+	
+		// 마커를 담을 배열입니다
+		var markers = [];
+
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+		    mapOption = {
+		        center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+		        level: 3 // 지도의 확대 레벨
+		    };  
+
+		// 지도를 생성합니다    
+		var map = new kakao.maps.Map(mapContainer, mapOption); 
+
+		// 장소 검색 객체를 생성합니다
+		var ps = new kakao.maps.services.Places();  
+
+		// 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
+		var infowindow = new kakao.maps.InfoWindow({zIndex:1});
+
+		// 키워드로 장소를 검색합니다
+		searchPlaces();
+
+		// 키워드 검색을 요청하는 함수입니다
+		function searchPlaces() {
+
+		    var keyword = document.getElementById('keyword').value;
+
+		    if (!keyword.replace(/^\s+|\s+$/g, '')) {
+		        alert('키워드를 입력해주세요!');
+		        return false;
+		    }
+
+		    // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
+		    ps.keywordSearch( keyword, placesSearchCB); 
+		}
+
+		// 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
+		function placesSearchCB(data, status, pagination) {
+		    if (status === kakao.maps.services.Status.OK) {
+
+		        // 정상적으로 검색이 완료됐으면
+		        // 검색 목록과 마커를 표출합니다
+		        displayPlaces(data);
+
+		        // 페이지 번호를 표출합니다
+		        displayPagination(pagination);
+
+		    } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
+
+		        alert('검색 결과가 존재하지 않습니다.');
+		        return;
+
+		    } else if (status === kakao.maps.services.Status.ERROR) {
+
+		        alert('검색 결과 중 오류가 발생했습니다.');
+		        return;
+
+		    }
+		}
+	
+		
+		// 검색 결과 목록과 마커를 표출하는 함수입니다
+		function displayPlaces(places) {
+
+		    var listEl = document.getElementById('placesList'), 
+		    menuEl = document.getElementById('menu_wrap'),
+		    fragment = document.createDocumentFragment(), 
+		    bounds = new kakao.maps.LatLngBounds(), 
+		    listStr = '';
+		    
+		    // 검색 결과 목록에 추가된 항목들을 제거합니다
+		    removeAllChildNods(listEl);
+
+		    // 지도에 표시되고 있는 마커를 제거합니다
+		    removeMarker();
+		    
+		    for ( var i=0; i<places.length; i++ ) {
+
+		        // 마커를 생성하고 지도에 표시합니다
+		        var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
+		            marker = addMarker(placePosition, i), 
+		            itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
+
+		        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+		        // LatLngBounds 객체에 좌표를 추가합니다
+		        bounds.extend(placePosition);
+
+		        // 마커와 검색결과 항목에 mouseover 했을때
+		        // 해당 장소에 인포윈도우에 장소명을 표시합니다
+		        // mouseout 했을 때는 인포윈도우를 닫습니다
+		        (function(marker, title) {
+		            kakao.maps.event.addListener(marker, 'mouseover', function() {
+		                displayInfowindow(marker, title);
+		            });
+
+		            kakao.maps.event.addListener(marker, 'mouseout', function() {
+		                infowindow.close();
+		            });
+
+		            itemEl.onmouseover =  function () {
+		                displayInfowindow(marker, title);
+		            };
+
+		            itemEl.onmouseout =  function () {
+		                infowindow.close();
+		            };
+		        })(marker, places[i].place_name);
+
+		        fragment.appendChild(itemEl);
+		    }
+
+		    // 검색결과 항목들을 검색결과 목록 Element에 추가합니다
+		    listEl.appendChild(fragment);
+		    menuEl.scrollTop = 0;
+
+		    // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+		    map.setBounds(bounds);
+		}
+
+		// 검색결과 항목을 Element로 반환하는 함수입니다
+		function getListItem(index, places) {
+
+		    var el = document.createElement('li'),
+		    itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
+		                '<div class="info">' +
+		                '   <h5 class="placename">' + places.place_name + '</h5>';
+
+		    if (places.road_address_name) {
+		        itemStr += '    <span>' + places.road_address_name + '</span>' +
+		                    '   <span class="jibun gray">' +  places.address_name  + '</span>';
+		    } else {
+		        itemStr += '    <span>' +  places.address_name  + '</span>'; 
+		    }
+		                 
+		      itemStr += '  <span class="tel">' + places.phone  + '</span>' +
+		                '</div>';           
+
+		    el.innerHTML = itemStr;
+		    el.className = 'item';
+
+		    return el;
+		}
+
+		// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
+		function addMarker(position, idx, title) {
+		    var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
+		        imageSize = new kakao.maps.Size(36, 37),  // 마커 이미지의 크기
+		        imgOptions =  {
+		            spriteSize : new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
+		            spriteOrigin : new kakao.maps.Point(0, (idx*46)+10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+		            offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+		        },
+		        markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
+		            marker = new kakao.maps.Marker({
+		            position: position, // 마커의 위치
+		            image: markerImage 
+		        });
+
+		    marker.setMap(map); // 지도 위에 마커를 표출합니다
+		    markers.push(marker);  // 배열에 생성된 마커를 추가합니다
+
+		    return marker;
+		}
+
+		// 지도 위에 표시되고 있는 마커를 모두 제거합니다
+		function removeMarker() {
+		    for ( var i = 0; i < markers.length; i++ ) {
+		        markers[i].setMap(null);
+		    }   
+		    markers = [];
+		}
+
+		// 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
+		function displayPagination(pagination) {
+		    var paginationEl = document.getElementById('pagination'),
+		        fragment = document.createDocumentFragment(),
+		        i; 
+
+		    // 기존에 추가된 페이지번호를 삭제합니다
+		    while (paginationEl.hasChildNodes()) {
+		        paginationEl.removeChild (paginationEl.lastChild);
+		    }
+
+		    for (i=1; i<=pagination.last; i++) {
+		        var el = document.createElement('a');
+		        el.href = "#";
+		        el.innerHTML = i;
+
+		        if (i===pagination.current) {
+		            el.className = 'on';
+		        } else {
+		            el.onclick = (function(i) {
+		                return function() {
+		                    pagination.gotoPage(i);
+		                }
+		            })(i);
+		        }
+
+		        fragment.appendChild(el);
+		    }
+		    paginationEl.appendChild(fragment);
+		}
+
+		// 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
+		// 인포윈도우에 장소명을 표시합니다
+		function displayInfowindow(marker, title) {
+		    var content = '<div style="padding:5px;z-index:1;">' + title + '</div>';
+
+		    infowindow.setContent(content);
+		    infowindow.open(map, marker);
+		}
+
+		 // 검색결과 목록의 자식 Element를 제거하는 함수입니다
+		function removeAllChildNods(el) {   
+		    while (el.hasChildNodes()) {
+		        el.removeChild (el.lastChild);
+		    }
+		}
+		
+		
+		 
+		$(document).on("click",".placename",function(){
 			
-			sum += parseInt($(this).val());
+			var placename = $(this).text();
+			$('.placeinput').val(placename);	
 		})
 		
-		$('.totalprice').text(sum);
-	}
+		////////////////////////////////////////////////////////////////////////카카오 map 닫기
+		////////////////////////////////////////////////////////////////////////파일 업로드 시 미리보기 
 		
-	//카카오맵 이름 클릭시 장소입력	 
-	$(document).on("click",".placename",function(){
-			
-		var placename = $(this).text();
-		$('.placeinput').val(placename);	
-	})
-		
-//////////////////////////////////////////////////////////////////////////////////파일 업로드 시 미리보기 
-	imageView = function imageView(att_zone, btn){
-		   var attZone = document.getElementById(att_zone);
-		   var btnAtt = document.getElementById(btn)
+		imageView = function imageView(att_zone, btn){
+
+		    var attZone = document.getElementById(att_zone);
+		    var btnAtt = document.getElementById(btn)
 		    var sel_files = [];
 		    // 이미지와 체크 박스를 감싸고 있는 div 속성
 		    var div_style = 'display:inline-block;position:relative;'
 		                  + 'width:150px;height:120px;margin:5px;border: none;';
 		    // 미리보기 이미지 속성
-		    var img_style = 'width:100%;height:100%;z-index:none;object-fit:contain';
+		    var img_style = 'width:100%;height:100%;z-index:none';
 		    // 이미지안에 표시되는 체크박스의 속성
 		    var chk_style = 'width:20px;height:20px;position:absolute;font-size:24px;'
 		                  + 'right:0px;bottom:0px;z-index:999;background:transparent;border:none;padding:0;line-height:20px;color:red;';
@@ -276,7 +547,7 @@
 		      sel_files.push(file);
 		      console.log(sel_files);
 		      if (sel_files.length >= 4) {
-		    	  alert('사진은 4장 이상 업로드 불가합니다.');
+		    	  alert('사진을 4장 이상 올릴 수 없다 이놈아');
 		    	  return false;
 		      }
 		      var reader = new FileReader();
@@ -320,58 +591,53 @@
 			    div.appendChild(btn)
 			     return div
 			    }
-		//등록버튼 클릭시 AJAX 전송 및 유효성 검사
+		  	
+		  //등록버튼 클릭시 AJAX 전송 및 유효성 검사
 			$('.submit').on('click', function(){
 				
-				
-				//글제목 변수
 				var placeSubject = $('.bodycontent2input').val().trim();
-				//지도주소 변수
 				var placeArea =  $('.placeinput').val();
-				//총토탈금액 변수
 				var placePrice = $('.totalprice').text();
-				if (placePrice == "") {
-					var placePrice = 0;
-				}
-				//글내용 변수
 				var placeContent = $('.placeContent').val();
-				//평점 변수
 				var placeGrade = rating.rate;
-				//카테고리 변수
-				var placeKategorie = $('#category option:selected').val();
-				//음식리스트 및 가격 변수
-				var foodList = []
-				var foods = document.querySelectorAll('#table-foods tbody tr')
-				for(var i = 0; i < foods.length; i++) {
-				    var foodName = foods[i].querySelector('input[name="menu"]').value
-				    var foodPrice = foods[i].querySelector('input[name="price"]').value
-				    if (foodName.length > 0 && foodPrice.length > 0) {
-				        foodList.push({ foodName, foodPrice })
-				    }
-				}
+				//메뉴 값
+				var menu = $('.menu').val();
+				var menu1 = $('.menu1').val();
+				var menu2 = $('.menu2').val();
+				var menu3 = $('.menu3').val();
+				var menu4 = $('.menu4').val();
 				
-				//formData 추가
+				//메뉴의 가격
+				var memuPrice = $('.tablenumber').val();
+				var memuPrice1 = $('.tablenumber1').val();
+				var memuPrice2 = $('.tablenumber2').val();
+				var memuPrice3 = $('.tablenumber3').val();
+				var memuPrice4 = $('.tablenumber4').val();
+				var foodList = []
+				
+				foodList.push({'menu' : menu, 'menuPrice' : memuPrice});
+				foodList.push({'menu' : menu1, 'menuPrice' : memuPrice1});
+				foodList.push({'menu' : menu2, 'menuPrice' : memuPrice2});
+				foodList.push({'menu' : menu3, 'menuPrice' : memuPrice3});
+				foodList.push({'menu' : menu4, 'menuPrice' : memuPrice4});
+				console.log(foodList);
+				
+				
 				var formData = new FormData();
-				//formData 파일추가
 				for (var i = 0; i < sel_files.length; i++) {
 					formData.append("file", sel_files[i]);
 				}
-				//formData 음식리스트 추가
-				for (var i =0; i< foodList.length; i++) {
-					formData.append("foods["+i+"].foodName", foodList[i].foodName);
-					formData.append("foods["+i+"].foodPrice", foodList[i].foodPrice);
-				}
-				// 글 내용들 추가
-				formData.append('placeSubject', placeSubject);
+				
+				/* formData.append('placeSubject', placeSubject);
 				formData.append('placeArea', placeArea);
 				formData.append('placePrice', placePrice);
 				formData.append('placeContent', placeContent);
 				formData.append('placeGrade', placeGrade);
-				formData.append('placeKategorie', placeKategorie);
+				formData.append('placeFood', foodList);
 				
 				$.ajax({
 					type : 'POST'
-					, url : '/main/places/good'
+					, url : '/test'
 					, data : formData
 					, enctype : "multipart/form-data"
 					, processData : false
@@ -390,9 +656,24 @@
 					, error : function(e) {
 						alert("에러입니다. 관리자에게 문의하세요");
 					}
-				})  
+				})  */
+				 
+				
+				
+				
 			})
+		
+		
+		
+		
 		} ('att_zone', 'btnAtt');
 			////////////////////////////////////////////////////////////////////////파일 업로드 시 닫기
+			
+			
+			
+		
+		
+		
 </script>
+
 </html>

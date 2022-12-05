@@ -13,7 +13,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
+
 
 <!--font  -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,58 +22,32 @@
 
 </head>
 <body>
-	<div class="main d-flex">
-		<div class="login" >
-			<div class="black"></div>
-			<img src="/static/img/login2.jpg" class="loginimg">
-		</div>
-		<div class="login-2">
-			<div class="login-wrapper">
-		        <h2 onclick="clickmove('/login')">그때그곳</h2>
-		        <div id="login-form">
-		            <input type="text" placeholder="아이디" id="userId">
-		            <input type="password" placeholder="비밀번호" id="userPwd">
-		            <label for="remember-check">
-		                <input type="checkbox" id="remember-check">아이디 저장하기
-		            </label>
-		            <label for="remember-maintain">
-		            	<input type="checkbox" id="remember-maintain">로그인 상태유지
-		            </label>
-		            <input type="submit" value="Login" id = "login">
-		        </div>
-		        <hr>
-		        <p class="find">
-		        <span><a href="/login/user-id">아이디 찾기</a></span>
-		        <span><a href="/login/user-pwd">비밀번호 찾기</a></span>
-		        <span><a href="/login/sign-up" >회원가입</a></span>
-		    	</p>
-		    </div>
-	    </div>
+	<div class="login-wrapper">
+        <h2 onclick="clickmove('/login')">그때그곳</h2>
+        <div id="login-form">
+            <input type="text" placeholder="아이디" id="userId">
+            <input type="password" placeholder="비밀번호" id="userPwd">
+            <label for="remember-check">
+                <input type="checkbox" id="remember-check">아이디 저장하기
+            </label>
+            <label for="remember-maintain">
+            	<input type="checkbox" id="remember-maintain">로그인 상태유지
+            </label>
+            <input type="submit" value="Login" id = "login">
+        </div>
+        <hr>
+        <p class="find">
+        <span><a href="/login/user-id">아이디 찾기</a></span>
+        <span><a href="/login/user-pwd">비밀번호 찾기</a></span>
+        <span><a href="/login/sign-up" >회원가입</a></span>
+    	</p>
     </div>
 </body>
 <script type="text/javascript">
 	
-	
-	//인터벌
-	$(document).ready(function(){
-	var imgList = ["/static/img/login2.png", "/static/img/login2.jpg", "/static/img/login3.png", "/static/img/login4.jpg"];
-	var num = 0;
-	var changeImg = function(){
-		$(".loginimg").attr("src" , imgList[num]);
-		num ++;
-		if (num == 4) {
-			num = 0;
-		}
-	}
-		setInterval(changeImg, "3000");
-	})
-	
-	//이동 event
 	function clickmove(result){
 		location.href = result;	
 	}
-	
-	
 
 	
 	
@@ -86,7 +60,6 @@
  		}
  	});
 	
-
 	
 	//로그인 버튼 클릭시 로그인 event
 	$('#login').on('click', function(){
@@ -120,6 +93,7 @@
 				}
 				//중복이 아닐때 => 즉 아이디랑 비밀번호가 맞음 board 페이지로 이동
 				else {
+					alert("김기훈님은 저희와 함께 갑시다!!!")
 					location.href="/main"
 				}
 			}
@@ -127,6 +101,8 @@
 				alert("에러");
 			}
 		}) /*ajax 닫기  */
+		
+		
 	}) /* login 버튼 event 닫기  */
 	
 
