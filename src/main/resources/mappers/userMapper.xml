@@ -96,4 +96,20 @@
 		WHERE
 			`userId` = #{userId}
  	</update>
+ 	<select id="selectUserById" parameterType="String" resultType="com.FirstProject.login.model.User">
+ 		SELECT
+ 			`userId`
+			,`userPwd`
+			,`userNickName`
+			,`userProfilePhoto`
+			,`userEmail`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`user`
+		WHERE
+			`userId` = #{userId}
+ 	
+ 	
+ 	</select>
  </mapper>

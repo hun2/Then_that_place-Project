@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.FirstProject.badplace.dao.BadPlaceDAO"> 
+ 
+ 	<select id="selectList" resultType="com.FirstProject.goodplace.model.Place" parameterType="string">
+ 		select 
+ 			* 
+ 		from 
+ 			place
+ 		WHERE
+ 			`placeWhether` = 'b'
+ 		AND `userId` = #{userId}
+ 		ORDER BY placeCreatedAt DESC
+ 	</select>
+ 	
+ 	<select id="selectListLimit3" resultType="com.FirstProject.goodplace.model.Place" parameterType="string">
+ 		select 
+ 			* 
+ 		from 
+ 			place
+ 		WHERE
+ 			`placeWhether` = 'b'
+ 		AND `userId` = #{userId}
+ 		ORDER BY placeCreatedAt DESC
+ 		LIMIT 3
+ 	</select>
+ 	
+ 	<select id="selectPlaceByCategorie" parameterType="map" resultType="com.FirstProject.goodplace.model.Place">
+ 		SELECT
+ 			`id`
+			,`userId`
+			,`placeWhether`
+			,`placeKategorie`
+			,`placeArea`
+			,`placeGrade`
+			,`placePrice`
+			,`placeSubject`
+			,`placeContent`
+			,`placeCreatedAt`
+			,`placeUpdatedAt`
+ 		FROM
+ 			place
+ 		WHERE
+ 			`placeWhether` = 'b'
+ 		<if test="startDay != '' and endDay != ''">
+ 		AND
+ 		DATE_FORMAT(`placeCreatedAt`, '%Y-%m-%d') BETWEEN #{startDay} AND #{endDay}
+ 		</if>
+ 		<if test="placeArea != '' ">
+ 		AND
+ 		`placeArea` = #{placeArea}
+ 		</if>
+ 		<if test="placeKategorie != '' ">
+ 		AND
+ 		`placeKategorie` = #{placeKategorie}
+ 		</if>
+ 		<if test="minPrice != null and maxPrice != null">
+ 		AND
+ 		`placePrice` BETWEEN #{minPrice} AND #{maxPrice}
+ 		</if>
+ 		<if test="minGrade != null and maxGrade != null">
+ 		AND
+ 		`placeGrade` BETWEEN #{minGrade} AND #{maxGrade}
+ 		</if>
+ 		order by placeCreatedAt desc
+ 	</select>
+ 	
+ 	<select id="selectImageByCategorie" parameterType="List" resultType="com.FirstProject.goodplace.model.PlaceImage">
+ 		SELECT
+ 			`id`
+			,`placeId`
+			,`imagePath`
+			,`imageCreatedAt`
+			,`imageUpdatedAt`
+ 		FROM
+ 			`placeimage`
+ 		 WHERE 1 = 1
+  		 AND (`ID`, `PLACEID`) IN (
+       	SELECT MIN(ID) AS ID, PLACEID
+         FROM `PLACEIMAGE`
+        WHERE PLACEID IN (
+        <foreach collection="list" item="item" separator=",">
+ 			#{item.id}
+ 		</foreach>
+        )
+     	GROUP BY PLACEID
+   		)
+   		order by imageCreatedAt desc
+ 	</select>
+ 
+ </mapper>

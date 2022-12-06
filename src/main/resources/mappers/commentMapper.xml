@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.FirstProject.daily.dao.CommentDAO">
+	<insert id="insertCommentByDailyIdandUserId" parameterType="com.FirstProject.daily.model.Comment" >
+ 		INSERT INTO `comment`
+ 		(
+			`dailyId`
+			,`userId`
+			,`comment`
+			,`commentCreatedAt`
+			,`commentUpdatedAt`
+ 		)
+ 		VALUES
+ 		(
+ 			#{dailyId}
+ 			,#{userId}
+ 			,#{comment}
+ 			, NOW()
+ 			, NOW()
+ 		)
+ 	</insert>
+
+	<select id="selectCommentCountByDailyId" parameterType="int" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM
+			`comment`
+		WHERE
+			`dailyId` = #{dailyId}
+	</select>
+	
+	<select id="selectCommentListByDailyId" parameterType="int" resultType="com.FirstProject.daily.model.Comment">
+	
+		SELECT
+			`commentId`
+			,`dailyId`
+			,`userId`
+			,`comment`
+			,`commentCreatedAt`
+			,`commentUpdatedAt`
+		FROM
+			`comment`
+		WHERE
+			`dailyId` = #{dailyId}
+	</select>
+
+</mapper>
