@@ -298,10 +298,24 @@ li {
 
 
 
-/* 모달 */
+/* modal3 */
+
+/*swiper*/
+.swiper-container {
+	width: 100%;
+ 	height: 100%;
+}
+.swiper-slide {
+	text-align:center;
+	align-items:center; /* 위아래 기준 중앙정렬 */
+	justify-content:center; /* 좌우 기준 중앙정렬 */
+	display:flex;
+}
+.swiper-slide img {
+	width : 100%;
+}
 
 
-/* 게시글 클릭시 미리보기 모달 */
 
 .modal3 {
   position: absolute;
@@ -341,15 +355,6 @@ li {
 	width: 400px;
 	background-color: white;
 }
-
-.modal3_leftimg {
-	width : 600px;
-	height : 600px;
-	object-fit: cover;
-    padding-top: 20px;
-    padding-bottom: 20px;
-}
-
 
 .info {
 	 width: 100%;
@@ -401,12 +406,30 @@ li {
 	justify-content: center;
 	align-items: center;
 	padding-left: 20px;
-	padding-top: 10px;
 }
 
 .info2 {
 	width: 100%;
     height: auto;
+}
+
+
+.subject , .content, .placeArea {
+	margin-left: 15px;
+	margin-top: 10px;
+}
+
+.placeArea {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.day {
+	font-size: 12px;
+	margin-right: 10px;
+}
+.content {
+	font-size: 12px;
 }
 
 .dropdown-submenu2 {
@@ -499,4 +522,73 @@ li {
 	color: rgb(0, 162, 255);
 	display: block;
 	width: 40px;
+}
+
+
+/*modal4   */
+.modal4 , .modal5 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal4.show, .modal5.show {
+	display: block;
+}
+
+.modal4_body, .modal5_body{
+	
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: 400px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.followertitle {
+	height : 30px;
+	width : 100%;
+	display: flex;
+	justify-content: center;
+	padding-top: 10px;
+	font-size: 17px;
+	margin-bottom: 15px;
+}
+
+.user {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	
+}
+.userfollow .profile-pic {
+	
+	height: 60px;
+	width: 60px;
+	padding: 0;
+	background: none;
+}
+.followusername {
+	width: auto;
+	font-weight: bold;
+	color: #000;
+	font-size: 14px;
+	margin-left: 10px;
+	margin-top: 14px;
+}
+.userfollow {
+	display: flex;
+}
+.deletefollow, .deletefollowed {
+	width: 35px;
+	margin-right: 10px;
+	border: 1px solid #dfdfdf;
 }

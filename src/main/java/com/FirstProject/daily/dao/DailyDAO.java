@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.FirstProject.common.DailyImage;
 import com.FirstProject.daily.model.Comment;
 import com.FirstProject.daily.model.Daily;
+import com.FirstProject.goodplace.model.Place;
 import com.FirstProject.login.model.User;
 
 @Repository
@@ -36,6 +37,12 @@ public interface DailyDAO {
 	
 	//남의일상 게시글 가져오기
 	public List<Daily> selectOtherList(String userId);
+	
+	//남의 맛집 게시글 가져오기
+	public List<Place> selectOtherPlaceList(String userId);
+	
+	//남의 노맛집 게시글 가져오기
+	public List<Place> selectOtherBadPlaceList(String userId);
 	
 	
 	//본인 게시글 가져오기

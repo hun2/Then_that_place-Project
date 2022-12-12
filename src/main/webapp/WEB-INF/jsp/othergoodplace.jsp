@@ -88,7 +88,7 @@
 		<!-- 중간바디 - 중간 시작  -->
 		<div class="middlecontent">
 			<div class="wrapper">
-				<c:forEach items="${OtherDailycardViewList}" var="cardView">
+				<c:forEach items="${OtherGoodPlaceCardViewList}" var="cardView">
 					<div class="post">
 						<div class="info">
 							<div class="user">
@@ -98,27 +98,27 @@
 									</a>
 								</div>
 								<a href="/otherpage?userId=${cardView.user.userId}">
-									<p class="username">${cardView.daily.userId}</p>
+									<p class="username">${cardView.place.userId}</p>
 								</a>
 							</div>
 						</div>
 						<!--이 부분은 추후에 페이지 따로 만들어서 구현해야함 => 남의 글 상세페이지 수정권한/삭제권한 없이 오로지 볼 수 있도록  -->
-						<a href="/main/otherdaily-detail?dailyId=${cardView.daily.id}">
-							<img src="${empty cardView.dailyImage[0].imagePath ? '/static/img/no.png' : cardView.dailyImage[0].imagePath}" class="post-image">
+						<a href="/main/othergoodplace-detail?placeId=${cardView.place.id}">
+							<img src="${empty cardView.placeImage[0].imagePath ? '/static/img/no.png' : cardView.placeImage[0].imagePath}" class="post-image">
 						</a>
 						<div class="post-content">
 							<div class="reaction-wrapper">
 								<div>
-									<img src="${cardView.filledLike eq true ? '/static/img/liked.png' : '/static/img/like.png'}" class="icon" data-id="${cardView.daily.id}">
+									<img src="${cardView.filledLike eq true ? '/static/img/liked.png' : '/static/img/like.png'}" class="icon" data-id="${cardView.place.id}">
 									<span class="likes">${cardView.likeCount} likes</span>
 								</div>
 								<div class="date">
-									<fmt:formatDate value="${cardView.daily.dailyCreatedAt}" pattern="yyyy-MM-dd" />
+									<fmt:formatDate value="${cardView.place.placeCreatedAt}" pattern="yyyy-MM-dd" />
 								</div>								
 							</div>
 							
-							제목 : ${cardView.daily.dailySubject} <br>
-							내용 : ${cardView.daily.dailyContent} <br>
+							제목 : ${cardView.place.placeSubject} <br>
+							내용 : ${cardView.place.placeContent} <br>
 							이 부분은 제목 내용 어케나눌지 추후에 생각
 							
 							<!--댓글보기  -->
@@ -137,7 +137,7 @@
 							<!--댓글쓰기  -->
 							<div class="post-content-comment">
 								<input type="text" placeholder="댓글달기.." class="content-commnet">
-								<a class="push" data-daily-id="${cardView.daily.id}">게시</a>
+								<a class="push" data-daily-id="${cardView.place.id}">게시</a>
 							</div>
 						</div>
 					</div>
@@ -202,7 +202,7 @@ $(function(){
 			$.ajax({
 			
 				type : "POST"
-				,url : "/main/daily/like"
+				,url : "/main/othergoodplace/like"
 				, data : {id}
 				, success : function(result) {
 					if ( result.code == 100) {
@@ -218,13 +218,6 @@ $(function(){
 			})
 		})
 		
-		//엔터키로 댓글쓰기 버튼 click event
-		$(".content-commnet").keydown(function(keyNum){
-			
-			if(keyNum.keyCode == 13){ 
-				console.log($(this).data(keyNum));
-			}
-		})
 		
 		//댓글쓰기 event
 		$(".push").on("click", function(){
@@ -234,7 +227,7 @@ $(function(){
 			$.ajax({
 				
 				type : "POST"
-				, url : "/main/daily-comment"
+				, url : "/main/othergoodplace/comment"
 				, data : {id, comment}
 				, success : function(result){
 					if ( result.code == 100) {

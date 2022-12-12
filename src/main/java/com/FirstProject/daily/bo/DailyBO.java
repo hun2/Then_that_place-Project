@@ -92,6 +92,17 @@ public class DailyBO {
 		return dailyDao.selectOtherList(userId);
 	}
 	
+	//남의맛집 게시글 가져오기
+	public List<Place> getOtherPlaceList(String userId) {
+		
+		return dailyDao.selectOtherPlaceList(userId);
+	}
+	//남의 노맛집 게시글 가져오기
+	public List<Place> getOtherBadPlaceList(String userId) {
+		
+		return dailyDao.selectOtherBadPlaceList(userId);
+	}
+	
 	
 	
 	//개인 글 가져오기

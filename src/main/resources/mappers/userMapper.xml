@@ -34,6 +34,29 @@
  		)
  	
  	</insert>
+ 	<!--카카오 insert  -->
+ 	<insert id="insertKaKaoUser" parameterType="map">
+ 		INSERT INTO `user`
+ 		(
+ 			`userId`
+			,`userNickName`
+			,`userEmail`
+			,`createdAt`
+			,`updatedAt`
+ 		)
+ 		VALUES
+ 		(
+ 			#{userId}
+ 			,#{userNickName}
+ 			,#{userEmail}
+ 			, NOW()
+ 			, NOW()
+ 		)
+ 	
+ 	</insert>
+ 	
+ 	
+ 	
  	<select id="selectLoginUserByUserIdUserPwd" parameterType="com.FirstProject.login.model.User" resultType="com.FirstProject.login.model.User">
  		SELECT
  			`userId`
@@ -109,7 +132,20 @@
 			`user`
 		WHERE
 			`userId` = #{userId}
+ 	</select>
  	
- 	
+ 	<select id="selectUserByUser" parameterType="com.FirstProject.login.model.User" resultType="com.FirstProject.login.model.User">
+ 		SELECT
+ 			`userId`
+			,`userPwd`
+			,`userNickName`
+			,`userProfilePhoto`
+			,`userEmail`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`user`
+		WHERE
+			`userId` = #{userId}
  	</select>
  </mapper>

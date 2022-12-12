@@ -88,5 +88,24 @@
    		)
    		order by imageCreatedAt desc
  	</select>
- 
+ 	<select id="selectPlaceByPlaceId" parameterType="int" resultType="com.FirstProject.goodplace.model.Place">
+ 		SELECT
+ 			`id`
+			,`userId`
+			,`placeWhether`
+			,`placeKategorie`
+			,`placeArea`
+			,`placeGrade`
+			,`placePrice`
+			,`placeSubject`
+			,`placeContent`
+			,`placeCreatedAt`
+			,`placeUpdatedAt`
+ 		FROM
+ 			place
+ 		WHERE
+ 			`placeWhether` = 'b'
+ 		AND
+ 			`id` = #{placeId}
+ 	</select>
  </mapper>

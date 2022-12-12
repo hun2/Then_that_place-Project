@@ -55,7 +55,7 @@
 					<a class="link_util link_login" href="/mypage">마이페이지</a>
 				</li>
 				<li>
-					<a class="link_util link_login" href="/logout">로그아웃</a>
+					 <a class="link_util link_login" href="https://kauth.kakao.com/oauth/logout?client_id=e56521988fe16e2c16007460891b5a7f&logout_redirect_uri=http://localhost:8080/logout">로그아웃</a>
 				</li>
 				<li><a class="btn_search" href="/search">
 					<span class="ico_search"><img src=""></span></a>
@@ -103,7 +103,7 @@
 						<div class="date">
 							<fmt:formatDate value="${badPlace.place.placeCreatedAt}" pattern="yyyy-MM-dd" />
 						</div>
-						<a href="/main/places/bad-detail?placeId=${badPlace.place.id}"><img src="${badPlace.placeImage[0].imagePath}" class="bodyimg"> </a>
+						<a href="/main/places/bad-detail?placeId=${badPlace.place.id}"><img src="${empty badPlace.placeImage[0].imagePath ? '/static/img/no.png' : goodPlace.placeImage[0].imagePath }" class="bodyimg"> </a>
 					</div>
 				</c:forEach>
 			</div>

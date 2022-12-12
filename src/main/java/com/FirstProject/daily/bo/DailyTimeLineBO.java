@@ -11,6 +11,9 @@ import com.FirstProject.daily.model.CommentView;
 import com.FirstProject.daily.model.Daily;
 import com.FirstProject.daily.model.DailyCardView;
 import com.FirstProject.daily.model.DailyImage2;
+import com.FirstProject.daily.model.PlaceCardView;
+import com.FirstProject.goodplace.bo.GoodPlaceBO;
+import com.FirstProject.goodplace.bo.PlaceImageBO;
 import com.FirstProject.goodplace.model.CardView;
 import com.FirstProject.goodplace.model.Place;
 import com.FirstProject.goodplace.model.PlaceImage;
@@ -34,6 +37,9 @@ public class DailyTimeLineBO {
 	
 	@Autowired
 	private LikeBO likeBo;
+	
+	@Autowired
+	private PlaceImageBO placeImageBo;
 	
 	public List<DailyCardView> generateDailyCardList(String userId) {
 		
@@ -111,7 +117,7 @@ public class DailyTimeLineBO {
 	
 	
 	
-	//남의 일상 ( 팔로우중인 사람들 글 보여주는 것 )
+	//남의 일상글 ( 팔로우중인 사람들 글 보여주는 것 )
 	public List<DailyCardView> generateOtherDailyCardList(String userId) {
 		
 		// 최종 리턴 리스트 생성
@@ -155,7 +161,93 @@ public class DailyTimeLineBO {
 		return OtherDailycardViewList;
 	}
 	
+	//남의 맛집글 ( 팔로우중인 사람들 글 보여주는 것 )
+	public List<PlaceCardView> generateOtherGoodPlaceCardList(String userId) {
+			
+			// 최종 리턴 리스트 생성
+			List<PlaceCardView> OtherGoodPlacecardViewList = new ArrayList<>();
+					
+			// 글 목록 가져오기
+			List<Place> dailyList = dailyBo.getOtherPlaceList(userId);
+			
+			for(Place place : dailyList) {
+				
+				PlaceCardView card = new PlaceCardView();
+				
+				
+				//글정보
+				card.setPlace(place);
+				
+				//글쓴이
+				User user = userBo.getUserById(place.getUserId());
+				card.setUser(user);
+				
+				//사진들 정보
+				List<PlaceImage> ImageList = placeImageBo.getPlaceImageByPlaceId(place.getId());
+				card.setPlaceImage(ImageList);
+				
+				//댓글 정보
+				List<CommentView> commentList = commentBo.generateGoodPlaceCommentViewListByPlaceId(place.getId());
+				card.setCommentList(commentList);
+				
+				//댓글갯수
+				card.setCommnetCount(commentBo.getGoodPlaceCommentCountByPlaceId(place.getId()));
+				
+				//좋아요 갯수
+				card.setLikeCount(likeBo.getLikeCountGoodPlaceByPlaceIdAndUserId(place.getId()));
+				
+				//좋아요 눌렀는지 체크여부
+				
+				card.setFilledLike(likeBo.existGoodPlaceLike(place.getId(), userId));
+				
+				OtherGoodPlacecardViewList.add(card);
+			}
+			return OtherGoodPlacecardViewList;
+		}
 	
-	
+	//남의 노맛집글 ( 팔로우중인 사람들 글 보여주는 것 )
+		public List<PlaceCardView> generateOtherBadPlaceCardList(String userId) {
+				
+				// 최종 리턴 리스트 생성
+				List<PlaceCardView> OtherBadPlacecardViewList = new ArrayList<>();
+						
+				// 글 목록 가져오기
+				List<Place> dailyList = dailyBo.getOtherBadPlaceList(userId);
+				
+				for(Place place : dailyList) {
+					
+					PlaceCardView card = new PlaceCardView();
+					
+					
+					//글정보
+					card.setPlace(place);
+					
+					//글쓴이
+					User user = userBo.getUserById(place.getUserId());
+					card.setUser(user);
+					
+					//사진들정보
+					List<PlaceImage> ImageList = placeImageBo.getPlaceImageByPlaceId(place.getId());
+					card.setPlaceImage(ImageList);
+					
+					//댓글 정보
+					List<CommentView> commentList = commentBo.generateBadPlaceCommentViewListByPlaceId(place.getId());
+					card.setCommentList(commentList);
+					
+					//댓글갯수
+					card.setCommnetCount(commentBo.getBadPlaceCommentCountByPlaceId(place.getId()));
+					
+					//좋아요 갯수
+					card.setLikeCount(likeBo.getLikeCountbadPlaceByPlaceIdAndUserId(place.getId()));
+					
+					//좋아요 눌렀는지 체크여부
+					
+					card.setFilledLike(likeBo.existbadPlaceLike(place.getId(), userId));
+					
+					OtherBadPlacecardViewList.add(card);
+				}
+				return OtherBadPlacecardViewList;
+			}
+		
 	
 }

@@ -38,6 +38,11 @@ public class UserBO {
 		return userDao.insertUser(user);
 	}
 	
+	//카카오 회원가입 - insert
+	public int addKaKaoUser(String userId, String userNickName, String userEmail) {
+		
+		return userDao.insertKaKaoUser(userId, userNickName, userEmail);
+	}
 	
 	//로그인 - 아이디 및 패스워드 일치여부
 	public User getLoginUserByUserIdUserPwd(User user) {
@@ -75,5 +80,12 @@ public class UserBO {
 	public User getUserById(String uid) {
 		
 		return userDao.selectUserById(uid);
+	}
+	
+	
+	//마이페이지 이미지 업데이트 시 필요한 쿼리
+	public User getUserByUser(User user) {
+		
+		return userDao.selectUserByUser(user);
 	}
 }

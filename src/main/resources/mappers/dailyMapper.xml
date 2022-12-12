@@ -136,4 +136,30 @@
  		ORDER BY dailyCreatedAt DESC;
  	</select>
  	
+ 	<select id="selectOtherPlaceList" parameterType="String" resultType="com.FirstProject.goodplace.model.Place">
+ 		SELECT
+ 			*
+ 		FROM
+ 			`place`
+ 		WHERE 
+ 			`placeWhether` = 'g'
+ 		AND
+ 		`userId` in 
+ 		(SELECT USERID_FOLLOWED FROM `follow` WHERE USERID_FOLLOWER = #{userId} )
+ 		ORDER BY placeCreatedAt DESC;
+ 	</select>
+ 	
+ 	<select id="selectOtherBadPlaceList" parameterType="String" resultType="com.FirstProject.goodplace.model.Place">
+ 		SELECT
+ 			*
+ 		FROM
+ 			`place`
+ 		WHERE 
+ 			`placeWhether` = 'b'
+ 		AND
+ 		`userId` in 
+ 		(SELECT USERID_FOLLOWED FROM `follow` WHERE USERID_FOLLOWER = #{userId} )
+ 		ORDER BY placeCreatedAt DESC;
+ 	</select>
+ 	
  </mapper>

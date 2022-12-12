@@ -5,7 +5,8 @@
 	<insert id="insertCommentByDailyIdandUserId" parameterType="com.FirstProject.daily.model.Comment" >
  		INSERT INTO `comment`
  		(
-			`dailyId`
+ 			`category`
+			,`id`
 			,`userId`
 			,`comment`
 			,`commentCreatedAt`
@@ -13,7 +14,8 @@
  		)
  		VALUES
  		(
- 			#{dailyId}
+ 			#{category}
+ 			,#{id}
  			,#{userId}
  			,#{comment}
  			, NOW()
@@ -21,20 +23,47 @@
  		)
  	</insert>
 
+	<!--일상 댓글 갯수  -->
 	<select id="selectCommentCountByDailyId" parameterType="int" resultType="int">
 		SELECT
 			COUNT(1)
 		FROM
 			`comment`
 		WHERE
-			`dailyId` = #{dailyId}
+			`category` = 'd'
+		AND
+			`id` = #{dailyId}
+	</select>
+	
+	<!--맛집 댓글 갯수  -->
+	<select id="selectGoodPlaceCommentCountByPlaceId" parameterType="int" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM
+			`comment`
+		WHERE
+			`category` = 'g'
+		AND
+			`id` = #{placeId}
+	</select>
+	
+	<!--노맛집 댓글 갯수  -->
+	<select id="selectBadPlaceCommentCountByPlaceId" parameterType="int" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM
+			`comment`
+		WHERE
+			`category` = 'b'
+		AND
+			`id` = #{placeId}
 	</select>
 	
 	<select id="selectCommentListByDailyId" parameterType="int" resultType="com.FirstProject.daily.model.Comment">
-	
 		SELECT
 			`commentId`
-			,`dailyId`
+			,`category`
+			,`id`
 			,`userId`
 			,`comment`
 			,`commentCreatedAt`
@@ -42,7 +71,77 @@
 		FROM
 			`comment`
 		WHERE
-			`dailyId` = #{dailyId}
+			`category` = 'd'
+		AND
+			`id` = #{dailyId}
 	</select>
-
+	
+	<select id="selectGoodPlaceCommentListByPlaceId" parameterType="int" resultType="com.FirstProject.daily.model.Comment">
+		SELECT
+			`commentId`
+			,`category`
+			,`id`
+			,`userId`
+			,`comment`
+			,`commentCreatedAt`
+			,`commentUpdatedAt`
+		FROM
+			`comment`
+		WHERE
+			`category` = 'g'
+		AND
+			`id` = #{placeId}
+	</select>
+	<select id="selectbadPlaceCommentListByPlaceId" parameterType="int" resultType="com.FirstProject.daily.model.Comment">
+		SELECT
+			`commentId`
+			,`category`
+			,`id`
+			,`userId`
+			,`comment`
+			,`commentCreatedAt`
+			,`commentUpdatedAt`
+		FROM
+			`comment`
+		WHERE
+			`category` = 'b'
+		AND
+			`id` = #{placeId}
+	</select>
+	
+	
+	<select id="selectCommentOtherGoodPlaceListByPlaceId" parameterType="int" resultType="com.FirstProject.daily.model.Comment">
+		SELECT
+			`commentId`
+			,`category`
+			,`id`
+			,`userId`
+			,`comment`
+			,`commentCreatedAt`
+			,`commentUpdatedAt`
+		FROM
+			`comment`
+		WHERE
+			`category` = 'g'
+		AND
+			`id` = #{placeId}
+	</select>
+	
+	<select id="selectCommentOtherbadPlaceListByPlaceId" parameterType="int" resultType="com.FirstProject.daily.model.Comment">
+		SELECT
+			`commentId`
+			,`category`
+			,`id`
+			,`userId`
+			,`comment`
+			,`commentCreatedAt`
+			,`commentUpdatedAt`
+		FROM
+			`comment`
+		WHERE
+			`category` = 'b'
+		AND
+			`id` = #{placeId}
+	</select>
+	
 </mapper>

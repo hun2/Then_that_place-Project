@@ -137,7 +137,7 @@ public class DailyRestController {
 		User users = (User) session.getAttribute("loginUser");
 		String userId = users.getUserId();
 		comment.setUserId(userId);
-		
+		comment.setCategory("d");
 		Map<String, Object> result =  new HashMap<>();
 		int num = commentBo.addCommentByDailyIdandUserId(comment);
 		if(num > 0) {
@@ -150,11 +150,11 @@ public class DailyRestController {
 	
 	//좋아요 체크
 	@PostMapping("/main/daily/like")
-	public Map<String, Object> lije (HttpSession session, @RequestParam("dailyId") int dailyId) {
+	public Map<String, Object> lije (HttpSession session, @RequestParam("id") int id) {
 		User users = (User) session.getAttribute("loginUser");
 		String userId = users.getUserId();
 		Map<String, Object> result =  new HashMap<>();
-		int num = likeBo.likeToggle(userId, dailyId);
+		int num = likeBo.likeToggle(userId, id);
 		if(num > 0) {
 			result.put("code", 100);
 		} else {

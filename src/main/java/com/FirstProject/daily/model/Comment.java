@@ -7,7 +7,8 @@ public class Comment {
 	
 	
 	private int commentId;
-	private int dailyId;
+	private String category;
+	private int Id;
 	private String userId;
 	private String comment;
 	private Date commentCreatedAt;
@@ -20,11 +21,21 @@ public class Comment {
 	public void setCommentId(int commentId) {
 		this.commentId = commentId;
 	}
-	public int getDailyId() {
-		return dailyId;
+	
+	
+	
+	
+	public String getCategory() {
+		return category;
 	}
-	public void setDailyId(int dailyId) {
-		this.dailyId = dailyId;
+	public void setCategory(String category) {
+		this.category = category;
+	}
+	public int getId() {
+		return Id;
+	}
+	public void setId(int id) {
+		Id = id;
 	}
 	public String getUserId() {
 		return userId;

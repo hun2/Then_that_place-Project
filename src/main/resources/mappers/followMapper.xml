@@ -27,4 +27,48 @@
 			`USERID_FOLLOWED` = #{USERID_FOLLOWED} 	
  	</delete>
  
+ 	<select id="selectFollowByUserId" resultType="com.FirstProject.login.model.User" parameterType="string">
+ 		SELECT
+ 			`userId`
+			,`userPwd`
+			,`userNickName`
+			,`userProfilePhoto`
+			,`userEmail`
+			,`createdAt`
+			,`updatedAt`
+ 		FROM `user`
+ 		WHERE `userId` IN 
+ 		(SELECT `USERID_FOLLOWER` FROM `follow` WHERE `USERID_FOLLOWED` = #{userId}) 
+ 	</select>
+ 	<select id="selectFollowCountByUserId" parameterType="string" resultType="int">
+ 		SELECT
+ 			COUNT(*)
+		FROM
+			`follow`
+		WHERE
+			`USERID_FOLLOWER` = #{userId}
+ 	</select>
+ 	
+ 	<select id="selectFollowedByUserId" resultType="com.FirstProject.login.model.User" parameterType="string">
+ 		SELECT
+ 			
+ 			`userId`
+			,`userPwd`
+			,`userNickName`
+			,`userProfilePhoto`
+			,`userEmail`
+			,`createdAt`
+			,`updatedAt`
+ 		FROM `user`
+ 		WHERE `userId` IN 
+ 		(SELECT `USERID_FOLLOWED` FROM `follow` WHERE `USERID_FOLLOWER` = #{userId}) 
+ 	</select>
+ 	<select id="selectFollowedCountByUserId" parameterType="string" resultType="int">
+ 		SELECT
+ 			COUNT(*)
+		FROM
+			`follow`
+		WHERE
+			`USERID_FOLLOWED` = #{userId}
+ 	</select>
  </mapper>

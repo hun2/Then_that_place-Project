@@ -69,4 +69,5 @@ public interface GoodPlaceDAO {
 	
 	//게시글 id로 게시글 가져오기
 	public Place selectPlaceByPlaceId(int placeId);
+	
 }

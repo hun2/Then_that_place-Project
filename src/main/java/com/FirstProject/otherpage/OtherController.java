@@ -1,4 +1,4 @@
-package com.FirstProject.mypage;
+package com.FirstProject.otherpage;
 
 import java.util.List;
 
@@ -8,18 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.FirstProject.daily.bo.DailyTimeLineBO;
 import com.FirstProject.daily.bo.FollowBO;
 import com.FirstProject.daily.model.DailyCardView;
-import com.FirstProject.daily.model.Follow;
 import com.FirstProject.goodplace.bo.TimeLineBO;
 import com.FirstProject.goodplace.model.CardView;
+import com.FirstProject.login.bo.UserBO;
 import com.FirstProject.login.model.User;
 
 @Controller
-public class MypageController {
+public class OtherController {
 
 	@Autowired
 	private DailyTimeLineBO dailyTimeLineBo;
@@ -30,19 +30,27 @@ public class MypageController {
 	@Autowired
 	private TimeLineBO timeLineBo;
 	
-	//마이페이지 접속
-	@RequestMapping("/mypage")
-	public String mypage(HttpSession session, Model model) {
+	@Autowired
+	private UserBO userBo;
+	
+	@RequestMapping("/otherpage")
+	public String otherpage( HttpSession session, Model model ,@RequestParam("userId") String userId) {
+		//세션
 		User users = (User) session.getAttribute("loginUser");
-		String userId = users.getUserId();
+		//파라미터넘긴 userId의 정보 
+		User uid = userBo.getUserById(userId);
 		
-		
+		//일상게시글들
 		List<DailyCardView> dailyCardViewList = dailyTimeLineBo.generateDailyCardList(userId);
+		//맛집게시글들
 		List<CardView> cardViewList = timeLineBo.generateCardList(userId);
+		//노맛집게시글들
 		List<CardView> badCardViewList = timeLineBo.generateBadCardList(userId);
+		//팔로워리스트들
 		List<User> FollowedList = followBo.getFollowListByUserId(userId);
 		int FollowCount = followBo.getFollowCountByUserId(userId);
 		
+		//팔로우리스트들
 		List<User> FollowList = followBo.getFollowedListByUserId(userId);
 		int FollowedCount = followBo.getFollowedCountByUserId(userId);
 		
@@ -56,6 +64,7 @@ public class MypageController {
 		for ( int h = 0; h < badCardViewList.size(); h++) {
 			num ++;
 		}
+		model.addAttribute("uid", uid);
 		model.addAttribute("dailyCardViewList", dailyCardViewList);
 		model.addAttribute("num", num);
 		model.addAttribute("FollowList", FollowList);
@@ -63,15 +72,7 @@ public class MypageController {
 		model.addAttribute("FollowedList", FollowedList);
 		model.addAttribute("FollowedCount", FollowedCount);
 		
-		return "mypage";
-	}
-	
-	//마이페이지 프로필 설정
-	@RequestMapping("/account/edit")
-	public String edit(HttpSession session) {
-		User users = (User) session.getAttribute("loginUser");
-		String userId = users.getUserId();
 		
-		return "edit";
+		return "otherpage";
 	}
 }

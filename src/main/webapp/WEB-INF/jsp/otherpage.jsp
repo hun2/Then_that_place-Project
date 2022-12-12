@@ -66,20 +66,17 @@
 		</nav>
 	</div>
 	<!--상단 고정바 끝  -->
-	<!-- 중간 바디 시작-->
+	 <!-- 중간 바디 시작-->
 	<section class="section">
 		<header class="profileheader">
 			<div class="profileleft">
 				<div class="profile-pic">
-					<img src="${empty sessionScope.loginUser.userProfilePhoto ?  '/static/img/no.png' : sessionScope.loginUser.userProfilePhoto }">
+					<img src="${empty uid.userProfilePhoto ?  '/static/img/no.png' : uid.userProfilePhoto }">
 				</div>
 			</div>
 			<div class="profileright">
 				<div class="profilename">
-					<span class="userId">${sessionScope.loginUser.userId} </span>
-					<a href="/account/edit">
-						<img src="/static/img/set.png" class="icon2" width="17px" height="17px">
-					</a>
+					<span class="userId">${uid.userId}</span> 
 				</div>
 				<div class="profilecontent">
 					<div class="profilecontentname">게시글</div>
@@ -90,7 +87,7 @@
 					<span class="followed profilecontentcount"> ${FollowCount} </span>
 				</div>
 				<div class="profilenickname">
-					<div>${sessionScope.loginUser.userNickName }</div>
+					<div>${uid.userNickName}</div>
 				</div>
 			</div>
 		</header>
@@ -110,7 +107,6 @@
 		</aside>
 	</section>
 	
-	
 	<div class="modal3">
 		<div class="modal3_body">
 			<div class="modal3_left">
@@ -125,18 +121,15 @@
 					<div class="swiper-pagination"></div>
 				</div>
 			</div>
+			
 			<div class="modal3_right">
 				<div class="info">
 					<div class="user">
 							<div class="profile-pic">
-								<img src="${empty sessionScope.loginUser.userProfilePhoto ?  '/static/img/no.png' : sessionScope.loginUser.userProfilePhoto }">
+								<img src="${empty uid.userProfilePhoto ?  '/static/img/no.png' : uid.userProfilePhoto }">
 							</div>
-							<span class="username">${sessionScope.loginUser.userId}</span>
-					</div>
-					<img src="/static/img/option.png" class="option">
-					<div class="dropdown-submenu2">
-								<a href="/main/daily-detail?dailyId=${cardView.daily.id}" class="dropdown-modify"> 수정</a> 
-								<a href="#none" class="dropdown-delete" id="${cardView.daily.id}"> 삭제</a>
+							<span class="username">${uid.userId}</span>
+							<input type="hidden" value="${sessionScope.loginUser.userId }" class="hiidenuserId">
 					</div>
 				</div>
 				<div class="post-content">
@@ -147,8 +140,6 @@
 						</div>
 					</div>
 					<div class="sample">
-					
-					
 					</div>
 				</div>
 				<div class="post-content-comment">
@@ -158,8 +149,6 @@
 			</div>
 		</div>
 	</div>
-	
-	
 	
 	<div class="modal4">
 		<div class="modal4_body">
@@ -174,12 +163,7 @@
 								<img src="${empty follow.userProfilePhoto ?  '/static/img/no.png' : follow.userProfilePhoto}">
 							</a>
 						</div>
-						<a href="/otherpage?userId=${follow.userId}">
-							<p class="followusername">${follow.userId}</p> 
-						</a>
-					</div>
-					<div>
-						<input type="text" value="삭제" class="deletefollow" data-id="${follow.userId}"> 
+						<a href="/otherpage?userId=${follow.userId}"> <p class="followusername">${follow.userId}</p> </a>
 					</div>
 				</div>
 			</c:forEach>
@@ -199,9 +183,7 @@
 								<img src="${empty followed.userProfilePhoto ?  '/static/img/no.png' : followed.userProfilePhoto}">
 							</a>
 						</div>
-						<a href="/otherpage?userId=${followed.userId}">
-							<p class="followusername">${followed.userId}</p>
-						</a>
+						<a href="/otherpage?userId=${followed.userId}"> <p class="followusername">${followed.userId}</p> </a>
 					</div>
 				</div>
 			</c:forEach>
@@ -210,7 +192,6 @@
 	
 </body>
 <script type="text/javascript">
-	
 	const body = document.querySelector('body');
 	const modal3 = document.querySelector('.modal3');
 	const modal4 = document.querySelector('.modal4');
@@ -252,13 +233,13 @@
 		lazy : {
 			loadPrevNext : true // 이전, 다음 이미지는 미리 로딩
 		},
-
+	
 		// 페이징 설정
 		pagination : {
 			el : '.swiper-pagination',
 			clickable : true, // 페이징을 클릭하면 해당 영역으로 이동, 필요시 지정해 줘야 기능 작동
 		},
-
+	
 		// 네비게이션 설정
 		navigation : {
 			nextEl : '.swiper-button-next', // 다음 버튼 클래스명
@@ -277,9 +258,12 @@
 		
 		//맛집 클릭 시 리스트 event
 		$('.goodplace').on('click', function(){
+			
+			var userId = $('.userId').text();
 			$.ajax({
 				type : "GET"
-				, url : "/mypage/goodplace"
+				, url : "/otherpage/goodplace"
+				, data : {userId}
 				, success : function(result) {
 					
 					$('.item').remove();
@@ -305,9 +289,11 @@
 		
 		//노맛집 클릭시 리스트 event
 		$('.badplace').on('click', function(){
+			var userId = $('.userId').text();
 			$.ajax({
 				type : "GET"
-				, url : "/mypage/badplace"
+				, url : "/otherpage/badplace"
+				, data : {userId}
 				, success : function(result) {
 					
 					$('.item').remove();
@@ -334,9 +320,11 @@
 		
 		//일상 클릭시 리스트 event
 		$('.daily').on('click', function(){
+			var userId = $('.userId').text();
 			$.ajax({
 				type : "GET"
-				, url : "/mypage/daily"
+				, url : "/otherpage/daily"
+				, data : {userId}
 				, success : function(result) {
 					
 					$('.item').remove();
@@ -374,12 +362,13 @@
 				//ajax 실행
 				$.ajax({
 					type : "GET"
-					,url : "/mypage/dailycheck"
+					,url : "/otherpage/dailycheck"
 					, data : {"dailyId" : id}
 					, success : function(result) {
 						$('.info2').children().remove();
 						$('.sample').children().remove();
 						$('.swiper-wrapper').children().remove();
+						
 						var daily = result.daily;
 						var dailyImage = result.dailyImage;
 						var likeCount = result.likeCount;
@@ -425,7 +414,7 @@
 				//ajax 실행
 				$.ajax({
 					type : "GET"
-					,url : "/mypage/goodplacecheck"
+					,url : "/otherpage/goodplacecheck"
 					, data : {"placeId" : id}
 					, success : function(result) {
 						$('.info2').children().remove();
@@ -436,6 +425,7 @@
 						var placeImage = result.placeImage
 						var date = place.placeCreatedAt.substr(0, 10);
 						var commentList = result.comment;
+						
 						//이미지 생성
 						var $img = $('<img src="/static/img/gps.png" class="gps" width="20px" height="20px">')
 						var $area = $('<span class="area" />').text(place.placeArea)
@@ -445,8 +435,7 @@
 						var $content = $('<div class="content" />').text(place.placeContent)
 						$('.info2').append($placeArea)
 						$('.info2').append($content)
-						
-						//댓글 리스트
+						//댓글추가
 						$.each(commentList, function(index, value){
 							$('.sample').append($( "<div>" + "<span class='spanid'>" + value.userId + "</span>"+ "<span>" + value.comment + "</span>" + "</div>"))
 						})
@@ -475,13 +464,12 @@
 			else if (black == '노맛집') {
 				$.ajax({
 					type : "GET"
-					,url : "/mypage/badplacecheck"
+					,url : "/otherpage/badplacecheck"
 					, data : {"placeId" : id}
 					, success : function(result) {
 						$('.info2').children().remove();
 						$('.sample').children().remove();
 						$('.swiper-wrapper').children().remove();
-						
 						
 						var place = result.place
 						var placeImage = result.placeImage
@@ -497,7 +485,7 @@
 						$('.info2').append($placeArea)
 						$('.info2').append($content)
 						
-						//댓글 리스트
+						//댓글추가
 						$.each(commentList, function(index, value){
 							$('.sample').append($( "<div>" + "<span class='spanid'>" + value.userId + "</span>"+ "<span>" + value.comment + "</span>" + "</div>"))
 						})
@@ -532,7 +520,7 @@
 				body.style.overflow = "hidden";
 			}
 		})
-		//팔로우수 클릭시 모달창 event
+		//팔로우 클릭시 모달창 event
 		$('.follow').on('click', function(){
 			modal5.classList.toggle('show');
 			if (modal5.classList.contains('show')) {
@@ -540,47 +528,27 @@
 			}
 		})
 		
-		//팔로우 삭제 클릭시 event
-		$('.deletefollow').on('click', function(){
-			
-			var USERID_FOLLOWED = $(this).data('id');
-			var div = $(this).parent().parent()
-			$.ajax({
-				type : "DELETE"
-				, url : "/mypage/followed"
-				,data : {USERID_FOLLOWED}
-				, success : function(result) {
-					div.remove();
-					var count = result.FollowCount
-					$('.followed').text(count)
-				}
-				, error : function(e) {
-					alert("에러입니다. 관리자에게 문의하세요");
-				}
-			}) 
-		})
-		
-		
 		//글클릭후 댓글 추가 event
 		$(document).on("click",".push",function(){
 			var id = $('.bodyimg').data('id');
 			var black = $('.black').text();
 			var comment = $('.content-commnet').val().trim();
-			var userId =  $('.userId').text();
+			var userId = $('.hiidenuserId').val()
 			
+			//유효성검사
 			if (comment == "") {
 				alert('댓글을 입력하세요');
 				return false;
 			}
 			
+			//댓글추가
 			if (black == '일상') {
 				$.ajax({
 					type : "POST"
-					,url : "/mypage/dailycomment"
+					,url : "/otherpage/dailycomment"
 					,data : {id,comment}
 					,success : function(result) {
 						$('.sample').append($( "<div>" + "<span class='spanid'>" + userId + "</span>"+ "<span>" + comment + "</span>" + "</div>"))
-						$('.content-commnet').val('');
 					}
 					, error : function(e) {
 					}
@@ -588,11 +556,10 @@
 			} else if (black == '맛집') {
 				$.ajax({
 					type : "POST"
-					,url : "/mypage/goodplacecomment"
+					,url : "/otherpage/goodplacecomment"
 					,data : {id,comment}
 					,success : function(result) {
 						$('.sample').append($( "<div>" + "<span class='spanid'>" + userId + "</span>"+ "<span>" + comment + "</span>" + "</div>"))
-						$('.content-commnet').val('');
 					}
 					, error : function(e) {
 					}
@@ -600,22 +567,21 @@
 			} else if (black =='노맛집') {
 				$.ajax({
 					type : "POST"
-					,url : "/mypage/badplacecomment"
+					,url : "/otherpage/badplacecomment"
 					,data : {id,comment}
 					,success : function(result) {
 						$('.sample').append($( "<div>" + "<span class='spanid'>" + userId + "</span>"+ "<span>" + comment + "</span>" + "</div>"))
-						$('.content-commnet').val('');
 					}
 					, error : function(e) {
 					}
 				})
 			}
-		})
+		}) /*글추가 event 닫기 */
+		
+		
 		
 		
 	}) /*function 닫기  */
-	
-	
-	
+
 </script>
 </html>

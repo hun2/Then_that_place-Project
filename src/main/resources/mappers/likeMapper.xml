@@ -2,18 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.FirstProject.daily.dao.LikeDAO">
- 
+ 	
+ 	<!--daily like 쿼리 시작  -->
  	<insert id="insertLikeByDailyIdAndUserId" parameterType="map" >
  		INSERT INTO `like`
- 		(
-			`dailyId`
+ 		(	
+ 			`category`
+			,`id`
 			,`userId`
 			,`likeCreatedAt`
 			,`likeUpdatedAt`
  		)
  		VALUES
  		(
- 			#{dailyId}
+ 			#{category}
+ 			,#{id}
  			,#{userId}
  			,NOW()
  			,NOW()
@@ -24,7 +27,8 @@
  		DELETE FROM
  			`like`
  		WHERE
- 			`dailyId` = #{dailyId}
+ 			`category` = #{category}
+ 		AND	`id` = #{id}
  		AND `userId`= #{userId}
  	</delete>
  	
@@ -34,17 +38,21 @@
  		FROM
  			`like`
  		WHERE
- 			`dailyId` = #{dailyId}
+ 			`category` = #{category}
+ 		AND	`id` = #{id}
  		AND `userId` = #{userId}
  	</select>
- 	<select id="selectLikeCountByDailyIdAndUserId" resultType="int" parameterType="int">
+ 	<select id="selectLikeCountByDailyIdAndUserId" resultType="int" parameterType="com.FirstProject.daily.model.Like">
  	
  		SELECT
  			COUNT(*)
  		FROM
  			`like`
  		WHERE
- 			`dailyId` = #{dailyId}
- 	
+ 			`category` = #{category}
+ 		AND
+ 			`id` = #{id}
  	</select>
+ 	
+ 	
  </mapper>

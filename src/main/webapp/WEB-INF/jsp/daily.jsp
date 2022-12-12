@@ -79,10 +79,10 @@
 				<div onclick="clickmove('/main/otherdaily')">남의일상</div>		
 			</div>
 			<div class="left3">
-				<div>남의맛집</div>			
+				<div onclick="clickmove('/main/othergoodplace')">남의맛집</div>			
 			</div>
 			<div class="left4">
-				<div>남의노맛집</div>			
+				<div onclick="clickmove('/main/otherbadplace')">남의노맛집</div>			
 			</div>
 		</div>
 		<!-- 중간바디 - 왼쪽 닫기  -->
@@ -157,10 +157,14 @@
 			<c:forEach items="${userList}" var="user">
 					<div class="profile-card">
 						<div class="profile-pic">
-							<img src="${empty user.userProfilePhoto ?  '/static/img/no.png' : user.userProfilePhoto }">
+							<a href="/otherpage?userId=${user.userId}">
+								<img src="${empty user.userProfilePhoto ?  '/static/img/no.png' : user.userProfilePhoto }">
+							</a>
 						</div>
 						<div class="profile-info">
-							<p class="username" data-id="${user.userId}">${user.userId}</p>
+							<a href="/otherpage?userId=${user.userId}">
+								<p class="username" data-id="${user.userId}">${user.userId}</p> 
+							</a>
 							<p class="sub-text">user외 4명이 팔로우합니다.</p>
 						</div>
 						<button class="action-btn">follow</button>
@@ -233,7 +237,7 @@
 		//하트 클릭시 이벤트
 		$('.icon[data-id]').on('click', function(){
 		
-			const dailyId = $(this).data("id");
+			const id = $(this).data("id");
 			const src = $(this).attr('src')
 			const heart = "/static/img/like.png"
 			const redheart = "/static/img/liked.png"
@@ -243,7 +247,7 @@
 			
 				type : "POST"
 				,url : "/main/daily/like"
-				, data : {dailyId}
+				, data : {id}
 				, success : function(result) {
 					if ( result.code == 100) {
 						location.reload();
@@ -261,14 +265,14 @@
 		
 		//댓글쓰기 event
 		$(".push").on("click", function(){
-			var dailyId = $(this).data('daily-id');
+			var id = $(this).data('daily-id');
 			//지금 클릭된 게시 버튼의 형제인 input 태그를 가져온다. (siblings)
 			var comment =  $(this).siblings('input').val().trim();
 			$.ajax({
 				
 				type : "POST"
 				, url : "/main/daily-comment"
-				, data : {dailyId, comment}
+				, data : {id, comment}
 				, success : function(result){
 					if ( result.code == 100) {
 						location.reload();

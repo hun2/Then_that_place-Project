@@ -43,7 +43,6 @@ public class DailyController {
 		user.setUserId(userId);
 		List<User> userList = dailyBo.getUserAll(user);
 		model.addAttribute("userList", userList);
-
 		List<DailyCardView> dailyCardViewList = dailyTimeLineBo.generateDailyCardList(userId);
 		model.addAttribute("dailyCardViewList", dailyCardViewList);
 
@@ -69,5 +68,6 @@ public class DailyController {
 
 		return "dailydetail";
 	}
+	
 
 }

@@ -32,14 +32,14 @@
 		        <h2 onclick="clickmove('/login')">그때그곳</h2>
 		        <div id="login-form">
 		            <input type="text" placeholder="아이디" id="userId">
-		            <input type="password" placeholder="비밀번호" id="userPwd">
+		            <input type="password" placeholder="비밀번호" id="userPwd" autoComplete="off">
 		            <label for="remember-check">
 		                <input type="checkbox" id="remember-check">아이디 저장하기
 		            </label>
-		            <label for="remember-maintain">
-		            	<input type="checkbox" id="remember-maintain">로그인 상태유지
-		            </label>
 		            <input type="submit" value="Login" id = "login">
+		            <a class="" href="https://kauth.kakao.com/oauth/authorize?client_id=e56521988fe16e2c16007460891b5a7f&redirect_uri=http://localhost:8080/oauth/kakao&response_type=code">
+		            	<img src="/static/img/kakao_login_large_wide.png" style="height:48px" width="320px" >
+		            </a>
 		        </div>
 		        <hr>
 		        <p class="find">
@@ -54,20 +54,80 @@
 <script type="text/javascript">
 	
 	
-	//인터벌
-	$(document).ready(function(){
-	var imgList = ["/static/img/login2.png", "/static/img/login2.jpg", "/static/img/login3.png", "/static/img/login4.jpg"];
-	var num = 0;
-	var changeImg = function(){
-		$(".loginimg").attr("src" , imgList[num]);
-		num ++;
-		if (num == 4) {
-			num = 0;
-		}
-	}
-		setInterval(changeImg, "3000");
-	})
 	
+	$(document).ready(function(){
+		
+		
+		//인터벌
+		var imgList = ["/static/img/login2.png", "/static/img/login2.jpg", "/static/img/login3.png", "/static/img/login4.jpg"];
+		var num = 0;
+		var changeImg = function(){
+			$(".loginimg").attr("src" , imgList[num]);
+			num ++;
+			if (num == 4) {
+				num = 0;
+			}
+		}
+			setInterval(changeImg, "3000");
+			
+			
+		//아이디 저장 쿠키
+		
+		var key = getCookie("key");
+		$("#userId").val(key); 
+		     
+		if($("#userId").val() != ""){ // 그 전에 ID를 저장해서 처음 페이지 로딩 시, 입력 칸에 저장된 ID가 표시된 상태라면,
+		        $("#remember-check").attr("checked", true); // ID 저장하기를 체크 상태로 두기.
+		    }
+		     
+		    $("#remember-check").change(function(){ // 체크박스에 변화가 있다면,
+		        if($("#remember-check").is(":checked")){ // ID 저장하기 체크했을 때,
+		            setCookie("key", $("#userId").val(), 7); // 7일 동안 쿠키 보관
+		        }else{ // ID 저장하기 체크 해제 시,
+		            deleteCookie("key");
+		        }
+		    });
+		     
+		    // ID 저장하기를 체크한 상태에서 ID를 입력하는 경우, 이럴 때도 쿠키 저장.
+		    $("#userId").keyup(function(){ // ID 입력 칸에 ID를 입력할 때,
+		        if($("#remember-check").is(":checked")){ // ID 저장하기를 체크한 상태라면,
+		            setCookie("key", $("#userId").val(), 7); // 7일 동안 쿠키 보관
+		        }
+		    });
+		
+	})
+		
+		
+	function setCookie(cookieName, value, exdays){
+	    var exdate = new Date();
+	    exdate.setDate(exdate.getDate() + exdays);
+	    var cookieValue = escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toGMTString());
+	    document.cookie = cookieName + "=" + cookieValue;
+	}
+ 
+	function deleteCookie(cookieName){
+	    var expireDate = new Date();
+	    expireDate.setDate(expireDate.getDate() - 1);
+	    document.cookie = cookieName + "= " + "; expires=" + expireDate.toGMTString();
+	}
+ 
+	function getCookie(cookieName) {
+	    cookieName = cookieName + '=';
+	    var cookieData = document.cookie;
+	    var start = cookieData.indexOf(cookieName);
+	    var cookieValue = '';
+	    if(start != -1){
+	        start += cookieName.length;
+	        var end = cookieData.indexOf(';', start);
+	        if(end == -1)end = cookieData.length;
+	        cookieValue = cookieData.substring(start, end);
+	    }
+	    return unescape(cookieValue);
+	}
+	
+		
+		
+		
 	//이동 event
 	function clickmove(result){
 		location.href = result;	

@@ -139,4 +139,7 @@ public class GoodPlaceBO {
 		return goodPlaceDao.selectPlaceByPlaceId(placeId);
 		
 	}
+	
+	
+	
 }

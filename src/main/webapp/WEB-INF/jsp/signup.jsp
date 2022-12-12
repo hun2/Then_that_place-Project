@@ -205,6 +205,14 @@
 			$('#userNickName').focus();
 			return false;
 		}
+		
+		//특수문자가 있는 경우
+		var special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
+		if(special_pattern.test(userNickName) == true){
+		    alert('닉네임에 특수문자는 사용불가 합니다.');
+		    $('#userNickName').focus();
+		    return false;
+		}
 	
 		
 		//이메일 입력 검사

@@ -38,6 +38,14 @@ public class PermissionInterceptor implements HandlerInterceptor {
 			response.sendRedirect("/login");
 			return false;
 		}
+		if ( user == null && uri.startsWith("/otherpage")) {
+			response.sendRedirect("/login");
+			return false;
+		}
+		if ( user == null && uri.startsWith("/account")) {
+			response.sendRedirect("/login");
+			return false;
+		}
 		//로그인으로 로그인 페이지 접근시 메인페이지로
 		if (user != null && uri.startsWith("/login")) {
 			response.sendRedirect("/main");

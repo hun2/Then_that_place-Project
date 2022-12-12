@@ -6,12 +6,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 @Component
 public class FileManagerServices {
-
+	
+	private Logger log = LoggerFactory.getLogger(this.getClass());
+	
 	public static final String FILE_UPLOAD_PATH = "C:\\Users\\김기훈\\Desktop\\then_that_place\\images/";
 
 	public String saveFile(String userId, MultipartFile file) {
@@ -45,5 +49,29 @@ public class FileManagerServices {
 			
 		return "/images/" + directoryName + file.getOriginalFilename();
 		
+	}
+	
+	public void deleteFile(String profilePhoto) {
+		
+		Path path = Paths.get(FILE_UPLOAD_PATH + profilePhoto.replace("/images/", ""));
+		
+		//파일삭제
+		if ( Files.exists(path)) {
+			try {
+				Files.delete(path);
+			} catch (IOException e) {
+				log.error("[이미지삭제] 이미지 삭제 실패 profileImage : {}" , profilePhoto);
+			}
+		}
+		
+		//폴더삭제
+		path = path.getParent();
+		if(Files.exists(path)) {
+			try {
+				Files.delete(path);
+			} catch (IOException e) {
+				log.error("[이미지 폴더삭제] 이미지 폴더 삭제 실패 profileImage : {}" , profilePhoto);
+			}
+		}
 	}
 }

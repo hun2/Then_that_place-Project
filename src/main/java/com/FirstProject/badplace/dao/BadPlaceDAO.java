@@ -29,4 +29,8 @@ public interface BadPlaceDAO {
 				@Param("maxGrade") Integer maxGrade);
 	//검색조건으로 가져온 리스트들로 이미지리스트 가져오기
 	public List<PlaceImage> selectImageByCategorie(List<Place> CategorieList);
+	
+	
+	//게시글 id로 게시글 가져오기
+	public Place selectPlaceByPlaceId(int placeId);
 }
