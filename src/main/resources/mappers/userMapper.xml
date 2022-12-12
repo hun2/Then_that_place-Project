@@ -35,12 +35,14 @@
  	
  	</insert>
  	<!--카카오 insert  -->
- 	<insert id="insertKaKaoUser" parameterType="map">
+ 	<insert id="insertKaKaoUser" parameterType="com.FirstProject.login.model.User">
  		INSERT INTO `user`
  		(
  			`userId`
 			,`userNickName`
+			,`userProfilePhoto`
 			,`userEmail`
+			,`kakaoId`
 			,`createdAt`
 			,`updatedAt`
  		)
@@ -48,7 +50,9 @@
  		(
  			#{userId}
  			,#{userNickName}
+ 			,#{userProfilePhoto}
  			,#{userEmail}
+ 			,#{kakaoId}
  			, NOW()
  			, NOW()
  		)
@@ -148,4 +152,41 @@
 		WHERE
 			`userId` = #{userId}
  	</select>
+ 	
+ 	<select id="selectUserIdByUserPwd" parameterType="map" resultType="int">
+ 		SELECT
+ 			count(*)
+		FROM
+			`user`
+		WHERE
+			`userId` = #{userId}
+		AND 
+			`userPwd` = #{encryptedPwd}
+ 	</select>
+ 	
+ 	<select id="selectKakaoUserByKakaoId" resultType="int" parameterType="string">
+ 		SELECT
+ 			count(*)
+ 		FROM
+ 			`user`
+ 		WHERE
+ 			`kakaoId` = #{kakaoId}
+ 	</select>
+ 	
+ 	<select id="selectKakaoUserTypeByKakaoId" parameterType="String" resultType="com.FirstProject.login.model.User">
+ 		SELECT
+ 			`userId`
+			,`userPwd`
+			,`userNickName`
+			,`userProfilePhoto`
+			,`userEmail`
+			,`kakaoId`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`user`
+		WHERE
+			`kakaoId` = #{kakaoId}
+ 	</select>
+ 
  </mapper>

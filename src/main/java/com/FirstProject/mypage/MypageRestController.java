@@ -1,5 +1,6 @@
 package com.FirstProject.mypage;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.FirstProject.badplace.bo.BadPlaceBO;
+import com.FirstProject.common.SHA256;
 import com.FirstProject.daily.bo.CommentBO;
 import com.FirstProject.daily.bo.DailyBO;
 import com.FirstProject.daily.bo.DailyImageBO;
@@ -283,5 +285,52 @@ public class MypageRestController {
 		}
 		return result;
 	}
-
+	
+	//회원탈퇴
+	@DeleteMapping("/account")
+	public Map<String, Object> accountDelete(HttpSession session, User user) {
+		User users = (User) session.getAttribute("loginUser");
+		String userId = users.getUserId();
+		user.setUserId(userId);
+		Map<String, Object> result = new HashMap<>();
+		int row = mypageBo.deleteUserIdByUserId(user);
+		if ( row > 0) {
+			session.removeAttribute("loginUser");
+			result.put("code", 100);
+		} else {
+			result.put("errorMessage", "프로필 변경에 실패하였습니다, 관리자에게 문의하세요");
+		}
+		return result;
+	}
+	
+	//비밀번호 변경
+	@PutMapping("/account/password")
+	public Map<String, Object> accountPassword(HttpSession session,
+			@RequestParam("exuserPwd") String exuserPwd, User user) throws Exception {
+		User users = (User) session.getAttribute("loginUser");
+		String userId = users.getUserId();
+		Map<String, Object> result = new HashMap<>();
+		//비밀번호 암호화
+		SHA256 sha256 = new SHA256();
+		String encryptedPwd = sha256.encrypt(exuserPwd);
+		
+		//기존비밀번호 체크 
+		int row = userBo.getUserIdByUserPwd(userId, encryptedPwd);
+		if ( row > 0 ) {
+			SHA256 sha2566 = new SHA256();
+			String Pwd = sha2566.encrypt(user.getUserPwd());
+			user.setUserPwd(Pwd);
+			user.setUserId(userId);
+			int num = mypageBo.updatePasswordInfoByUserId(user);
+				if ( num > 0) {
+					result.put("code", 100);
+				} else {
+					result.put("errorMessage", "비밀번호 변경을 실패하였습니다. 관리자에게 문의하세요.");
+				}
+		} else {
+			result.put("errorMessage", "기존 비밀번호가 틀립니다. 비밀번호 확인 부탁 드립니다.");
+		}
+		return result;
+	}
+	
 }

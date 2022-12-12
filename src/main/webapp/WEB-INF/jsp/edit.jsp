@@ -220,9 +220,29 @@
 		
 		//회원 탈퇴 event 열기
 		$('#drop').on('click', function(){
-		
 			
-		})
+			 if (confirm("탈퇴하시겠습니까? \n개인정보는 복구가 불가능 합니다.") == true){ 
+				   
+				$.ajax({
+					type : "DELETE"
+					, url : "/account"
+					, success : function(result) {
+						if(result.code == 100) {
+							alert('이용해 주셔서 감사합니다.')
+							location.href="/login"
+						} else {
+							alert(result.errorMessage);
+						}
+					}
+					, error : function(e) {
+						alert("에러입니다. 관리자에게 문의하세요");
+					}
+				})	 	
+				
+			}else {
+				return false;
+			}
+		}) //회원 탈퇴 event 닫기
 		
 		//비밀번호 변경 클릭 event
 		$('.password-edit').on('click', function(){
@@ -273,8 +293,47 @@
 		
 		//비밀번호 수정 버튼 event
 		$(document).on("click", '.modify', function(){
+			//이전비번
+			var exuserPwd = $('.password').val();
+			//비밀번호
+			var userPwd = $('.newpassword').val();
+			//비밀번호 확인
+			var userRePwd = $('.newcheckpassword').val();
 			
-		})
+			
+			//비밀번호입력시 특수문자조합 검사
+			var reg = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
+			
+			if (!reg.test(userPwd)) {
+				alert('비밀번호는 영문+숫자+특수문자 조합으로 8~16자리 사용해야 합니다.');
+				$('#userPwd').focus();
+				return false;
+			}
+			// 비밀번호입력 재 입력 비밀번호 입력 일치 검사
+			if (userPwd !== userRePwd) {
+				alert('비밀번호가 맞지 않습니다.');
+				$('#userRePwd').focus();
+				return false;
+			}
+			$.ajax({
+				type : 'PUT'
+				,url : '/account/password'
+				, data : {exuserPwd, userPwd}
+				,success : function(result){
+					if(result.code == 100) {
+						alert('비밀번호 변경완료 하였습니다');
+						$('.password').val('');
+						$('.newpassword').val('');
+						$('.newcheckpassword').val('');
+					} else {
+						alert(result.errorMessage);
+					}
+				}
+				,error : function(e) {
+					alert("에러입니다. 관리자에게 문의하세요");
+				}
+			})
+		}) //비밀번호 수정 버튼 event 닫기
 		
 		
 		//프로필 사진 변경 클릭 event

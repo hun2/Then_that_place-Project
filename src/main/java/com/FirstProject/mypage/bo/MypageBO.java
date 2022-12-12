@@ -48,4 +48,22 @@ public class MypageBO {
 		
 		return mypageDao.updateMyOtherInfoByUserId(user);
 	}
+	
+	//회원정보 삭제
+	public int deleteUserIdByUserId(User user) {
+		
+		User profile = userBo.getUserByUser(user);
+		//사진이 있는경우 사진폴더까지 날리기.
+		if (profile.getUserProfilePhoto() != null) {
+			fileManagerServices.deleteFile(profile.getUserProfilePhoto());
+		}
+		
+		return mypageDao.deleteUserIdByUserId(user);
+	}
+	
+	//비밀번호 변경
+	public int updatePasswordInfoByUserId(User user) {
+			
+		return mypageDao.updatePasswordInfoByUserId(user);
+	}
 }

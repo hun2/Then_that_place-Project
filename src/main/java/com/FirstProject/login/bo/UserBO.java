@@ -39,9 +39,14 @@ public class UserBO {
 	}
 	
 	//카카오 회원가입 - insert
-	public int addKaKaoUser(String userId, String userNickName, String userEmail) {
-		
-		return userDao.insertKaKaoUser(userId, userNickName, userEmail);
+	public int addKaKaoUser(User user, MultipartFile file) {
+		String userProfilePhoto = null;
+		if (file != null) {
+			userProfilePhoto = fileManagerServices.saveFile(user.getUserId(), file);
+			user.setUserProfilePhoto(userProfilePhoto);
+			
+		}
+		return userDao.insertKaKaoUser(user);
 	}
 	
 	//로그인 - 아이디 및 패스워드 일치여부
@@ -87,5 +92,22 @@ public class UserBO {
 	public User getUserByUser(User user) {
 		
 		return userDao.selectUserByUser(user);
+	}
+	
+	//마이페이지 비밀번호 변경시 이전비밀번호 일치 여부 
+	public int getUserIdByUserPwd(String userId, String encryptedPwd) {
+		
+		return userDao.selectUserIdByUserPwd(userId,encryptedPwd);
+	}
+	
+	//카카오id 있는지 여부
+	public int existKakaoUserByKakaoId(String kakaoId) {
+		
+		return userDao.selectKakaoUserByKakaoId(kakaoId);
+	}
+	
+	//카카오 id로 하나가져오기
+	public User getKakaoUserByKakaoId(String kakaoId) {
+		return userDao.selectKakaoUserTypeByKakaoId(kakaoId);
 	}
 }

@@ -308,6 +308,17 @@ $(document).ready(function() {
 			$('.grade1').focus();
 			return false;
 		}
+		if( +minGrade <0) {
+			alert('최소별점은 0점입니다.')
+			$('.grade1').val('0');
+			return false;
+		}
+		
+		if (+maxGrade > 5) {
+			alert('최대별점은 5점입니다.')
+			$('.grade2').val('5');
+			return false;
+		}
 		//ajax 전송
 		$.ajax({
 			type : "GET"

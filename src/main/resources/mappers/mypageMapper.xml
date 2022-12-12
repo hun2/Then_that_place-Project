@@ -22,4 +22,20 @@
 		WHERE
 			`userId` = #{userId}
 	</update>
+	
+	<delete id="deleteUserIdByUserId" parameterType="com.FirstProject.login.model.User">
+		DELETE
+			FROM
+		`user`
+		where userId = #{userId}
+	</delete>
+	
+	<update id="updatePasswordInfoByUserId" parameterType="com.FirstProject.login.model.User">
+		UPDATE `user`
+		SET
+			`userPwd` = #{userPwd}
+			, `updatedAt` = NOW()
+		WHERE
+			`userId` = #{userId}
+	</update>
 </mapper>

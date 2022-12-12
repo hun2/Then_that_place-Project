@@ -9,9 +9,18 @@ public class User {
 	private String userNickName;
 	private String userProfilePhoto;
 	private String userEmail;
+	private String kakaoId;
 	private Date createdAt;
 	private Date updatedAt;
 	
+	
+	
+	public String getKakaoId() {
+		return kakaoId;
+	}
+	public void setKakaoId(String kakaoId) {
+		this.kakaoId = kakaoId;
+	}
 	public String getUserId() {
 		return userId;
 	}
