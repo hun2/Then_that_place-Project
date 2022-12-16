@@ -38,11 +38,13 @@ public class BadPlaceController {
 	
 	// 노맛집페이지 접속
 	@RequestMapping("/main/places/bad")
-	public String badPlace(Model model, User user, HttpSession session) {
+	public String badPlace(Model model, HttpSession session) {
 		User users = (User) session.getAttribute("loginUser");
 		String userId = users.getUserId();
-		user.setUserId(userId);
-		List<CardView> cardViewList = timeLineBo.generateBadCardList(userId);
+		Place place = new Place();
+		place.setUserId(userId);
+		int page = 0;
+		List<CardView> cardViewList = timeLineBo.generateBadCardList(place, page);
 		model.addAttribute("cardViewList", cardViewList);
 		return "badplace";
 	}

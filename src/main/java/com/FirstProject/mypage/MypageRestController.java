@@ -82,33 +82,37 @@ public class MypageRestController {
 	private UserBO userBo;
 	// 맛집 메뉴 클릭시
 	@RequestMapping("/mypage/goodplace")
-	public Map<String, Object> goodPlace(HttpSession session) {
+	public Map<String, Object> goodPlace(HttpSession session, int page) {
 		User users = (User) session.getAttribute("loginUser");
 		String userId = users.getUserId();
+		Place place = new Place();
+		place.setUserId(userId);
 		Map<String, Object> result = new HashMap<>();
-		List<CardView> cardViewList = timeLineBo.generateCardList(userId);
+		List<CardView> cardViewList = timeLineBo.myPageCardList(place, page);
 		result.put("goodPlaceList", cardViewList);
 		return result;
 	}
 
 	// 노맛집 메뉴 클릭시
 	@RequestMapping("/mypage/badplace")
-	public Map<String, Object> badPlace(HttpSession session) {
+	public Map<String, Object> badPlace(HttpSession session, int page) {
 		User users = (User) session.getAttribute("loginUser");
 		String userId = users.getUserId();
+		Place place = new Place();
+		place.setUserId(userId);
 		Map<String, Object> result = new HashMap<>();
-		List<CardView> cardViewList = timeLineBo.generateBadCardList(userId);
+		List<CardView> cardViewList = timeLineBo.myPageBadCardList(place,page);
 		result.put("badPlaceList", cardViewList);
 		return result;
 	}
 
 	// 일상 메뉴 클릭
 	@RequestMapping("/mypage/daily")
-	public Map<String, Object> daily(HttpSession session) {
+	public Map<String, Object> daily(HttpSession session, int page) {
 		User users = (User) session.getAttribute("loginUser");
 		String userId = users.getUserId();
 		Map<String, Object> result = new HashMap<>();
-		List<DailyCardView> dailyCardViewList = dailyTimeLineBo.generateDailyCardList(userId);
+		List<DailyCardView> dailyCardViewList = dailyTimeLineBo.myPageDailyCardList(userId, page);
 		result.put("dailyCardViewList", dailyCardViewList);
 		return result;
 	}

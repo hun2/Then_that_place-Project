@@ -53,7 +53,6 @@ public class MemberService {
 			while ((line = br.readLine()) != null) {
 				result += line;
 			}
-			System.out.println("response body : " + result);
             
 			// Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
 			JSONParser parser = new JSONParser();
@@ -83,7 +82,6 @@ public class MemberService {
 			conn.setRequestProperty("Authorization", "Bearer " + access_Token);
 
 			int responseCode = conn.getResponseCode();
-			System.out.println("responseCode : " + responseCode);
 
 			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
@@ -93,7 +91,6 @@ public class MemberService {
 			while ((line = br.readLine()) != null) {
 				result += line;
 			}
-			System.out.println("response body : " + result);
 
 			JSONParser parser = new JSONParser();
 			JSONObject element = (JSONObject) parser.parse(result);

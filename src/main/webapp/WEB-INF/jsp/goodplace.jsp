@@ -36,7 +36,7 @@
 					<a href="/main/daily"> <span class="on">일상 </span> </a>
 				</li>
 				<li>
-					<a href="/main/places/good">  <span class="on">죽어서도 기억해야 할 맛집</span></a> 
+					<a href="/main/places/good">  <span class="on black">죽어서도 기억해야 할 맛집</span></a> 
 				</li>
 				
 				<li>
@@ -186,22 +186,6 @@
 <!-- js -->
 <script type="text/javascript">
 	
-	// 1. 펑션 설명
-	// 2. 복잡한 로직일 경우
-	// 3. 조건
-	// 4. 하드코딩 값
-	
-	/*
-	  1. 코드 일관성
-	  2. 네이밍
-	  3. 주석
-	  4. js/jquery 중 하나만 하기(js to jqurey, jquery to js 연습)
-	  5. 복붙 흔적
-	  6. 변수 활용도 높일 것
-	
-	  1, 3 reference: https://github.com/tipjs/javascript-style-guide#%EC%98%A4%EB%B8%8C%EC%A0%9D%ED%8A%B8objects
-	 
-	 */
 
 	const body = document.querySelector('body');
 	const modal = document.querySelector('.modal');
@@ -299,9 +283,101 @@
 		});
 		
 		
-		//왼쪽바 조회 버튼 클릭시 ajax 전송 =>
+		//페이징
+		window.addEventListener('scroll', Scroll);
+		
+		var page = '1'
+		var isDuplicate = true;
+		function Scroll(){
+			const currentScroll = window.scrollY;
+			const windowHeight = window.innerHeight;
+			const bodyHeight = document.body.clientHeight;
+			const paddingBottom = 200;
+			var url = null;
+			var checkMenu = null
+			var startDay = $('#startday').val().trim();
+			var endDay = $('#endday').val().trim();
+			var placeArea = $('#sample5_address').val().trim();
+			var placeKategorie = $('.change-color').text().trim();
+			var minPrice = $('.price1').val().trim();
+			var maxPrice = $('.price2').val().trim();
+			var minGrade= $('.grade1').val().trim();
+			var maxGrade= $('.grade2').val().trim();
+			if ( currentScroll + windowHeight + paddingBottom >= bodyHeight ) {
+				if(isDuplicate) {
+					isDuplicate = false;
+				
+						$.ajax({
+							type : "GET"
+							,url : "/main/places/goodpaging"
+							, data : {startDay,
+								endDay,
+								placeArea,
+								placeKategorie,
+								"minPrice" : +minPrice,
+								"maxPrice" : +maxPrice,
+								minGrade,
+								maxGrade,
+								page}
+							, success : function(result) {
+								var cards = result.dailyCardViewList
+								for(var i = 0; i<cards.length; i++) {
+									
+									var card = cards[i]
+									//날짜 자르기
+									var date = card.place.placeCreatedAt.substr(0, 10);
+									//별점 div 생성
+									var $divGrade = $('<div class="star d-flex"/>')
+									//별점 div 내부 이미지 추가 
+									for(var j =0; j< card.place.placeGrade; j++) {
+										$divGrade.append('<img src="/static/img/star.png" width="30px" height="30px">');
+									}
+									//이미지 생성
+									if ( card.placeImage == "") {
+										var $img = $('<img src="/static/img/no.png" class="post-image">')
+									} else {
+										var $img = $('<img src="' + card.placeImage[0].imagePath + '" class="post-image"' + '">')
+									}
+									//이미지 감싸는 a태그 생성
+									var $href = $('<a href="/main/places/good-detail?placeId=' + card.place.id + '">')
+									//a태그에 이미지 추가
+									var $hrefValue = $href.append($img)
+									//카테고리 span 생성
+									var $spanValue = $('<span />').text(card.place.placeKategorie)
+									//카테고리 div 생성 및 span 추가
+									var $divCategory = $('<div class="categorie" />').append($spanValue)
+									//장소 div 생성 및 text 추가
+									var $divPlace = $('<div class="place" />').text(card.place.placeArea)
+									//날짜 div 생성 및 text 추가
+									var $divDate = $('<div class="date" />').text(date)
+									//카테고리 포괄 info div 생성 및 내용추가
+									var $divInfo = $('<div class="info" />').append($divCategory).append($divGrade).append($divPlace).append($divDate)
+									
+									//제목 span 생성 및 text 추가
+									var $subject = $('<span class="placesubject" />').text(card.place.placeSubject)
+									var $divInfo2 = $('<div class="info" />').append($subject)
+									//post div 생성 및 info추가
+									var $divPost = $('<div class="post" />').append($divInfo).append($hrefValue).append($divInfo2)
+									//최종 wrapper 클래스에 post추가 - 반복문 진행.
+									$('.wrapper').append($divPost)
+								} 
+								page ++;
+								console.log(page)
+								isDuplicate = true;
+							}
+							, error : function(e) {
+								alert("에러입니다. 관리자에게 문의하세요");
+								isDuplicate = true;
+							}
+						}) // ajax 닫기
+				} // if문 닫기
+			}
+		}
+		
+		//왼쪽바 조회 버튼 클릭시 event
 		$('#submit').on('click', function(){
 			
+			page = 0;
 			var startDay = $('#startday').val();
 			var endDay = $('#endday').val();
 			var placeArea = $('#sample5_address').val();
@@ -310,7 +386,6 @@
 			var maxPrice = $('.price2').val();
 			var minGrade= $('.grade1').val();
 			var maxGrade= $('.grade2').val();
-			
 			//유효성 검사
 			//최소가격 > 최대가격일시 false
 			if ( +minPrice > +maxPrice) {
@@ -338,66 +413,70 @@
 			//ajax 전송
 			$.ajax({
 				type : "GET"
-				, url : "/main/places/good-find"
+				, url : "/main/places/goodpaging"
 				, data : {
 					startDay,
 					endDay,
 					placeArea,
 					placeKategorie,
-					minPrice,
-					maxPrice,
+					"minPrice" : +minPrice,
+					"maxPrice" : +maxPrice,
 					minGrade,
 					maxGrade,
+					page
 				}
 				, success : function(result) {
-					
-					
 					$('.post').remove();
-					//카테고리에 해당되는 리스트들
-					var categorie = result.CategorieList
-					var image = result.ImageList
-					for( var i =0; i< categorie.length; i ++) {
-						
+					var cards = result.dailyCardViewList
+					console.log(cards)
+					for(var i = 0; i<cards.length; i++) {
+						var card = cards[i]
 						//날짜 자르기
-						var date = categorie[i].placeCreatedAt.substr(0, 10);
+						var date = card.place.placeCreatedAt.substr(0, 10);
 						//별점 div 생성
 						var $divGrade = $('<div class="star d-flex"/>')
 						//별점 div 내부 이미지 추가 
-						for(var j =0; j< categorie[i].placeGrade; j++) {
+						for(var j =0; j< card.place.placeGrade; j++) {
 							$divGrade.append('<img src="/static/img/star.png" width="30px" height="30px">');
 						}
 						//이미지 생성
-						var $img = $('<img src="' + image[i].imagePath + '" class="post-image"' + '">')
+						if ( card.placeImage == "") {
+							var $img = $('<img src="/static/img/no.png" class="post-image">')
+						} else {
+							var $img = $('<img src="' + card.placeImage[0].imagePath + '" class="post-image"' + '">')
+						}
 						//이미지 감싸는 a태그 생성
-						var $href = $('<a href="/main/places/good-detail?placeId=' + image[i].id + '">')
+						var $href = $('<a href="/main/places/good-detail?placeId=' + card.place.id + '">')
 						//a태그에 이미지 추가
 						var $hrefValue = $href.append($img)
 						//카테고리 span 생성
-						var $spanValue = $('<span />').text(categorie[i].placeKategorie)
+						var $spanValue = $('<span />').text(card.place.placeKategorie)
 						//카테고리 div 생성 및 span 추가
 						var $divCategory = $('<div class="categorie" />').append($spanValue)
 						//장소 div 생성 및 text 추가
-						var $divPlace = $('<div class="place" />').text(categorie[i].placeArea)
+						var $divPlace = $('<div class="place" />').text(card.place.placeArea)
 						//날짜 div 생성 및 text 추가
 						var $divDate = $('<div class="date" />').text(date)
 						//카테고리 포괄 info div 생성 및 내용추가
 						var $divInfo = $('<div class="info" />').append($divCategory).append($divGrade).append($divPlace).append($divDate)
-						
 						//제목 span 생성 및 text 추가
-						var $subject = $('<span class="placesubject" />').text(categorie[i].placeSubject)
+						var $subject = $('<span class="placesubject" />').text(card.place.placeSubject)
 						var $divInfo2 = $('<div class="info" />').append($subject)
 						//post div 생성 및 info추가
 						var $divPost = $('<div class="post" />').append($divInfo).append($hrefValue).append($divInfo2)
 						//최종 wrapper 클래스에 post추가 - 반복문 진행.
 						$('.wrapper').append($divPost)
-					}
-					
+					} 
+					page ++;
 				}
 				,error : function(e) {
 					alert("에러입니다. 관리자에게 문의하세요");
 				}
-			})
-		}) //ajax 닫기
+			}) //ajax 닫기
+			
+		}) //왼쪽바 조회 버튼 클릭 event 닫기
+		
+		
 		
 	})//document ready 닫기
 </script>

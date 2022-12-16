@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +16,6 @@ import com.FirstProject.goodplace.bo.FoodBO;
 import com.FirstProject.goodplace.bo.GoodPlaceBO;
 import com.FirstProject.goodplace.bo.PlaceImageBO;
 import com.FirstProject.goodplace.bo.TimeLineBO;
-import com.FirstProject.goodplace.dao.FoodDAO;
 import com.FirstProject.goodplace.model.CardView;
 import com.FirstProject.goodplace.model.Food;
 import com.FirstProject.goodplace.model.Place;
@@ -37,14 +37,20 @@ public class GoodPlaceController {
 	private PlaceImageBO placeImageBo;
 	// 맛집페이지 접속
 	@RequestMapping("/main/places/good")
-	public String goodPlace(Model model, User user, HttpSession session) {
+	public String goodPlace(Model model, HttpSession session) {
 		User users = (User) session.getAttribute("loginUser");
 		String userId = users.getUserId();
-		user.setUserId(userId);
-		List<CardView> cardViewList = timeLineBo.generateCardList(userId);
+		Place place = new Place();
+		place.setUserId(userId);
+		int page = 0;
+//		place.setMaxGrade("4");
+//		place.setMinGrade("3");
+		List<CardView> cardViewList = timeLineBo.generateCardList(place, page);
 		model.addAttribute("cardViewList", cardViewList);
+		
 		return "goodplace";
 	}
+	
 	
 
 	

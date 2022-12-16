@@ -50,8 +50,8 @@ public class OtherDailyController {
 		// 팔로우 추천 리스트
 		List<User> userList = dailyBo.getUserAll(user);
 		model.addAttribute("userList", userList);
-
-		List<DailyCardView> OtherDailycardViewList = dailyTimeLineBo.generateOtherDailyCardList(userId);
+		int page = 0;
+		List<DailyCardView> OtherDailycardViewList = dailyTimeLineBo.generateOtherDailyCardList(userId, page);
 		model.addAttribute("OtherDailycardViewList", OtherDailycardViewList);
 
 		return "otherdaily";
@@ -82,9 +82,9 @@ public class OtherDailyController {
 		// 팔로우 추천 리스트
 		List<User> userList = dailyBo.getUserAll(user);
 		model.addAttribute("userList", userList);
-
+		int page = 0;
 		// 게시글리스트
-		List<PlaceCardView> OtherGoodPlaceCardViewList = dailyTimeLineBo.generateOtherGoodPlaceCardList(userId);
+		List<PlaceCardView> OtherGoodPlaceCardViewList = dailyTimeLineBo.generateOtherGoodPlaceCardList(userId, page);
 		model.addAttribute("OtherGoodPlaceCardViewList", OtherGoodPlaceCardViewList);
 
 		return "othergoodplace";
@@ -114,9 +114,9 @@ public class OtherDailyController {
 		// 팔로우 추천 리스트
 		List<User> userList = dailyBo.getUserAll(user);
 		model.addAttribute("userList", userList);
-
+		int page = 0;
 		// 게시글리스트
-		List<PlaceCardView> OtherBadPlaceCardViewList = dailyTimeLineBo.generateOtherBadPlaceCardList(userId);
+		List<PlaceCardView> OtherBadPlaceCardViewList = dailyTimeLineBo.generateOtherBadPlaceCardList(userId, page);
 		model.addAttribute("OtherBadPlaceCardViewList", OtherBadPlaceCardViewList);
 
 		return "otherbadplace";

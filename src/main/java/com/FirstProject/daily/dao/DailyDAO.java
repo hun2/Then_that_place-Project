@@ -29,22 +29,21 @@ public interface DailyDAO {
 	
 	
 	//모든 게시글 가져오기
-	public List<Daily> selectList(String userId);
+	public List<Daily> selectList(@Param("userId") String userId, @Param("startNum")int startNum , @Param("endNum")int endNum);
 	
 	//글 3개만 가져오기
 	
 	public List<Daily> selectListLimit3(String userId);
 	
 	//남의일상 게시글 가져오기
-	public List<Daily> selectOtherList(String userId);
+	public List<Daily> selectOtherList(@Param("userId") String userId, @Param("startNum")int startNum, @Param("endNum") int endNum);
 	
 	//남의 맛집 게시글 가져오기
-	public List<Place> selectOtherPlaceList(String userId);
+	public List<Place> selectOtherPlaceList(@Param("userId") String userId, @Param("startNum")int startNum, @Param("endNum") int endNum);
 	
 	//남의 노맛집 게시글 가져오기
-	public List<Place> selectOtherBadPlaceList(String userId);
-	
-	
+	public List<Place> selectOtherBadPlaceList(@Param("userId") String userId, @Param("startNum")int startNum, @Param("endNum") int endNum);
+
 	//본인 게시글 가져오기
 	public Daily selectDailyByDailyIdandUserId(
 			@Param("dailyId") int dailyId, 

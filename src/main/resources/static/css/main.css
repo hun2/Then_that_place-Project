@@ -2,7 +2,12 @@
 @import url("/static/css/kakao.css");
 
 
-a { color:#444;}
+a { 
+	color : grey;
+}
+.black {
+	color : black;
+}
 a:link { text-decoration:none; color:#444;}
 a:hover {text-decoration:none; color:#6A24FE;}
 

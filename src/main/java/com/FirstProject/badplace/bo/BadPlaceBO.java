@@ -72,10 +72,11 @@ public class BadPlaceBO {
 
 	// 모든 글 가져오기 조건없이.
 
-	public List<Place> getList(String userId) {
+	public List<Place> getList(Place place, int startNum, int endNum) {
 
-		return badPlaceDao.selectList(userId);
+		return badPlaceDao.selectList(place, startNum, endNum);
 	}
+	
 	//모든 글 가져오기 조건없이 ( 글 3개만 가져오기)
 	public List<Place> getListLimit3(String userId) {
 		
@@ -97,21 +98,6 @@ public class BadPlaceBO {
 		int deletePlaceList = goodPlaceDao.deletePlaceListById(place);
 		goodPlaceDao.deleteFoodListById(place);
 		return deletePlaceList;
-	}
-	
-	
-	
-	//검색 조건으로 검색
-	public List<Place> getPlaceByCategorie(String startDay, String endDay, String placeArea, String placeKategorie, Integer minPrice, Integer maxPrice, Integer minGrade, Integer maxGrade) {
-			
-		return badPlaceDao.selectPlaceByCategorie(startDay, endDay, placeArea, placeKategorie, minPrice, maxPrice, minGrade, maxGrade);
-	}
-	
-	
-	//검색 조건으로 리턴받은 아이로 이미지 가져오기
-	public List<PlaceImage> getImageByCategorie(List<Place> CategorieList) {
-			
-		return badPlaceDao.selectImageByCategorie(CategorieList);
 	}
 	
 	//게시글 id로 게시글 가져오기

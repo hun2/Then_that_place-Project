@@ -32,31 +32,38 @@ public class TimeLineBO {
 	private UserBO userBo;
 
 	// 맛집
-	public List<CardView> generateCardList(String userId) {
+	public List<CardView> generateCardList(Place place, int page) {
 
 		// 최종 리턴 리스트 생성
 		List<CardView> cardViewList = new ArrayList<>();
-
+		int items_per_page = 3;
+		int endNum = items_per_page;
+		int startNum = 0;
+		if (page == 0) {
+			startNum = 0;
+		} else {
+			startNum = page * items_per_page;
+		}
 		// 글 목록 가져오기
-		List<Place> placeList = goodPlaceBo.getList(userId);
+		List<Place> placeList = goodPlaceBo.getList(place, startNum, endNum);
 
-		for (Place place : placeList) {
+		for (Place place1 : placeList) {
 
 			CardView card = new CardView();
 
 			// 글 정보
-			card.setPlace(place);
+			card.setPlace(place1);
 
 			// 글쓴이 정보
-			User user = userBo.getUserById(place.getUserId());
+			User user = userBo.getUserById(place1.getUserId());
 			card.setUser(user);
 
 			// 사진 정보
-			List<PlaceImage> ImageList = placeImageBo.getPlaceImageByPlaceId(place.getId());
+			List<PlaceImage> ImageList = placeImageBo.getPlaceImageByPlaceId(place1.getId());
 			card.setPlaceImage(ImageList);
 
 			// 음식 및 가격 정보
-			List<Food> FoodList = foodBo.getFoodByPlaceId(place.getId());
+			List<Food> FoodList = foodBo.getFoodByPlaceId(place1.getId());
 			card.setFood(FoodList);
 
 			cardViewList.add(card);
@@ -65,32 +72,41 @@ public class TimeLineBO {
 		return cardViewList;
 	}
 
-	// 맛집
-	public List<CardView> generateBadCardList(String userId) {
+	// 노맛집
+	public List<CardView> generateBadCardList(Place place, int page) {
 
 		// 최종 리턴 리스트 생성
 		List<CardView> cardViewList = new ArrayList<>();
 
+		int items_per_page = 3;
+		int endNum = items_per_page;
+		int startNum = 0;
+		if (page == 0) {
+			startNum = 0;
+		} else {
+			startNum = page * items_per_page;
+		}
 		// 글 목록 가져오기
-		List<Place> placeList = badPlaceBo.getList(userId);
+		
+		List<Place> placeList = badPlaceBo.getList(place, startNum, endNum);
 
-		for (Place place : placeList) {
+		for (Place place1 : placeList) {
 
 			CardView card = new CardView();
 
 			// 글 정보
-			card.setPlace(place);
+			card.setPlace(place1);
 
 			// 글쓴이 정보
-			User user = userBo.getUserById(place.getUserId());
+			User user = userBo.getUserById(place1.getUserId());
 			card.setUser(user);
 
 			// 사진 정보
-			List<PlaceImage> ImageList = placeImageBo.getPlaceImageByPlaceId(place.getId());
+			List<PlaceImage> ImageList = placeImageBo.getPlaceImageByPlaceId(place1.getId());
 			card.setPlaceImage(ImageList);
 
 			// 음식 및 가격 정보
-			List<Food> FoodList = foodBo.getFoodByPlaceId(place.getId());
+			List<Food> FoodList = foodBo.getFoodByPlaceId(place1.getId());
 			card.setFood(FoodList);
 
 			cardViewList.add(card);
@@ -167,4 +183,89 @@ public class TimeLineBO {
 		return cardViewList;
 	}
 
+	// 맛집
+	public List<CardView> myPageCardList(Place place, int page) {
+
+		// 최종 리턴 리스트 생성
+		List<CardView> cardViewList = new ArrayList<>();
+
+		int items_per_page = 9;
+		int endNum = items_per_page;
+		int startNum = 0;
+		if (page == 0) {
+			startNum = 0;
+		} else {
+			startNum = page * items_per_page;
+		}
+
+		// 글 목록 가져오기
+		List<Place> placeList = goodPlaceBo.getList(place, startNum, endNum);
+
+		for (Place place1 : placeList) {
+
+			CardView card = new CardView();
+
+			// 글 정보
+			card.setPlace(place1);
+
+			// 글쓴이 정보
+			User user = userBo.getUserById(place1.getUserId());
+			card.setUser(user);
+
+			// 사진 정보
+			List<PlaceImage> ImageList = placeImageBo.getPlaceImageByPlaceId(place1.getId());
+			card.setPlaceImage(ImageList);
+
+			// 음식 및 가격 정보
+			List<Food> FoodList = foodBo.getFoodByPlaceId(place1.getId());
+			card.setFood(FoodList);
+
+			cardViewList.add(card);
+		}
+
+		return cardViewList;
+	}
+
+	// 노맛집
+	public List<CardView> myPageBadCardList(Place place, int page) {
+
+		// 최종 리턴 리스트 생성
+		List<CardView> cardViewList = new ArrayList<>();
+		
+		int items_per_page = 9;
+		int endNum = items_per_page;
+		int startNum = 0;
+		if (page == 0) {
+			startNum = 0;
+		} else {
+			startNum = page * items_per_page;
+		}
+		
+		// 글 목록 가져오기
+		List<Place> placeList = badPlaceBo.getList(place, startNum, endNum);
+
+		for (Place place1 : placeList) {
+
+			CardView card = new CardView();
+
+			// 글 정보
+			card.setPlace(place1);
+
+			// 글쓴이 정보
+			User user = userBo.getUserById(place1.getUserId());
+			card.setUser(user);
+
+			// 사진 정보
+			List<PlaceImage> ImageList = placeImageBo.getPlaceImageByPlaceId(place1.getId());
+			card.setPlaceImage(ImageList);
+
+			// 음식 및 가격 정보
+			List<Food> FoodList = foodBo.getFoodByPlaceId(place1.getId());
+			card.setFood(FoodList);
+
+			cardViewList.add(card);
+		}
+
+		return cardViewList;
+	}
 }

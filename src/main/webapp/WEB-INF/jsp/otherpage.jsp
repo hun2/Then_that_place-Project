@@ -249,6 +249,102 @@
 	
 	$(function(){
 		
+		//페이징
+		window.addEventListener('scroll', Scroll);
+		var isDuplicate = true;
+		var page = '1'
+		
+		var dailyfunction = function(result) {
+			var dailyCardViewList = result.dailyCardViewList
+			for(var i =0; i< dailyCardViewList.length; i++) {
+				//이미지 생성
+				if(dailyCardViewList[i].dailyImage[0] == null) {
+					var $img = $('<img src="/static/img/no.png" class="bodyimg" data-id=' + dailyCardViewList[i].daily.id + '>')
+				} else {
+					var $img = $('<img src="' + dailyCardViewList[i].dailyImage[0].imagePath + '" class="bodyimg" data-id=' + dailyCardViewList[i].daily.id + '>')
+				} 
+				//이미지 div 생성
+				var $div = $('<div class="item" />').append($img)
+				//이미지 div 추가
+				$('.bodycontainer').append($div);
+			}
+			page ++;
+		}
+		var goodfunction = function(result) {
+			var goodPlaceList = result.goodPlaceList
+			for(var i =0; i< goodPlaceList.length; i++) {
+				//이미지 생성
+				if(goodPlaceList[i].placeImage[0] == null) {
+					var $img = $('<img src="/static/img/no.png" class="bodyimg" data-id=' + goodPlaceList[i].place.id + '>')
+				} else {
+					var $img = $('<img src="' + goodPlaceList[i].placeImage[0].imagePath + '" class="bodyimg" data-id=' + goodPlaceList[i].place.id + '>')
+				}
+				//이미지 div 생성
+				var $div = $('<div class="item" />').append($img)
+				//이미지 div 추가
+				$('.bodycontainer').append($div);
+			}
+			page ++;
+		}
+		var badfunction = function(result) {
+			var badPlaceList = result.badPlaceList
+			for(var i =0; i< badPlaceList.length; i++) {
+				console.log();
+				//이미지 생성
+				if(badPlaceList[i].placeImage[0] == null) {
+					var $img = $('<img src="/static/img/no.png" class="bodyimg" data-id=' + badPlaceList[i].place.id + '>')
+				} else {
+					var $img = $('<img src="' + badPlaceList[i].placeImage[0].imagePath + '" class="bodyimg" data-id=' + badPlaceList[i].place.id  + '>')
+				}
+				//이미지 div 생성
+				var $div = $('<div class="item" />').append($img)
+				//이미지 div 추가
+				$('.bodycontainer').append($div)
+			}
+			page ++;
+		}
+		
+		
+		function Scroll(){
+			const currentScroll = window.scrollY;
+			const windowHeight = window.innerHeight;
+			const bodyHeight = document.body.clientHeight;
+			const paddingBottom = 200;
+			var black = $('.black').text();
+			var userId = $('.userId').text();
+			var url = null;
+			var checkMenu = null
+			if ( currentScroll + windowHeight + paddingBottom >= bodyHeight ) {
+				if(isDuplicate) {
+					isDuplicate = false;
+					if(black == '일상') {
+						url = "/otherpage/daily"
+							checkMenu = dailyfunction
+					} else if ( black == '맛집') {
+						url ="/otherpage/goodplace"
+							checkMenu = goodfunction
+					} else if (black =='노맛집') {
+						url = "/otherpage/badplace"
+							checkMenu = badfunction
+					}
+					$.ajax({
+						type : "GET"
+						,url : url
+						, data : {userId,page}
+						, success : function(result) {
+							checkMenu(result)
+							console.log(page)
+							isDuplicate = true;
+						}
+						, error : function(e) {
+							isDuplicate = true;
+							alert('문제');
+						}
+					})
+				}
+			}
+		}
+		
 		//메뉴탭 클릭시 글씨색 변경 event
 		$('.menu').on('click', function(){
 			$('li.black').removeClass('black');
@@ -258,12 +354,13 @@
 		
 		//맛집 클릭 시 리스트 event
 		$('.goodplace').on('click', function(){
-			
+			page = 1;
+			var pagenum = 0;
 			var userId = $('.userId').text();
 			$.ajax({
 				type : "GET"
 				, url : "/otherpage/goodplace"
-				, data : {userId}
+				, data : {userId, "page" : pagenum}
 				, success : function(result) {
 					
 					$('.item').remove();
@@ -289,11 +386,13 @@
 		
 		//노맛집 클릭시 리스트 event
 		$('.badplace').on('click', function(){
+			page = 1;
+			var pagenum = 0;
 			var userId = $('.userId').text();
 			$.ajax({
 				type : "GET"
 				, url : "/otherpage/badplace"
-				, data : {userId}
+				, data : {userId, "page" : pagenum}
 				, success : function(result) {
 					
 					$('.item').remove();
@@ -321,10 +420,12 @@
 		//일상 클릭시 리스트 event
 		$('.daily').on('click', function(){
 			var userId = $('.userId').text();
+			page = 1;
+			var pagenum = 0;
 			$.ajax({
 				type : "GET"
 				, url : "/otherpage/daily"
-				, data : {userId}
+				, data : {userId, "page": pagenum}
 				, success : function(result) {
 					
 					$('.item').remove();

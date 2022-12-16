@@ -52,7 +52,7 @@
 					</div>
 				</li>
 				<li>
-					<a class="link_util link_login" href="/mypage">마이페이지</a>
+					<a class="link_util link_login blackborder" href="/mypage">마이페이지</a>
 				</li>
 				<li>
 					<a class="link_util link_login" href="/logout">로그아웃</a>

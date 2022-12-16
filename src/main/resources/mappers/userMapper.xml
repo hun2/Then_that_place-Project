@@ -188,5 +188,19 @@
 		WHERE
 			`kakaoId` = #{kakaoId}
  	</select>
- 
+ 	
+ 	<select id="selectTest" resultType="com.FirstProject.login.model.User" parameterType="map">
+ 		SELECT
+ 			`userId`
+			,`userPwd`
+			,`userNickName`
+			,`userProfilePhoto`
+			,`userEmail`
+			,`kakaoId`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`user`
+		LIMIT #{startNum}, #{endNum}
+	</select>		
  </mapper>

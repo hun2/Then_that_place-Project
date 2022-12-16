@@ -18,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.FirstProject.badplace.bo.BadPlaceBO;
 import com.FirstProject.common.PlaceImage;
+import com.FirstProject.goodplace.bo.TimeLineBO;
+import com.FirstProject.goodplace.model.CardView;
 import com.FirstProject.goodplace.model.Place;
 import com.FirstProject.login.model.User;
 
@@ -27,7 +29,10 @@ public class BadPlaceRestController {
 
 		@Autowired
 		private BadPlaceBO badPlaceBo;
-	
+		
+		@Autowired
+		private TimeLineBO timeLineBo;
+		
 		//글쓰기
 		@PostMapping("/main/places/bad")
 		public Map<String, Object> badPlace (@RequestParam(value="file", required = false) List<MultipartFile> file, HttpSession session, Place place, PlaceImage placeImage) throws Exception {
@@ -81,26 +86,30 @@ public class BadPlaceRestController {
 		}
 		
 		
-		// 글 카테고리 선택 후 조회
-		@GetMapping("/main/places/bad-find")
-		public Map<String, Object> goodPlaceGet(
-				@RequestParam(value = "startDay", required = false) String startDay,
-				@RequestParam(value = "endDay", required = false) String endDay,
-				@RequestParam(value = "placeArea", required = false) String placeArea,
-				@RequestParam(value = "placeKategorie", required = false) String placeKategorie,
-				@RequestParam(value = "minPrice", required = false) Integer minPrice,
-				@RequestParam(value = "maxPrice", required = false) Integer maxPrice,
-				@RequestParam(value = "minGrade", required = false) Integer minGrade,
-				@RequestParam(value = "maxGrade", required = false) Integer maxGrade) {
-			
-			Map<String, Object> result =  new HashMap<>();
-			List<Place> CategorieList =  badPlaceBo.getPlaceByCategorie(startDay, endDay, placeArea, placeKategorie, minPrice, maxPrice, minGrade, maxGrade);
-			result.put("CategorieList", CategorieList);
-			if (!CategorieList.isEmpty()) {
-				List<PlaceImage> ImageList = badPlaceBo.getImageByCategorie(CategorieList);
-				result.put("ImageList", ImageList);
-			}
+		/*
+		 * // 글 카테고리 선택 후 조회
+		 * 
+		 * @GetMapping("/main/places/bad-find") public Map<String, Object>
+		 * goodPlaceGet(Place place, int page, HttpSession session) {
+		 * 
+		 * Map<String, Object> result = new HashMap<>(); List<CardView>
+		 * dailyCardViewList = timeLineBo.generateBadCardList(place, page);
+		 * result.put("dailyCardViewList", dailyCardViewList); return result; }
+		 */
+		
+		
+		
+		//노맛집 페이징
+		@GetMapping("/main/places/badpaing")
+		public Map<String, Object> paginBad(@RequestParam("page") int page, HttpSession session, Place place) {
+			User users = (User) session.getAttribute("loginUser");
+			String userId = users.getUserId();
+			place.setUserId(userId);
+			Map<String, Object> result = new HashMap<>();
+			List<CardView> dailyCardViewList = timeLineBo.generateBadCardList(place, page);
+			result.put("dailyCardViewList", dailyCardViewList);
 			
 			return result;
 		}
+		
 }

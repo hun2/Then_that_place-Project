@@ -54,7 +54,7 @@
 					</div>
 				</li>
 				<li>
-					<a class="link_util link_login" href="/mypage">마이페이지</a>
+					<a class="link_util link_login blackborder" href="/mypage">마이페이지</a>
 				</li>
 				<li>
 					<a class="link_util link_login" href="/logout">로그아웃</a>
@@ -174,9 +174,9 @@
 								<img src="${empty follow.userProfilePhoto ?  '/static/img/no.png' : follow.userProfilePhoto}">
 							</a>
 						</div>
-						<a href="/otherpage?userId=${follow.userId}">
-							<p class="followusername">${follow.userId}</p> 
-						</a>
+						<p class="followusername">
+							<a href="/otherpage?userId=${follow.userId}">${follow.userId}</a>
+						</p> 
 					</div>
 					<div>
 						<input type="text" value="삭제" class="deletefollow" data-id="${follow.userId}"> 
@@ -199,9 +199,9 @@
 								<img src="${empty followed.userProfilePhoto ?  '/static/img/no.png' : followed.userProfilePhoto}">
 							</a>
 						</div>
-						<a href="/otherpage?userId=${followed.userId}">
-							<p class="followusername">${followed.userId}</p>
-						</a>
+						<p class="followusername">
+							<a href="/otherpage?userId=${followed.userId}">${followed.userId}</a>
+						</p>
 					</div>
 				</div>
 			</c:forEach>
@@ -268,6 +268,104 @@
 	
 	$(function(){
 		
+		
+		window.addEventListener('scroll', Scroll);
+		
+		
+		var isDuplicate = true;
+		var page = '1'
+		var dailyfunction = function(result) {
+			var dailyCardViewList = result.dailyCardViewList
+			for(var i =0; i< dailyCardViewList.length; i++) {
+				//이미지 생성
+				if(dailyCardViewList[i].dailyImage[0] == null) {
+					var $img = $('<img src="/static/img/no.png" class="bodyimg" data-id=' + dailyCardViewList[i].daily.id + '>')
+				} else {
+					var $img = $('<img src="' + dailyCardViewList[i].dailyImage[0].imagePath + '" class="bodyimg" data-id=' + dailyCardViewList[i].daily.id + '>')
+				} 
+				//이미지 div 생성
+				var $div = $('<div class="item" />').append($img)
+				//이미지 div 추가
+				$('.bodycontainer').append($div);
+			}
+			page ++;
+		}
+		var goodfunction = function(result) {
+			var goodPlaceList = result.goodPlaceList
+			for(var i =0; i< goodPlaceList.length; i++) {
+				//이미지 생성
+				if(goodPlaceList[i].placeImage[0] == null) {
+					var $img = $('<img src="/static/img/no.png" class="bodyimg" data-id=' + goodPlaceList[i].place.id + '>')
+				} else {
+					var $img = $('<img src="' + goodPlaceList[i].placeImage[0].imagePath + '" class="bodyimg" data-id=' + goodPlaceList[i].place.id + '>')
+				}
+				//이미지 div 생성
+				var $div = $('<div class="item" />').append($img)
+				//이미지 div 추가
+				$('.bodycontainer').append($div);
+			}
+			page ++;
+		}
+		var badfunction = function(result) {
+			var badPlaceList = result.badPlaceList
+			for(var i =0; i< badPlaceList.length; i++) {
+				console.log();
+				//이미지 생성
+				if(badPlaceList[i].placeImage[0] == null) {
+					var $img = $('<img src="/static/img/no.png" class="bodyimg" data-id=' + badPlaceList[i].place.id + '>')
+				} else {
+					var $img = $('<img src="' + badPlaceList[i].placeImage[0].imagePath + '" class="bodyimg" data-id=' + badPlaceList[i].place.id  + '>')
+				}
+				//이미지 div 생성
+				var $div = $('<div class="item" />').append($img)
+				//이미지 div 추가
+				$('.bodycontainer').append($div)
+			}
+			page ++;
+		}
+		
+		
+		function Scroll(){
+			const currentScroll = window.scrollY;
+			const windowHeight = window.innerHeight;
+			const bodyHeight = document.body.clientHeight;
+			const paddingBottom = 200;
+			var black = $('.black').text();
+			var url = null;
+			var checkMenu = null
+			if ( currentScroll + windowHeight + paddingBottom >= bodyHeight ) {
+				if(isDuplicate) {
+					isDuplicate = false;
+					if(black == '일상') {
+						url = "/mypage/daily"
+							checkMenu = dailyfunction
+					} else if ( black == '맛집') {
+						url ="/mypage/goodplace"
+							checkMenu = goodfunction
+					} else if (black =='노맛집') {
+						url = "/mypage/badplace"
+							checkMenu = badfunction
+					}
+					$.ajax({
+						type : "GET"
+						,url : url
+						, data : {page}
+						, success : function(result) {
+							checkMenu(result)
+							console.log(page)
+							isDuplicate = true;
+						}
+						, error : function(e) {
+							isDuplicate = true;
+							alert('문제');
+						}
+					})
+				}
+			}
+		}
+		
+		
+		
 		//메뉴탭 클릭시 글씨색 변경 event
 		$('.menu').on('click', function(){
 			$('li.black').removeClass('black');
@@ -277,9 +375,12 @@
 		
 		//맛집 클릭 시 리스트 event
 		$('.goodplace').on('click', function(){
+			page = 1;
+			var pagenum = 0;
 			$.ajax({
 				type : "GET"
 				, url : "/mypage/goodplace"
+				, data : {"page" : pagenum}
 				, success : function(result) {
 					
 					$('.item').remove();
@@ -305,15 +406,17 @@
 		
 		//노맛집 클릭시 리스트 event
 		$('.badplace').on('click', function(){
+			page = 1;
+			var pagenum = 0;
 			$.ajax({
 				type : "GET"
 				, url : "/mypage/badplace"
+				, data : {"page" : pagenum}
 				, success : function(result) {
 					
 					$('.item').remove();
 					var badPlaceList = result.badPlaceList
 					for(var i =0; i< badPlaceList.length; i++) {
-						console.log();
 						//이미지 생성
 						if(badPlaceList[i].placeImage[0] == null) {
 							var $img = $('<img src="/static/img/no.png" class="bodyimg" data-id=' + badPlaceList[i].place.id + '>')
@@ -334,9 +437,12 @@
 		
 		//일상 클릭시 리스트 event
 		$('.daily').on('click', function(){
+			page = 1;
+			var pagenum = 0;
 			$.ajax({
 				type : "GET"
 				, url : "/mypage/daily"
+				, data : {"page" : pagenum}
 				, success : function(result) {
 					
 					$('.item').remove();
@@ -358,7 +464,7 @@
 					alert("에러입니다. 관리자에게 문의하세요");
 				}
 			})
-		}) //일상 클릭 리스트 event 닫기
+		}) //일상 클릭 리스트 event 닫기 
 		
 		//게시글 클릭 event
 		$(document).on("click",".bodyimg",function(){ 

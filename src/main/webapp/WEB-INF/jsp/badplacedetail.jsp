@@ -31,7 +31,7 @@
 				<li><a href="/main/places/good"> <span class="on">죽어서도
 							기억해야 할 맛집</span></a></li>
 
-				<li><a href="/main/places/bad"> <span class="on">죽어서도
+				<li><a href="/main/places/bad"> <span class="on black">죽어서도
 							기억해야 할 노맛집</span></a></li>
 			</ul>
 		</nav>

@@ -59,13 +59,14 @@
  		</foreach>
  	</insert>
  	
- 	<select id="selectList" resultType="com.FirstProject.daily.model.Daily" parameterType="string">
+ 	<select id="selectList" resultType="com.FirstProject.daily.model.Daily" parameterType="map">
  		SELECT
  			*
  		FROM
  			`daily`
  		where userId = #{userId}
  		ORDER BY dailyCreatedAt DESC
+ 		LIMIT #{startNum}, #{endNum}
  	</select>
  	
  	<select id="selectListLimit3" resultType="com.FirstProject.daily.model.Daily" parameterType="string">
@@ -126,17 +127,18 @@
  			`id` = #{id}
  	</delete>
  	
- 	<select id="selectOtherList" parameterType="String" resultType="com.FirstProject.daily.model.Daily">
+ 	<select id="selectOtherList" parameterType="map" resultType="com.FirstProject.daily.model.Daily">
  		SELECT
  			*
  		FROM
  			`daily`
  		WHERE `userId` in 
  		(SELECT USERID_FOLLOWED FROM `follow` WHERE USERID_FOLLOWER = #{userId} )
- 		ORDER BY dailyCreatedAt DESC;
+ 		ORDER BY dailyCreatedAt DESC
+ 		LIMIT #{startNum}, #{endNum}
  	</select>
  	
- 	<select id="selectOtherPlaceList" parameterType="String" resultType="com.FirstProject.goodplace.model.Place">
+ 	<select id="selectOtherPlaceList" parameterType="map" resultType="com.FirstProject.goodplace.model.Place">
  		SELECT
  			*
  		FROM
@@ -146,10 +148,11 @@
  		AND
  		`userId` in 
  		(SELECT USERID_FOLLOWED FROM `follow` WHERE USERID_FOLLOWER = #{userId} )
- 		ORDER BY placeCreatedAt DESC;
+ 		ORDER BY placeCreatedAt DESC
+ 		LIMIT #{startNum}, #{endNum}
  	</select>
  	
- 	<select id="selectOtherBadPlaceList" parameterType="String" resultType="com.FirstProject.goodplace.model.Place">
+ 	<select id="selectOtherBadPlaceList" parameterType="map" resultType="com.FirstProject.goodplace.model.Place">
  		SELECT
  			*
  		FROM
@@ -159,7 +162,8 @@
  		AND
  		`userId` in 
  		(SELECT USERID_FOLLOWED FROM `follow` WHERE USERID_FOLLOWER = #{userId} )
- 		ORDER BY placeCreatedAt DESC;
+ 		ORDER BY placeCreatedAt DESC
+ 		LIMIT #{startNum}, #{endNum}
  	</select>
  	
  </mapper>

@@ -98,16 +98,37 @@
  		WHERE
  			`userId` = #{userId}
  	</select>
- 	
- 	<select id="selectList" resultType="com.FirstProject.goodplace.model.Place" parameterType="string">
+ 	<select id="selectList" resultType="com.FirstProject.goodplace.model.Place">
  		select 
  			* 
  		from 
- 			place
+ 			`place`
  		WHERE
  			`placeWhether` = 'g'
- 		AND `userId` = #{userId}
+ 		AND `userId` = #{place.userId}
+ 		<if test="place.startDay != null and place.endDay != null  and place.startDay != '' and place.endDay != '' " >
+ 		AND
+ 		DATE_FORMAT(`placeCreatedAt`, '%Y-%m-%d') BETWEEN #{place.startDay} AND #{place.endDay}
+ 		</if>
+ 		<if test="place.placeArea != null and place.placeArea != '' ">
+ 		AND
+ 		`placeArea` = #{place.placeArea}
+ 		</if>
+ 		<if test="place.placeKategorie != null and place.placeKategorie != '' ">
+ 		AND
+ 		`placeKategorie` = #{place.placeKategorie}
+ 		</if>
+ 		<if test="place.minPrice != '' and place.maxPrice != '' and place.minPrice != null and place.maxPrice != null">
+ 		AND
+ 		`placePrice` BETWEEN #{place.minPrice} AND #{place.maxPrice}
+ 		</if>
+ 		 <!-- <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(place.minGrade, place.maxGrade)"> -->
+ 		 <if test="place.minGrade != null and !place.minGrade.equals('') and place.maxGrade != null and place.maxGrade.equals('')">
+ 		 AND
+ 		`placeGrade` BETWEEN #{place.minGrade} AND #{place.maxGrade}
+ 		 </if>
  		ORDER BY placeCreatedAt DESC
+ 		LIMIT #{startNum}, #{endNum}
  	</select>
  	
  	<select id="selectListLimit3" resultType="com.FirstProject.goodplace.model.Place" parameterType="string">
@@ -167,45 +188,6 @@
  			`id` = #{id}
  	</delete>
  	
- 	<select id="selectPlaceByCategorie" parameterType="map" resultType="com.FirstProject.goodplace.model.Place">
- 		SELECT
- 			`id`
-			,`userId`
-			,`placeWhether`
-			,`placeKategorie`
-			,`placeArea`
-			,`placeGrade`
-			,`placePrice`
-			,`placeSubject`
-			,`placeContent`
-			,`placeCreatedAt`
-			,`placeUpdatedAt`
- 		FROM
- 			place
- 		WHERE
- 			`placeWhether` = 'g'
- 		<if test="startDay != '' and endDay != '' ">
- 		AND
- 		DATE_FORMAT(`placeCreatedAt`, '%Y-%m-%d') BETWEEN #{startDay} AND #{endDay}
- 		</if>
- 		<if test="placeArea != '' ">
- 		AND
- 		`placeArea` = #{placeArea}
- 		</if>
- 		<if test="placeKategorie != '' ">
- 		AND
- 		`placeKategorie` = #{placeKategorie}
- 		</if>
- 		<if test="minPrice != null and maxPrice != null">
- 		AND
- 		`placePrice` BETWEEN #{minPrice} AND #{maxPrice}
- 		</if>
- 		<if test="minGrade != null and maxGrade != null">
- 		AND
- 		`placeGrade` BETWEEN #{minGrade} AND #{maxGrade}
- 		</if>
- 		order by placeCreatedAt desc
- 	</select>
  	
  	<select id="selectImageByCategorie" parameterType="List" resultType="com.FirstProject.goodplace.model.PlaceImage">
  		SELECT
@@ -249,4 +231,29 @@
  		AND
  			`id` = #{placeId}
  	</select>
+ 	
+ 	
+ 	<!-- <select id="selectAllJoinList" parameterType="map" resultType="com.FirstProject.goodplace.model.Place">
+ 		SELECT
+ 			`id`
+			,`userId`
+			,`placeWhether`
+			,`placeKategorie`
+			,`placeArea`
+			,`placeGrade`
+			,`placePrice`
+			,`placeSubject`
+			,`placeContent`
+			,`placeCreatedAt`
+			,`placeUpdatedAt`
+ 		FROM
+ 			place
+ 		WHERE
+ 			`placeWhether` = 'g'
+ 	
+ 	
+ 	
+ 	
+ 	</select> -->
+ 	
  </mapper>

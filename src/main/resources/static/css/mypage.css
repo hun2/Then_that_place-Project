@@ -4,9 +4,12 @@
 
 /*시작 */
 a {
-	color: #444;
+	color: grey;
 }
-
+.blackborder {
+	border: 2px solid black !important;
+	color: black !important;
+}
 a:link {
 	text-decoration: none;
 	color: #444;

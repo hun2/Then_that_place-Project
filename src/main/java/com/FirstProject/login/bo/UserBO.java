@@ -1,5 +1,7 @@
 package com.FirstProject.login.bo;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -109,5 +111,11 @@ public class UserBO {
 	//카카오 id로 하나가져오기
 	public User getKakaoUserByKakaoId(String kakaoId) {
 		return userDao.selectKakaoUserTypeByKakaoId(kakaoId);
+	}
+	
+	
+	//테스트
+	public List<User> getTest(int startNum, int endNum) {
+		return userDao.selectTest(startNum, endNum);
 	}
 }

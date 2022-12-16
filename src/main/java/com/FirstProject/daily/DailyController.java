@@ -41,9 +41,12 @@ public class DailyController {
 		User users = (User) session.getAttribute("loginUser");
 		String userId = users.getUserId();
 		user.setUserId(userId);
+		//유저리스트
 		List<User> userList = dailyBo.getUserAll(user);
 		model.addAttribute("userList", userList);
-		List<DailyCardView> dailyCardViewList = dailyTimeLineBo.generateDailyCardList(userId);
+		int page = 0;
+		//게시글
+		List<DailyCardView> dailyCardViewList = dailyTimeLineBo.generateDailyCardList(userId, page);
 		model.addAttribute("dailyCardViewList", dailyCardViewList);
 
 		return "daily";
@@ -68,6 +71,7 @@ public class DailyController {
 
 		return "dailydetail";
 	}
+	
 	
 
 }

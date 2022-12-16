@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.FirstProject.badplace.bo.BadPlaceBO;
@@ -69,27 +70,31 @@ public class OtherRestController {
 
 	// 맛집 메뉴 클릭시
 	@RequestMapping("/otherpage/goodplace")
-	public Map<String, Object> goodPlace(String userId) {
+	public Map<String, Object> goodPlace(@RequestParam("userId") String userId, @RequestParam("page") int page) {
 		Map<String, Object> result = new HashMap<>();
-		List<CardView> cardViewList = timeLineBo.generateCardList(userId);
+		Place place = new Place();
+		place.setUserId(userId);
+		List<CardView> cardViewList = timeLineBo.myPageCardList(place, page);
 		result.put("goodPlaceList", cardViewList);
 		return result;
 	}
 
 	// 노맛집 메뉴 클릭시
 	@RequestMapping("/otherpage/badplace")
-	public Map<String, Object> badPlace(String userId) {
+	public Map<String, Object> badPlace(@RequestParam("userId") String userId, @RequestParam("page") int page) {
 		Map<String, Object> result = new HashMap<>();
-		List<CardView> cardViewList = timeLineBo.generateBadCardList(userId);
+		Place place = new Place();
+		place.setUserId(userId);
+		List<CardView> cardViewList = timeLineBo.myPageBadCardList(place, page);
 		result.put("badPlaceList", cardViewList);
 		return result;
 	}
 
 	// 일상 메뉴 클릭
 	@RequestMapping("/otherpage/daily")
-	public Map<String, Object> daily(String userId) {
+	public Map<String, Object> daily(@RequestParam("userId") String userId, @RequestParam("page") int page) {
 		Map<String, Object> result = new HashMap<>();
-		List<DailyCardView> dailyCardViewList = dailyTimeLineBo.generateDailyCardList(userId);
+		List<DailyCardView> dailyCardViewList = dailyTimeLineBo.myPageDailyCardList(userId, page);
 		result.put("dailyCardViewList", dailyCardViewList);
 		return result;
 	}
@@ -203,4 +208,6 @@ public class OtherRestController {
 		}
 		return result;
 	}
+	
+	
 }

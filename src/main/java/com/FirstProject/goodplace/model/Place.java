@@ -19,6 +19,56 @@ public class Place {
 	private String placeContent;
 	private Date placeCreatedAt;
 	private Date placeUpdatedAt;
+	private String startDay;
+	private String endDay;
+	private int minPrice;
+	private int maxPrice;
+	private String minGrade;
+	private String maxGrade;
+
+	/*
+	 * private int startNum; private int endNum;
+	 * 
+	 * public int getStartNum() { return startNum; } public void setStartNum(int
+	 * startNum) { this.startNum = startNum; } public int getEndNum() { return
+	 * endNum; } public void setEndNum(int endNum) { this.endNum = endNum; }
+	 */
+	public int getMinPrice() {
+		return minPrice;
+	}
+	public void setMinPrice(int minPrice) {
+		this.minPrice = minPrice;
+	}
+	public int getMaxPrice() {
+		return maxPrice;
+	}
+	public void setMaxPrice(int maxPrice) {
+		this.maxPrice = maxPrice;
+	}
+	public String getMinGrade() {
+		return minGrade;
+	}
+	public void setMinGrade(String minGrade) {
+		this.minGrade = minGrade;
+	}
+	public String getMaxGrade() {
+		return maxGrade;
+	}
+	public void setMaxGrade(String maxGrade) {
+		this.maxGrade = maxGrade;
+	}
+	public String getStartDay() {
+		return startDay;
+	}
+	public void setStartDay(String startDay) {
+		this.startDay = startDay;
+	}
+	public String getEndDay() {
+		return endDay;
+	}
+	public void setEndDay(String endDay) {
+		this.endDay = endDay;
+	}
 	public int getId() {
 		return id;
 	}

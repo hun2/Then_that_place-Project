@@ -1,5 +1,7 @@
 package com.FirstProject.login.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -50,4 +52,7 @@ public interface UserDAO {
 	
 	//카카오id로 정보 가져오기
 	public User selectKakaoUserTypeByKakaoId(String kakaoId);
+	
+	//테스트
+	public List<User> selectTest(@Param("startNum") int startNum,@Param("endNum") int endNum);
 }

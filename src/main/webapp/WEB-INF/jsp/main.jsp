@@ -26,7 +26,7 @@
 		<nav id="wrap_topCate" class="" style="position: static; top: initial;">
 			<ul class="inner">
 				<li>
-					<a href="/main"> <span class="on">메인</span></a> 
+					<a href="/main"> <span class="on black">메인</span></a> 
 				</li>
 				<li>
 					<a href="/main/daily"> <span class="on">일상 </span> </a>

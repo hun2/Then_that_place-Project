@@ -17,6 +17,7 @@ public class FileManagerServices {
 	private Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	public static final String FILE_UPLOAD_PATH = "C:\\Users\\김기훈\\Desktop\\then_that_place\\images/";
+	/* public static final String FILE_UPLOAD_PATH = "/home/ec2-user/images/"; */
 
 	public String saveFile(String userId, MultipartFile file) {
 

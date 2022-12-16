@@ -2,8 +2,14 @@
 @import url("/static/css/kakao.css");
 /*시작 */
 a {
-	color: #444;
+	color:grey;
 }
+
+.blackborder {
+	border: 2px solid black !important;
+	color: black !important;
+}
+
 .profile-photo > a:link {
 	color : #0095f6;
 }
@@ -224,7 +230,7 @@ li {
 }
 
 .leftbody .profile-edit, .password-edit {
-	height: 175px;
+	height: 192px;
 	align-items: center;
     justify-content: center;
     display: flex;

@@ -16,6 +16,7 @@ import com.FirstProject.daily.model.DailyCardView;
 import com.FirstProject.daily.model.Follow;
 import com.FirstProject.goodplace.bo.TimeLineBO;
 import com.FirstProject.goodplace.model.CardView;
+import com.FirstProject.goodplace.model.Place;
 import com.FirstProject.login.model.User;
 
 @Controller
@@ -35,11 +36,13 @@ public class MypageController {
 	public String mypage(HttpSession session, Model model) {
 		User users = (User) session.getAttribute("loginUser");
 		String userId = users.getUserId();
+		Place place = new Place();
+		place.setUserId(userId);
+		int page = 0;
 		
-		
-		List<DailyCardView> dailyCardViewList = dailyTimeLineBo.generateDailyCardList(userId);
-		List<CardView> cardViewList = timeLineBo.generateCardList(userId);
-		List<CardView> badCardViewList = timeLineBo.generateBadCardList(userId);
+		List<DailyCardView> dailyCardViewList = dailyTimeLineBo.myPageDailyCardList(userId, page);
+		List<CardView> cardViewList = timeLineBo.myPageCardList(place, page);
+		List<CardView> badCardViewList = timeLineBo.myPageBadCardList(place,page);
 		List<User> FollowedList = followBo.getFollowListByUserId(userId);
 		int FollowCount = followBo.getFollowCountByUserId(userId);
 		

@@ -26,7 +26,7 @@
 			style="position: static; top: initial;">
 			<ul class="inner">
 				<li><a href="/main"> <span class="on">메인</span></a></li>
-				<li><a href="/main/daily"> <span class="on">일상 </span>
+				<li><a href="/main/daily"> <span class="on black">일상 </span>
 				</a></li>
 				<li><a href="/main/places/good"> <span class="on">죽어서도
 							기억해야 할 맛집</span></a></li>

@@ -15,6 +15,7 @@ import com.FirstProject.daily.bo.FollowBO;
 import com.FirstProject.daily.model.DailyCardView;
 import com.FirstProject.goodplace.bo.TimeLineBO;
 import com.FirstProject.goodplace.model.CardView;
+import com.FirstProject.goodplace.model.Place;
 import com.FirstProject.login.bo.UserBO;
 import com.FirstProject.login.model.User;
 
@@ -39,13 +40,15 @@ public class OtherController {
 		User users = (User) session.getAttribute("loginUser");
 		//파라미터넘긴 userId의 정보 
 		User uid = userBo.getUserById(userId);
-		
+		int page = 0;
+		Place place = new Place();
+		place.setUserId(userId);
 		//일상게시글들
-		List<DailyCardView> dailyCardViewList = dailyTimeLineBo.generateDailyCardList(userId);
+		List<DailyCardView> dailyCardViewList = dailyTimeLineBo.myPageDailyCardList(userId, page);
 		//맛집게시글들
-		List<CardView> cardViewList = timeLineBo.generateCardList(userId);
+		List<CardView> cardViewList = timeLineBo.myPageCardList(place, page);
 		//노맛집게시글들
-		List<CardView> badCardViewList = timeLineBo.generateBadCardList(userId);
+		List<CardView> badCardViewList = timeLineBo.myPageBadCardList(place, page);
 		//팔로워리스트들
 		List<User> FollowedList = followBo.getFollowListByUserId(userId);
 		int FollowCount = followBo.getFollowCountByUserId(userId);

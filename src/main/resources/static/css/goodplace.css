@@ -119,10 +119,12 @@
 
 
 /*시작 */
-a { color:#444;}
+a { color:grey;}
 a:link { text-decoration:none; color:#444;}
 a:hover {text-decoration:none; color:#6A24FE;}
-	
+.black {
+	color:black;
+}
 	body {
 		font-family : KakaoLight;
 		margin: 0;

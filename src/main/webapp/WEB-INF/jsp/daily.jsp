@@ -32,7 +32,7 @@
 					<a href="/main"> <span class="on">메인</span></a> 
 				</li>
 				<li>
-					<a href="/main/daily"> <span class="on">일상 </span> </a>
+					<a href="/main/daily"> <span class="on black">일상 </span> </a>
 				</li>
 				<li>
 					<a href="/main/places/good">  <span class="on">죽어서도 기억해야 할 맛집</span></a> 
@@ -73,10 +73,10 @@
 		<!-- 중간바디 - 왼쪽 시작  -->
 		<div class="leftcontent">
 			<div class="left1">
-				<div onclick="clickmove('/main/daily')">나의일상</div>			
+				<div onclick="clickmove('/main/daily')" class="black">나의일상</div>			
 			</div>
 			<div class="left2">
-				<div onclick="clickmove('/main/otherdaily')">남의일상</div>		
+				<div onclick="clickmove('/main/otherdaily')" >남의일상</div>		
 			</div>
 			<div class="left3">
 				<div onclick="clickmove('/main/othergoodplace')">남의맛집</div>			
@@ -185,9 +185,123 @@
 	
 	//이동 event
 	function clickmove(result){
-		location.href = result;	
+		location.href= result
+		
 	}
+	//페이징
+	window.addEventListener('scroll', Scroll);
 	
+	var page = '1'
+	var isDuplicate = true;
+	
+	function Scroll(){
+		const currentScroll = window.scrollY;
+		const windowHeight = window.innerHeight;
+		const bodyHeight = document.body.clientHeight;
+		const paddingBottom = 200;
+		
+		if ( currentScroll + windowHeight + paddingBottom >= bodyHeight ) {
+			if(isDuplicate) {
+				isDuplicate = false;
+				$.ajax({
+					type : "GET"
+					,url : "/main/daily/paging"
+					, data : {page}
+					, success : function(result) {
+						var cards = result.dailyCardViewList
+						
+						for(var i = 0; i<cards.length; i++) {
+							
+							var card = cards[i]
+							
+							//class user(상단 프로필 이미지 및 이름)
+							var $img = $('<img>')
+							var profilePhoto = card.user.userProfilePhoto
+							$img.attr('src', profilePhoto === '' ? '/static/img/no.png' : profilePhoto)
+							$profilepic = $('<div class="profile-pic" />').append($img)
+							$username = $('<p class="username" />').text(card.user.userId)
+							$user = $('<div class="user" />').append($profilepic).append($username)
+							
+							//class dropdown (상단 프로필 드롭다운 => 수정 / 삭제 )
+							$modify = $('<a href="/main/daily-detail?dailyId=' + card.daily.id + '" class="dropdown-modify" />').text('수정')
+							$delete = $('<a href="#none" class="dropdown-delete" id="' + card.daily.id +  '"/>').text('삭제')
+							$submenu2 = $('<div class="dropdown-submenu2" />').append($modify).append($delete)
+							$option = $('<img src="/static/img/option.png" class="option" />')
+							$dropdown2 = $('<div class="dropdown2" data-id="'+ card.daily.id +  '" />').append($option).append($submenu2)
+							
+							//상단 프로필 최종본
+							$info = $('<div class="info" />').append($user).append($dropdown2)
+							
+							
+							//중간 이미지
+							if ( card.dailyImage =='' ) {
+								$bodyimg = $('<img src="/static/img/no.png" class="post-image" />' )
+							} else {
+								$bodyimg = $('<img src="' + card.dailyImage[0].imagePath + '" class="post-image" />')
+							}
+							//중간이미지 최종본
+							$a = $('<a href="/main/daily-detail?dailyId='+ card.daily.id + '" />').append($bodyimg)
+							
+							
+							
+							//하단부 하트 좋아요 날짜
+							var $like = $('<img class="icon" data-id="' + card.daily.id + '"/>')
+							var filledLike = card.filledLike
+							$like.attr('src', filledLike === true ? '/static/img/liked.png' : '/static/img/like.png')
+							$likes = $('<span class="likes" />').text(card.likeCount + " likes")
+							$div = $('<div />').append($like).append($likes)
+							//하단 날짜
+							var dailyCreatedAt = card.daily.dailyCreatedAt.substr(0,10)
+							$date = $('<div class="date" />').append(dailyCreatedAt)
+							
+							//하단부 최종
+							$reactionwrapper = $('<div class="reaction-wrapper" />').append($div).append($date)
+							
+						
+							
+							//댓글 갯수보기
+							var $descriptionadd = $('<p class="description_add" />')
+							$commentCount = $('<span />').text('댓글 '+ card.commnetCount + '개 모두보기')
+							var $commentuserId
+							$descriptionadd.append($commentCount)
+							var $text = $('<div class="text" />').append($descriptionadd)
+							
+							//댓글들
+							for (var j = 0; j < card.commentList.length; j++) {
+								
+								var comment = card.commentList[j]
+								var $comment = $('<div class="description_comment" />')
+								var $commentuserId = $('<span />').text(comment.comment.userId)
+								$comment.append($commentuserId).append(comment.comment.comment)
+								$text.append($comment)
+							} 
+							
+							//댓글쓰기
+							var $write = $('<div class="post-content-comment" />')
+							var $inputwrite = $('<input type="text" placeholder="댓글달기.." class="content-commnet" />')
+							var $push = $('<a class="push" data-daily-id="' + card.daily.id +  '"/>').text('게시')
+							$write.append($inputwrite).append($push)
+							
+							$postcontent = $('<div class="post-content" />').append($reactionwrapper).append(card.daily.dailySubject + "<br>").append(card.daily.dailyContent + "<br>").append($text).append($write)
+							
+							//최종
+							$post = $('<div class="post" />').append($info).append($a).append($postcontent)
+							$('.wrapper').append($post)
+						}  
+						page ++;
+						console.log(page)
+						isDuplicate = true;
+					}
+					, error : function(e) {
+						alert("에러입니다. 관리자에게 문의하세요");
+						isDuplicate = true;
+					}
+				})
+				
+				
+			}
+		}
+	}
 	
 	//삭제 버튼 클릭 이벤트
 	$(document).on('click', '.dropdown-delete' , function(){
@@ -219,7 +333,7 @@
 		
 		
 		//게시글 더보기 클릭시 수정/ 삭제 이벤트
-		$('.dropdown2[data-id]').on('click', function(){
+		$(document).on('click', '.dropdown2[data-id]', function(){
 			var div = $(this).children('div');
 			if ($(div).css('display') == 'none') {
 				$(div).css('display', 'block');
@@ -229,19 +343,19 @@
 		})
 		
 		//댓글더보기 클릭시 댓글들 보이기
-		$(".description_add").on('click', function(){
+		$(document).on('click', ".description_add", function(){
 			var div = $(this).siblings('div');
 			$(div).css('display') == 'none' ? $(div).css('display', 'block') : $(div).css('display', 'none')
 		})
 		
 		//하트 클릭시 이벤트
-		$('.icon[data-id]').on('click', function(){
-		
+		$(document).on('click', '.icon[data-id]', function(){
 			const id = $(this).data("id");
 			const src = $(this).attr('src')
 			const heart = "/static/img/like.png"
 			const redheart = "/static/img/liked.png"
 			$(this).attr('src', src === heart ? redheart : heart)
+			var count = $(this).siblings('span')
 			
 			$.ajax({
 			
@@ -250,7 +364,7 @@
 				, data : {id}
 				, success : function(result) {
 					if ( result.code == 100) {
-						location.reload();
+						count.text(result.sum + " likes");
 					} else {
 						alert(result.errorMessage);
 					}
@@ -261,10 +375,8 @@
 				} 
 			})
 		})
-		
-		
 		//댓글쓰기 event
-		$(".push").on("click", function(){
+		$(document).on('click', '.push', function(){
 			var id = $(this).data('daily-id');
 			//지금 클릭된 게시 버튼의 형제인 input 태그를 가져온다. (siblings)
 			var comment =  $(this).siblings('input').val().trim();
@@ -282,20 +394,18 @@
 				}
 				, error : function(e) {
 					alert("관리자에게 문의 하세요");
-					
 				} 
 			}) 
-			
-		});
+		})
 		
 		
 		//팔로우 버튼 클릭 이벤트
 		$('.action-btn').on('click', function(){
-			var userId = $(this).siblings('.profile-info').children('.username[data-id]').data('id');
+			var userId = $(this).parent().find('.username').data('id')
 			$.ajax ({
 				type : "POST"
 				, url : '/main/follow'
-				, data : {'userId' : userId}
+				, data : {userId}
 				,success : function(result) {
 					if ( result.code == 100) {
 						alert("팔로우 신청이 완료 되었습니다");

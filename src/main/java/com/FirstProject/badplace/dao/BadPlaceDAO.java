@@ -12,24 +12,10 @@ import com.FirstProject.goodplace.model.Place;
 public interface BadPlaceDAO {
 
 	// 모든글 가져오기
-	public List<Place> selectList(String userId);
+	public List<Place> selectList(@Param("place") Place place, @Param("startNum") int startNum, @Param("endNum") int endNum);
 
 	// 모든 글 가져오기 조건없이 ( 글 3개만 가져오기)
 	public List<Place> selectListLimit3(String userId);
-	
-	//검색 조건으로 검색
-	public List<Place> selectPlaceByCategorie(
-				@Param("startDay") String startDay, 
-				@Param("endDay") String endDay, 
-				@Param("placeArea") String placeArea, 
-				@Param("placeKategorie") String placeKategorie, 
-				@Param("minPrice") Integer minPrice, 
-				@Param("maxPrice") Integer maxPrice, 
-				@Param("minGrade") Integer minGrade, 
-				@Param("maxGrade") Integer maxGrade);
-	//검색조건으로 가져온 리스트들로 이미지리스트 가져오기
-	public List<PlaceImage> selectImageByCategorie(List<Place> CategorieList);
-	
 	
 	//게시글 id로 게시글 가져오기
 	public Place selectPlaceByPlaceId(int placeId);

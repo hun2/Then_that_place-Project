@@ -3,7 +3,7 @@
 @import url("/static/css/kakao.css");
 /*시작 */
 a {
-	color: #444;
+	color : grey;
 }
 
 a:link {
@@ -236,6 +236,7 @@ li {
 	width: 300px;
 	height : auto;
 	border-right: 1px solid #e7e7e7;
+	color : grey;
 	
 }
 
@@ -503,3 +504,6 @@ li {
     opacity: 0.5;
 }
 
+.black {
+	color: black;
+}

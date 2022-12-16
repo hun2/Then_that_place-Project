@@ -75,9 +75,9 @@ public class DailyBO {
 	
 	
 	//모든 글 가져오기
-	public List<Daily> getList(String userId) {
+	public List<Daily> getList(String userId, int startNum , int endNum) {
 		
-		return dailyDao.selectList(userId);
+		return dailyDao.selectList(userId, startNum, endNum);
 	}
 	
 	//글 3개만 가져오기
@@ -87,20 +87,20 @@ public class DailyBO {
 	}
 	
 	//남의일상 게시글 가져오기
-	public List<Daily> getOtherList(String userId) {
+	public List<Daily> getOtherList(String userId, int startNum, int endNum) {
 		
-		return dailyDao.selectOtherList(userId);
+		return dailyDao.selectOtherList(userId, startNum, endNum);
 	}
 	
 	//남의맛집 게시글 가져오기
-	public List<Place> getOtherPlaceList(String userId) {
+	public List<Place> getOtherPlaceList(String userId, int startNum, int endNum) {
 		
-		return dailyDao.selectOtherPlaceList(userId);
+		return dailyDao.selectOtherPlaceList(userId, startNum, endNum);
 	}
 	//남의 노맛집 게시글 가져오기
-	public List<Place> getOtherBadPlaceList(String userId) {
+	public List<Place> getOtherBadPlaceList(String userId, int startNum, int endNum) {
 		
-		return dailyDao.selectOtherBadPlaceList(userId);
+		return dailyDao.selectOtherBadPlaceList(userId, startNum, endNum);
 	}
 	
 	
