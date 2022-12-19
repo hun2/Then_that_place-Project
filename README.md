@@ -17,7 +17,6 @@
   성공시 동적쿼리를 생성하여 기존의 데이터는 remove() 하고 <br>
   실시간으로 페이지의 데이터를 append 하여 페이지를 변환시켰다. <br> 
     
-    
     , success : function(result) {
     var cards = result.dailyCardViewList 
     for(var i = 0; i<cards.length; i++) {		
@@ -58,8 +57,13 @@
   </p>
 </details>
 <details>
-  <summary>예제2 </summary>
-  <p>어려웠다</p>
+  <summary>swiper 동적 생성시 이미지 깨짐 및 출력오류 </summary>
+  <p>
+  게시글의 글을 클릭시 modal창 내에 데이터를 뿌려질 수 있도록 구현하였다 <br>
+  동적쿼리를 생성하여 swiper 구현한 곳에 이미지를 추가하였지만 이미지 깨짐 과 원하는 사진형식이 되지 않았다 <br>
+  동적으로 생긴 데이터를 
+  
+  </p>
 </details>
 <details>
   <summary>예제3 </summary>
