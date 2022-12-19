@@ -13,13 +13,13 @@
 <br><br>
 ## Trouble shooting ##
   <details>
-  <summary> <h4>페이지 이동없이 비동기 Ajax 통신 후 Success function 결과 동적쿼리 생성 </h4></summary>
+  <summary> <h4>페이지 이동 없이 비동기 Ajax 통신 후 Success function 결과 동적쿼리 생성 </h4></summary>
   
   기존의 방식은 이벤트 별로 페이지 이동하여, Controller의 Model값에 담아 html에 뿌리는 형식으로 진행하였다 
   
-  매번 이벤트 마다 효과적이지 못하다고 판단하여 제이쿼리 Ajax 통신을 통해 
+  매번 이벤트마다 효과적이지 못하다고 판단하여 제이쿼리 Ajax 통신을 통해 
   
-  성공시 동적쿼리를 생성하여 기존의 데이터는 remove() 하고 
+  성공 시 동적쿼리를 생성하여 기존의 데이터는 remove() 하고 
   
   실시간으로 페이지의 데이터를 append 하여 페이지를 변환시켰다. 
   
@@ -66,11 +66,11 @@
 <details>
   <summary><h4>Swiper 동적 생성시 이미지 깨짐 및 출력오류<h4></summary>
   
-  게시글의 글을 클릭시 modal창 내에 데이터를 뿌려질 수 있도록 구현하였다 
+  게시글의 글을 클릭 시 modal창 내에 데이터를 뿌려질 수 있도록 구현하였다 
             
-  동적쿼리를 생성하여 swiper 구현한 곳에 이미지를 append 하여 추가하였지만 이미지 깨짐 과 원하는 사진형식이 되지 않았다 
+  동적쿼리를 생성하여 swiper 구현한 곳에 이미지를 append 하여 추가하였지만, 이미지 깨짐 과 원하는 사진형식이 되지 않았다 
             
-  동적으로 생긴 데이터를 swiper에서 구현시 update()가 필요한 걸 알게되어 
+  동적으로 생긴 데이터를 swiper에서 구현 시 update()가 필요한 걸 알게 되어 
             
   append 후 swiper.update() 를 추가하였고, 정상으로 데이터가 뿌려지게 되었다.
   
@@ -98,9 +98,9 @@
 <details>
   <summary><h4>StringUtils 적용 오류</h4></summary>
             
-  컨트롤러에서 파라미터값을 전달 받아 Mybatis 로 전송 후 
+  컨트롤러에서 파라미터값을 전달받아 Mybatis 로 전송 후 
   
-  전달 받은 파라미터값을 null 그리고 "" 값 체크를 하기위해 
+  전달받은 파라미터값을 null 그리고 "" 값 체크를 하기 위해 
   
   StringUtils 를 gradle 추가하였고, 메소드 중 isNotBlank 를 사용하기로 하였다 
   
@@ -118,17 +118,17 @@
 <details>
   <summary><h4>카카오가입 후 이동 시 문제</h4></summary>
             
-  처음 방문하였을때 카카오ID로 가입과 일반 회원 가입의 jsp를 분리하여 진행하였습니다 
+  처음 방문하였을 때 카카오ID로 가입과 일반 회원 가입의 jsp를 분리하여 진행하였습니다 
   
-  회원가입 후 추후에 재로그인을 할때 카카오 ID로 가입받은 정보를 가지고 
+  회원가입 후 다음에 다시 로그인을 할 때 카카오 ID로 가입 받은 정보를 가지고 
   
-  존재유무를 확인하지 않아, redirect가 회원가입 페이지로 가게되었습니다 
+  존재 유무를 확인하지 않아, redirect가 회원가입 페이지로 가게 되었습니다 
   
-  가입유무 메소드를 구성하여 kakao token id값 으로 existKakaoUserByKakaoId(kakaoId) 메소드를 호출하여 
+  가입 유무 메소드를 구성하여 kakao token id값 으로 existKakaoUserByKakaoId(kakaoId) 메소드를 호출하여 
   
   int 리턴타입으로 구성하였고, 만약 0 보다 큰 숫자가 나온다면 정보가 있는걸로 확인하고
   
-  return "main" jsp 페이지로 보내게 됬습니다. 
+  return "main" jsp 페이지로 보내게 됐습니다. 
   
 ```java
 //카카오로 로그인 접속 
@@ -169,15 +169,15 @@ int row =  userBo.existKakaoUserByKakaoId(kakaoId);
 <details>
   <summary><h4>각각의 테이블을 동시에 insert 해야할 때 문제점</h4></summary> 
   
-  기존에 설계해둔 테이블은 게시글/게시글사진 으로 분리를 해둔 상태였다 
+  기존에 설계해둔 테이블은 게시글/게시글 사진 으로 분리를 해둔 상태였다 
   
-  그래서 게시글을 insert 가 된다면 게시글 테이블과 게시글 사진 테이블에 동시에 데이터가 insert가 되야했습니다 
+  그래서 게시글을 insert 된다면 게시글 테이블과 게시글 사진 테이블에 동시에 데이터가 insert가 되어야 했습니다 
   
- 각각의 insert의 메소드들을 구현하였고, 생각과는 달리 연관성이 없는 테이블로 insert 가 되었습니다 
+ 각각의 insert의 메소드들을 구현하였고, 생각과는 달리 연관성이 없는 테이블로 insert 되었습니다 
   
-  이 부분을 해결하기 위해 Mysql selectKey 라는걸 찾게 되어 게시글 insert 쿼리에 selectKey를 지정하였으며  
+  이 부분을 해결하기 위해 Mysql selectKey 라는 걸 찾게 되어 게시글 insert 쿼리에 selectKey를 지정하였으며  
   
-  게시글 이미지 insert 될때 해당 Key를 활용하여 연관성이 있는 테이블로 구성하게 되었습니다.
+  게시글 이미지 insert 될 때 해당 Key를 활용하여 연관성이 있는 테이블로 구성하게 되었습니다.
   
  ```sql
   <insert id="insertDaily" parameterType="com.FirstProject.daily.model.Daily" >
