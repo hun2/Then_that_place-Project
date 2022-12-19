@@ -11,8 +11,13 @@
 
 <h2>Trouble shooting</h2>
 <details>
-  <summary>ajax success 후 동적쿼리 생성 </summary>
-  <p>어려웠다</p>
+  <summary>페이지 이동없이 비동기 Ajax 통신 후 Success function 결과 동적쿼리 생성 </summary>
+  <p>기존의 방식은 이벤트 별로 페이지 이동하여, Controller의 Model값에 담아 html에 뿌리는 형식으로 진행하였다.<br>
+  매번 이벤트 마다 효과적이지 못하다고 판단하여 제이쿼리 Ajax 통신을 통해<br> 
+  성공시 동적쿼리를 생성하여 기존의 데이터는 remove() 하고 <br>
+  실시간으로 페이지의 데이터를 append 하여 페이지를 변환시켰다.
+  
+  </p>
 </details>
 <details>
   <summary>예제2 </summary>
