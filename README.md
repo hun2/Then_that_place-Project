@@ -17,6 +17,7 @@
   매번 이벤트 마다 효과적이지 못하다고 판단하여 제이쿼리 Ajax 통신을 통해<br> 
   성공시 동적쿼리를 생성하여 기존의 데이터는 remove() 하고 <br>
   실시간으로 페이지의 데이터를 append 하여 페이지를 변환시켰다. <br> 
+  
 ```javascript
     , success : function(result) {
     var cards = result.dailyCardViewList 
@@ -65,7 +66,27 @@
   동적으로 생긴 데이터를 swiper에서 구현시 update()가 필요한 걸 알게되어 <br>
   append 후 swiper.update() 를 추가하였고, 정상으로 데이터가 뿌려지게 되었다.
   
-</details>
+  ```javascript 
+  , success : funciton(result) { 
+  //이미지가 없으면 다른걸로 대체 
+  if ( dailyImage == "") { 
+    var $dailyimg = $('<img src="/static/img/no.png" class="swiper-lazy">') 
+    var $swiperslide = $('<div class="swiper-slide" />').append($dailyimg) 
+    $('.swiper-wrapper').append($swiperslide) 
+  } else { 
+  //이미지가 있으면 반복문 돌려서 append하기 
+    for ( var i =0; i<dailyImage.length; i++) { 
+      var $dailyimg = $('<img src="' + dailyImage[i].imagePath + '" class="swiper-lazy"' + '">') 
+      var $swiperslide = $('<div class="swiper-slide" />').append($dailyimg) 
+      $('.swiper-wrapper').append($swiperslide) 
+      } 
+  } 
+  //swiper 업데이트 (동적이라) 
+  swiper.update(); 
+} 
+```  
+</details> 
+
 <details>
   <summary> StringUtils 적용 오류 </summary>
             
@@ -76,7 +97,7 @@
   Mybatis 쪽에 적용하려 시도하였지만 Mybatis에서는 리턴값이 다르게 진행되어 결국 반영하지 못하고 <br>
   Mybatis 로 넘긴 파라미터값 null 그리고 "" 값 체크를 각각 진행하였다. 
             
-```java 
+```html 
 <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(place.minGrade, place.maxGrade)"> 
 <if test="place.minGrade != null and !place.minGrade.equals('') and place.maxGrade != null and place.maxGrade.equals('')">           
 ```            
