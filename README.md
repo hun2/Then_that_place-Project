@@ -11,7 +11,7 @@
 
 ## Trouble shooting ##
   <details>
-  <summary>페이지 이동없이 비동기 Ajax 통신 후 Success function 결과 동적쿼리 생성</summary>
+  <summary> <h4>페이지 이동없이 비동기 Ajax 통신 후 Success function 결과 동적쿼리 생성 </h4></summary>
   
   기존의 방식은 이벤트 별로 페이지 이동하여, Controller의 Model값에 담아 html에 뿌리는 형식으로 진행하였다.<br>
   매번 이벤트 마다 효과적이지 못하다고 판단하여 제이쿼리 Ajax 통신을 통해<br> 
@@ -59,7 +59,7 @@
 ```
 </details>
 <details>
-  <summary> Swiper 동적 생성시 이미지 깨짐 및 출력오류 </summary>
+  <summary><h4>Swiper 동적 생성시 이미지 깨짐 및 출력오류<h4></summary>
   
   게시글의 글을 클릭시 modal창 내에 데이터를 뿌려질 수 있도록 구현하였다 <br>
   동적쿼리를 생성하여 swiper 구현한 곳에 이미지를 append 하여 추가하였지만 이미지 깨짐 과 원하는 사진형식이 되지 않았다 <br>
@@ -88,7 +88,7 @@
 </details> 
 
 <details>
-  <summary> StringUtils 적용 오류 </summary>
+  <summary><h4>StringUtils 적용 오류</h4></summary>
             
   컨트롤러에서 파라미터값을 전달 받아 Mybatis 로 전송 후 <br> 
   전달 받은 파라미터값을 null 그리고 "" 값 체크를 하기위해 <br> 
@@ -102,9 +102,50 @@
 <if test="place.minGrade != null and !place.minGrade.equals('') and place.maxGrade != null and place.maxGrade.equals('')">           
 ```            
 </details><details>
-  <summary>예제4 </summary>
+  <summary><h4>카카오가입 후 이동 시 문제</h4></summary>
             
-  어려웠다
+  처음 방문하였을때 카카오ID로 가입과 일반 회원 가입의 jsp를 분리하여 진행하였습니다<br>
+  회원가입 후 추후에 재로그인을 할때 카카오 ID로 가입받은 정보를 가지고<br>
+  존재유무를 확인하지 않아, redirect가 회원가입 페이지로 가게되었습니다<br> 
+  가입유무 메소드를 구성하여 kakao token id값 으로 existKakaoUserByKakaoId(kakaoId) 메소드를 호출하여<br>
+  int 리턴타입으로 구성하였고, 만약 0 보다 큰 숫자가 나온다면 정보가 있는걸로 확인하고<br>
+  return "main" jsp 페이지로 보내게 됬습니다. 
+  
+```java
+//카카오로 로그인 접속 
+@RequestMapping(value="/oauth/kakao", method=RequestMethod.GET) 
+public String kakaoLogin(@RequestParam(value = "code", required = false) String code, HttpSession session, @RequestParam Map<String, String> params,
+RedirectAttributes redirect) throws Exception 
+
+String access_Token = ms.getAccessToken(code); 
+HashMap<String, Object> userInfo = ms.getUserInfo(access_Token); 
+
+//아이디 
+Object id = (Object) userInfo.get("id"); 
+String kakaoId = String.valueOf(id); 
+//닉네임 
+String userNickName = (String) userInfo.get("nickname"); 
+//이메일 
+String userEmail = (String) userInfo.get("email"); 
+//로그인하는 정보가 있는경우 메인페이지로 
+int row =  userBo.existKakaoUserByKakaoId(kakaoId); 
+  if ( row > 0) { 
+    User checkingUser = userBo.getKakaoUserByKakaoId(kakaoId); 
+    session.setAttribute("loginUser", checkingUser); 
+    return "/main"; 
+  } else if ( row == 0) { 
+  Map<String, String> map = new HashMap<String, String>();  
+    map.put("kakaoId", kakaoId); 
+    map.put("userNickName", userNickName); 
+    map.put("userEmail", userEmail); 
+    redirect.addFlashAttribute("map", map); 
+    return "redirect:/login/sign-up/kakao"; 
+  } 
+  return "/main"; 
+} 
+  
+```
+
 </details><br><br> 
             
 ## 보고서 ##
