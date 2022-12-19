@@ -15,8 +15,46 @@
   <p>기존의 방식은 이벤트 별로 페이지 이동하여, Controller의 Model값에 담아 html에 뿌리는 형식으로 진행하였다.<br>
   매번 이벤트 마다 효과적이지 못하다고 판단하여 제이쿼리 Ajax 통신을 통해<br> 
   성공시 동적쿼리를 생성하여 기존의 데이터는 remove() 하고 <br>
-  실시간으로 페이지의 데이터를 append 하여 페이지를 변환시켰다.
-  
+  실시간으로 페이지의 데이터를 append 하여 페이지를 변환시켰다. <br> 
+    
+    
+    , success : function(result) {
+    var cards = result.dailyCardViewList 
+    for(var i = 0; i<cards.length; i++) {		
+      var card = cards[i] 
+      var date = card.place.placeCreatedAt.substr(0, 10); 
+      var $divGrade = $('<div class="star d-flex"/>') 
+      for(var j =0; j< card.place.placeGrade; j++) { 
+          $divGrade.append('<img src="/static/img/star.png" width="30px" height="30px">'); 
+      } 
+      if ( card.placeImage == "") { 
+          var $img = $('<img src="/static/img/no.png" class="post-image">') 
+      } else { 
+          var $img = $('<img src="' + card.placeImage[0].imagePath + '" class="post-image"' + '">') 
+      } 
+      //이미지 감싸는 a태그 생성 
+      var $href = $('<a href="/main/places/good-detail?placeId=' + card.place.id + '">') 
+      //a태그에 이미지 추가 
+      var $hrefValue = $href.append($img) 
+      //카테고리 span 생성 
+      var $spanValue = $('<span />').text(card.place.placeKategorie) 
+      //카테고리 div 생성 및 span 추가 
+      var $divCategory = $('<div class="categorie" />').append($spanValue) 
+      //장소 div 생성 및 text 추가 
+      var $divPlace = $('<div class="place" />').text(card.place.placeArea) 
+      //날짜 div 생성 및 text 추가 
+      var $divDate = $('<div class="date" />').text(date) 
+      //카테고리 포괄 info div 생성 및 내용추가 
+      var $divInfo = $('<div class="info" />').append($divCategory).append($divGrade).append($divPlace).append($divDate) 
+      //제목 span 생성 및 text 추가 
+      var $subject = $('<span class="placesubject" />').text(card.place.placeSubject) 
+      var $divInfo2 = $('<div class="info" />').append($subject) 
+      //post div 생성 및 info추가 
+      var $divPost = $('<div class="post" />').append($divInfo).append($hrefValue).append($divInfo2) 
+      //최종 wrapper 클래스에 post추가 - 반복문 진행. 
+      $('.wrapper').append($divPost) 
+      } 
+    }
   </p>
 </details>
 <details>
