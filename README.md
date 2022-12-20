@@ -21,13 +21,13 @@ https://www.notion.so/8e1f87b9756e496cb9592a5973863eaf?v=adb2d18300874eeab71d348
   <details>
   <summary> <h4>페이지 이동 없이 비동기 Ajax 통신 후 Success function 결과 동적쿼리 생성 </h4></summary>
   
-  기존의 방식은 이벤트 별로 페이지 이동하여, Controller의 Model값에 담아 html에 뿌리는 형식으로 진행하였다 
+  기존의 방식은 이벤트 별로 페이지 이동하여, Controller의 Model값에 담아 html에 뿌리는 형식으로 진행 하였습니다 
   
   매번 이벤트마다 효과적이지 못하다고 판단하여 제이쿼리 Ajax 통신을 통해 
   
   성공 시 동적쿼리를 생성하여 기존의 데이터는 remove() 하고 
   
-  실시간으로 페이지의 데이터를 append 하여 페이지를 변환시켰다. 
+  실시간으로 페이지의 데이터를 append 하여 페이지를 변환시켰습니다. 
   
 ```javascript
     , success : function(result) {
@@ -72,9 +72,9 @@ https://www.notion.so/8e1f87b9756e496cb9592a5973863eaf?v=adb2d18300874eeab71d348
 <details>
   <summary><h4>Swiper 동적 생성시 이미지 깨짐 및 출력오류<h4></summary>
   
-  게시글의 글을 클릭 시 modal창 내에 데이터를 뿌려질 수 있도록 구현하였다 
+  게시글의 글을 클릭 시 modal창 내에 데이터를 뿌려질 수 있도록 구현 하였습니다 
             
-  동적쿼리를 생성하여 swiper 구현한 곳에 이미지를 append 하여 추가하였지만, 이미지 깨짐 과 원하는 사진형식이 되지 않았다 
+  동적쿼리를 생성하여 swiper 구현한 곳에 이미지를 append 하여 추가하였지만, 이미지 깨짐 과 원하는 사진형식이 되지 않았습니다 
             
   동적으로 생긴 데이터를 swiper에서 구현 시 update()가 필요한 걸 알게 되어 
             
@@ -108,13 +108,13 @@ https://www.notion.so/8e1f87b9756e496cb9592a5973863eaf?v=adb2d18300874eeab71d348
   
   전달받은 파라미터값을 null 그리고 "" 값 체크를 하기 위해 
   
-  StringUtils 를 gradle 추가하였고, 메소드 중 isNotBlank 를 사용하기로 하였다 
+  StringUtils 를 gradle 추가하였고, 메소드 중 isNotBlank 를 사용하기로 하였습니다
   
   해당 메소드는 true, false 값을 리턴해주며, 컨트롤러에서 테스트 시 문제없이 결과값이 확인되어 
   
   Mybatis 쪽에 적용하려 시도하였지만 Mybatis에서는 리턴값이 다르게 진행되어 결국 반영하지 못하고 
   
-  Mybatis 로 넘긴 파라미터값 null 그리고 "" 값 체크를 각각 진행하였다. 
+  Mybatis 로 넘긴 파라미터값 null 그리고 "" 값 체크를 각각 진행 하였습니다. 
             
 ```html 
 <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(place.minGrade, place.maxGrade)"> 
@@ -175,7 +175,7 @@ int row =  userBo.existKakaoUserByKakaoId(kakaoId);
 <details>
   <summary><h4>각각의 테이블을 동시에 insert 해야할 때 문제점</h4></summary> 
   
-  기존에 설계해둔 테이블은 게시글/게시글 사진 으로 분리를 해둔 상태였다 
+  기존에 설계해둔 테이블은 게시글/게시글 사진 으로 분리를 해둔 상태였습니다.
   
   그래서 게시글을 insert 된다면 게시글 테이블과 게시글 사진 테이블에 동시에 데이터가 insert가 되어야 했습니다 
   
