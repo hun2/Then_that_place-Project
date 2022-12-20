@@ -8,9 +8,15 @@
 
 여러분들의 진짜 인생 맛집과 다신 가지 말아야 할 노맛집은 어디인가요? 
 
-그때그곳에서 함께해보아요!
+그때그곳에서 함께해보아요! 
 
 <br><br>
+
+## 기록일지 ## 
+https://www.notion.so/8e1f87b9756e496cb9592a5973863eaf?v=adb2d18300874eeab71d348b18304456
+
+<br><br>
+
 ## Trouble shooting ##
   <details>
   <summary> <h4>페이지 이동 없이 비동기 Ajax 통신 후 Success function 결과 동적쿼리 생성 </h4></summary>
