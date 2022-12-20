@@ -12,7 +12,7 @@
 
 <br><br>
 
-## 기록일지 ## 
+## 🗂Notion (작업일지) ## 
 https://www.notion.so/8e1f87b9756e496cb9592a5973863eaf?v=adb2d18300874eeab71d348b18304456
 
 <br><br>
