@@ -208,6 +208,7 @@ li {
 
 .leftbody > .black {
 	color: black;
+	
 }
 
 .main {
@@ -227,6 +228,7 @@ li {
 	width: 300px;
 	border : 1px solid #dfdfdf;
 	color : gray;
+	cursor: pointer;
 }
 
 .leftbody .profile-edit, .password-edit {

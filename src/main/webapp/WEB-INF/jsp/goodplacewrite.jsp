@@ -275,7 +275,7 @@
 		    imageLoader = function(file){
 		      sel_files.push(file);
 		      console.log(sel_files);
-		      if (sel_files.length >= 4) {
+		      if (sel_files.length > 3) {
 		    	  alert('사진은 4장 이상 업로드 불가합니다.');
 		    	  return false;
 		      }

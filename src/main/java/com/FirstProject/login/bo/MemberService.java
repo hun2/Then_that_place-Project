@@ -15,6 +15,7 @@ import java.util.HashMap;
 
 @Service
 public class MemberService {
+	//applicate/json 을 value값에 추가한 다음 Gson으로 테스트 해보기
 	public String getAccessToken (String authorize_code) throws ParseException {
 		String access_Token = "";
 		String refresh_Token = "";
@@ -35,7 +36,7 @@ public class MemberService {
 			sb.append("grant_type=authorization_code");
             
 			sb.append("&client_id=e56521988fe16e2c16007460891b5a7f"); //본인이 발급받은 key
-			sb.append("&redirect_uri=http://localhost:8080/oauth/kakao"); // 본인이 설정한 주소
+			sb.append("&redirect_uri=http://15.164.163.81:8080/oauth/kakao"); // 본인이 설정한 주소
             
 			sb.append("&code=" + authorize_code);
 			bw.write(sb.toString());

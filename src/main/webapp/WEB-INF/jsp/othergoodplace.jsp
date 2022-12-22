@@ -97,12 +97,13 @@
 										<img src="${empty cardView.user.userProfilePhoto ?  '/static/img/no.png' : cardView.user.userProfilePhoto }">
 									</a>
 								</div>
-								<a href="/otherpage?userId=${cardView.user.userId}">
-									<p class="username">${cardView.place.userId}</p>
-								</a>
+									<p class="username">
+										<a href="/otherpage?userId=${cardView.user.userId}">
+											${cardView.place.userId}
+										</a>
+									</p>
 							</div>
 						</div>
-						<!--이 부분은 추후에 페이지 따로 만들어서 구현해야함 => 남의 글 상세페이지 수정권한/삭제권한 없이 오로지 볼 수 있도록  -->
 						<a href="/main/othergoodplace-detail?placeId=${cardView.place.id}">
 							<img src="${empty cardView.placeImage[0].imagePath ? '/static/img/no.png' : cardView.placeImage[0].imagePath}" class="post-image">
 						</a>
@@ -154,7 +155,11 @@
 							<img src="${empty user.userProfilePhoto ?  '/static/img/no.png' : user.userProfilePhoto }">
 						</div>
 						<div class="profile-info">
-							<p class="username" data-id="${user.userId}">${user.userId}</p>
+							<p class="username" data-id="${user.userId}">
+								<a href="/otherpage?userId=${user.userId}">
+									${user.userId}
+								</a>
+							</p>
 							<p class="sub-text">user외 4명이 팔로우합니다.</p>
 						</div>
 						<button class="action-btn">follow</button>

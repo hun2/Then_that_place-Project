@@ -37,7 +37,7 @@
 		                <input type="checkbox" id="remember-check">아이디 저장하기
 		            </label>
 		            <input type="submit" value="Login" id = "login">
-		            <a class="" href="https://kauth.kakao.com/oauth/authorize?client_id=e56521988fe16e2c16007460891b5a7f&redirect_uri=http://localhost:8080/oauth/kakao&response_type=code">
+		            <a class="" href="https://kauth.kakao.com/oauth/authorize?client_id=e56521988fe16e2c16007460891b5a7f&redirect_uri=http://15.164.163.81:8080/oauth/kakao&response_type=code">
 		            	<img src="/static/img/kakao_login_large_wide.png" style="height:48px" width="320px" >
 		            </a>
 		        </div>

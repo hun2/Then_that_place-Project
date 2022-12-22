@@ -113,9 +113,12 @@
  	<update id="updateDailyListById" parameterType="com.FirstProject.daily.model.Daily">
  		UPDATE `daily`
  		SET
-			
+			<if test="dailySubject != null and !dailySubject.equals('')">
 			`dailySubject` = #{dailySubject}
+			</if>
+			<if test="dailyContent != null and !dailyContent.equals('')">
 			,`dailyContent` = #{dailyContent}
+			</if>
 			,`dailyUpdatedAt` = NOW()
  		WHERE
  			`id` = #{id}

@@ -106,24 +106,24 @@
  		WHERE
  			`placeWhether` = 'g'
  		AND `userId` = #{place.userId}
- 		<if test="place.startDay != null and place.endDay != null  and place.startDay != '' and place.endDay != '' " >
+ 		<if test="place.startDay != null and place.endDay != null  and !place.startDay.equals('') and !place.endDay.equals('')" >
  		AND
  		DATE_FORMAT(`placeCreatedAt`, '%Y-%m-%d') BETWEEN #{place.startDay} AND #{place.endDay}
  		</if>
- 		<if test="place.placeArea != null and place.placeArea != '' ">
+ 		<if test="place.placeArea != null and !place.placeArea.equals('') ">
  		AND
  		`placeArea` = #{place.placeArea}
  		</if>
- 		<if test="place.placeKategorie != null and place.placeKategorie != '' ">
+ 		<if test="place.placeKategorie != null and !place.placeKategorie.equals('') ">
  		AND
  		`placeKategorie` = #{place.placeKategorie}
  		</if>
- 		<if test="place.minPrice != '' and place.maxPrice != '' and place.minPrice != null and place.maxPrice != null">
+ 		<if test="place.minPrice != null and place.maxPrice != null">
  		AND
  		`placePrice` BETWEEN #{place.minPrice} AND #{place.maxPrice}
  		</if>
  		 <!-- <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(place.minGrade, place.maxGrade)"> -->
- 		 <if test="place.minGrade != null and !place.minGrade.equals('') and place.maxGrade != null and place.maxGrade.equals('')">
+ 		 <if test="place.minGrade != null and !place.minGrade.equals('') and place.maxGrade != null and !place.maxGrade.equals('')">
  		 AND
  		`placeGrade` BETWEEN #{place.minGrade} AND #{place.maxGrade}
  		 </if>
@@ -166,12 +166,24 @@
  	<update id="updatePlaceListById" parameterType="com.FirstProject.goodplace.model.Place">
  		UPDATE `place`
  		SET
+ 			<if test="placeKategorie !=null and !placeKategorie.equals('')" >
 			`placeKategorie` = #{placeKategorie}
+			</if>
+			<if test="placeArea !=null and !placeArea.equals('')" >
 			,`placeArea` = #{placeArea}
+			</if>
+			<if test="placeGrade !=null and !placeGrade.equals('')" >
 			,`placeGrade` = #{placeGrade}
+			</if>
+			<if test="placePrice !=null and !placePrice.equals('')" >
 			,`placePrice` = #{placePrice}
+			</if>
+			<if test="placeSubject !=null and !placeSubject.equals('')" >
 			,`placeSubject` = #{placeSubject}
+			</if>
+			<if test="placeContent !=null and !placeContent.equals('')" >
 			,`placeContent` = #{placeContent}
+			</if>
 			,`placeUpdatedAt` = NOW()
  		WHERE
  			`id` = #{id}

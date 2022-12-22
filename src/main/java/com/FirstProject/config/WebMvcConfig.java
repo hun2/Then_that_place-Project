@@ -20,11 +20,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		//웹주소 url 형식
 		.addResourceHandler("/images/**")
 		// 실제 파일위치 경로
-		.addResourceLocations("file:///" + FileManagerServices.FILE_UPLOAD_PATH);
+		/*.addResourceLocations("file:///" + FileManagerServices.FILE_UPLOAD_PATH);*/
 		
 		
 		//리눅스 인경우 
-		/* .addResourceLocations("file://" + FileManagerServices.FILE_UPLOAD_PATH); */
+		.addResourceLocations("file://" + FileManagerServices.FILE_UPLOAD_PATH);
 	}
 	
 	@Override

@@ -135,8 +135,8 @@
 					</div>
 					<img src="/static/img/option.png" class="option">
 					<div class="dropdown-submenu2">
-								<a href="/main/daily-detail?dailyId=${cardView.daily.id}" class="dropdown-modify"> 수정</a> 
-								<a href="#none" class="dropdown-delete" id="${cardView.daily.id}"> 삭제</a>
+							<a href="/main/daily-detail?dailyId=${cardView.daily.id}" class="dropdown-modify"> 수정</a> 
+							<a href="#none" class="dropdown-delete" id="${cardView.daily.id}"> 삭제</a>
 					</div>
 				</div>
 				<div class="post-content">
@@ -468,6 +468,8 @@
 		
 		//게시글 클릭 event
 		$(document).on("click",".bodyimg",function(){ 
+			//수정 /삭제 버튼 초기화
+			$('.dropdown-submenu2').css('display', 'none')
 			var id = $(this).data('id');
 			var black = $('.black').text();
 			modal3.classList.toggle('show');
@@ -666,6 +668,16 @@
 			}) 
 		})
 		
+		//클 클릭 후 삭제 또는 수정
+		$(document).on("click", ".option", function(){
+			
+			var div  = $(this).next();
+			if ($(div).css('display') == 'none') {
+				$(div).css('display', 'block');
+			} else {
+				$(div).css('display', 'none');
+			}
+		})
 		
 		//글클릭후 댓글 추가 event
 		$(document).on("click",".push",function(){

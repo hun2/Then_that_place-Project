@@ -162,9 +162,11 @@
 							</a>
 						</div>
 						<div class="profile-info">
-							<a href="/otherpage?userId=${user.userId}">
-								<p class="username" data-id="${user.userId}">${user.userId}</p> 
-							</a>
+							<p class="username" data-id="${user.userId}">
+								<a href="/otherpage?userId=${user.userId}">
+									${user.userId}
+								</a>
+							</p> 
 							<p class="sub-text">user외 4명이 팔로우합니다.</p>
 						</div>
 						<button class="action-btn">follow</button>
